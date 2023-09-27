@@ -30,6 +30,15 @@ public class ReviewsCreateDto
     public int TheaterId { get; set; }
 }
 
+public class ReviewsUpdateDto
+{
+    public int Id { get; set; }
+    public string TheaterReview { get; set; }
+    public int Rating { get; set; }
+    public int UserId { get; set; }
+    public int TheaterId { get; set; }
+}
+
 public class ReviewsEntityTypeConfiguration : IEntityTypeConfiguration<Reviews>
 {
     public void Configure(EntityTypeBuilder<Reviews> builder)
