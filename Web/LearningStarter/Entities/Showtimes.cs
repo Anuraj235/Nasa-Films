@@ -29,7 +29,6 @@ namespace LearningStarter.Entities
     }
 	public class ShowtimesCreateDto
 	{
-		public int Id { get; set; }
 		public int MovieId { get; set; }
         public DateTime StartTime { get; set; }
         public int TheaterID { get; set; }
