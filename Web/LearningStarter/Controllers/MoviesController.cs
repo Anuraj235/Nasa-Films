@@ -75,10 +75,10 @@ public class MoviesController : ControllerBase
     {
         var response = new Response();
 
-        /*if (string.IsNullOrEmpty(movieCreateDto.Title))
+        if (string.IsNullOrEmpty(createDto.Title))
         {
             response.AddError("title", "Title cannot be empty.");
-        }*/
+        }
 
         if (createDto.Rating < 0) 
             {
@@ -130,7 +130,7 @@ public class MoviesController : ControllerBase
     {
         var response = new Response();
 
-        /*if (string.IsNullOrEmpty(updateDto.Title))
+        if (string.IsNullOrEmpty(updateDto.Title))
         {
             response.AddError("title", "Title cannot be empty.");
         }
@@ -143,20 +143,20 @@ public class MoviesController : ControllerBase
         if (updateDto.ReleaseDate < 0)
         {
             response.AddError("releasedate", "Date must be positive.");
-        }*/
+        }
 
 
         var movieToUpdate = _dataContext.Set<Movie>()
             .FirstOrDefault(movie => movie.Id == id);
 
-        /*if (movieToDelete == null)
+        if (movieToUpdate == null)
         {
             response.AddError("id", "Movies not found.");
         }
         if (response.HasErrors)
         {
             return BadRequest(response);
-        }*/
+        }
 
         movieToUpdate.Title = updateDto.Title;
         movieToUpdate.Rating = updateDto.Rating;
