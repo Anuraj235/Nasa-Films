@@ -43,6 +43,33 @@ public class MoviesController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("{id}")]
+    public IActionResult GetById(int id)
+    {
+        var response = new Response();
+        var data = _dataContext
+            .Set<Movie>()
+            .Select(movie => new MovieGetDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Rating = movie.Rating,
+                ReleaseDate = movie.ReleaseDate,
+                Description = movie.Description,
+                Genre = movie.Genre,
+                Duration = movie.Duration,
+                ShowTimeId= movie.ShowTimeId,
+            })
+            .FirstOrDefault(movie => movie.Id == id);
+
+
+        response.Data = data;
+        return Ok(response);
+
+
+    }
+
+
     [HttpPost]
     public IActionResult Create([FromBody] MovieCreateDto createDto)
     {
