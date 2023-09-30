@@ -2,6 +2,7 @@
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace LearningStarter.Controllers;
@@ -80,14 +81,15 @@ public class MoviesController : ControllerBase
             response.AddError("title", "Title cannot be empty.");
         }
 
-        if (createDto.Rating < 0) 
-            {
-            response.AddError("rating", "Rating must be in between 1 to 5.");
+        if (createDto.Rating < 1 || createDto.Rating > 5)
+        {
+            response.AddError("rating", "Rating must be between 1 and 5.");
         }
 
-        if (createDto.ReleaseDate < 0)
+
+        if (createDto.ReleaseDate < DateTime.Now)
         {
-            response.AddError("releasedate", "Date must be positive.");
+            response.AddError("releasedate", "Release date must be in the future.");
         }
 
         if (response.HasErrors)
@@ -135,14 +137,15 @@ public class MoviesController : ControllerBase
             response.AddError("title", "Title cannot be empty.");
         }
 
-        if (updateDto.Rating < 0)
+        if (updateDto.Rating < 1 || updateDto.Rating > 5)
         {
-            response.AddError("rating", "Rating must be in between 1 to 5.");
+            response.AddError("rating", "Rating must be between 1 and 5.");
         }
 
-        if (updateDto.ReleaseDate < 0)
+
+        if (updateDto.ReleaseDate < DateTime.Now)
         {
-            response.AddError("releasedate", "Date must be positive.");
+            response.AddError("releasedate", "Release date must be in the future.");
         }
 
 
