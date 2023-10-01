@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Numerics;
 using LearningStarter.Common;
 using LearningStarter.Data;
 using LearningStarter.Entities;
@@ -33,7 +34,13 @@ public class UsersController : ControllerBase
                 Id = x.Id,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
-                UserName = x.UserName
+                UserName = x.UserName,
+                MembershipId = x.MembershipId,
+                Email = x.Email,
+                Phone = x.Phone,
+                DateOfBirth = x.DateOfBirth,
+                PaymentOptions = x.PaymentOptions,
+                Loyalty = x.Loyalty
             })
             .ToList();
 
@@ -60,6 +67,12 @@ public class UsersController : ControllerBase
             FirstName = user.FirstName,
             LastName = user.LastName,
             UserName = user.UserName,
+            MembershipId = user.MembershipId,
+            Email = user.Email,
+            Phone = user.Phone,
+            DateOfBirth = user.DateOfBirth,
+            PaymentOptions = user.PaymentOptions,
+            Loyalty = user.Loyalty
         };
 
         response.Data = userGetDto;
@@ -103,8 +116,15 @@ public class UsersController : ControllerBase
             FirstName = userCreateDto.FirstName,
             LastName = userCreateDto.LastName,
             UserName = userCreateDto.UserName,
+            MembershipId = userCreateDto.MembershipId,
+            Email = userCreateDto.Email,
+            Phone = userCreateDto.Phone,
+            DateOfBirth = userCreateDto.DateOfBirth,
+            PaymentOptions = userCreateDto.PaymentOptions,
+            Loyalty = userCreateDto.Loyalty
         };
-
+        _context.Set<User>().Add(userToCreate);
+        _context.SaveChanges();
         _userManager.CreateAsync(userToCreate, userCreateDto.Password);
         _userManager.AddToRoleAsync(userToCreate, "Admin");
         _context.SaveChanges();
@@ -114,7 +134,13 @@ public class UsersController : ControllerBase
             Id = userToCreate.Id,
             FirstName = userToCreate.FirstName,
             LastName = userToCreate.LastName,
-            UserName = userToCreate.UserName
+            UserName = userToCreate.UserName,
+            MembershipId = userToCreate.MembershipId,
+            Email = userToCreate.Email,
+            Phone = userToCreate.Phone,
+            DateOfBirth = userToCreate.DateOfBirth,
+            PaymentOptions = userToCreate.PaymentOptions,
+            Loyalty = userToCreate.Loyalty
         };
 
         response.Data = userGetDto;
@@ -171,6 +197,12 @@ public class UsersController : ControllerBase
         userToEdit.FirstName = userUpdateDto.FirstName;
         userToEdit.LastName = userUpdateDto.LastName;
         userToEdit.UserName = userUpdateDto.UserName;
+        userToEdit.MembershipId = userUpdateDto.MembershipId;
+        userToEdit.Email = userUpdateDto.Email;
+        userToEdit.Phone = userUpdateDto.Phone;
+        userToEdit.DateOfBirth = userUpdateDto.DateOfBirth;
+        userToEdit.PaymentOptions = userUpdateDto.PaymentOptions;
+        userToEdit.Loyalty = userUpdateDto.Loyalty;
 
         _context.SaveChanges();
 
@@ -180,6 +212,12 @@ public class UsersController : ControllerBase
             FirstName = userToEdit.FirstName,
             LastName = userToEdit.LastName,
             UserName = userToEdit.UserName,
+            MembershipId = userToEdit.MembershipId,
+            Email = userToEdit.Email,
+            Phone = userToEdit.Phone,
+            DateOfBirth = userToEdit.DateOfBirth,
+            PaymentOptions = userToEdit.PaymentOptions,
+            Loyalty = userToEdit.Loyalty
         };
 
         response.Data = userGetDto;

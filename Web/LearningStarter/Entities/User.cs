@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,14 @@ public class User : IdentityUser<int>
     public string LastName { get; set; }
 
     public List<UserRole> UserRoles { get; set; } = new();
+
+    public int Id { get; set; }
+    public int MembershipId { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public DateTimeOffset DateOfBirth { get; set; }
+    public string PaymentOptions { get; set; }
+    public int Loyalty { get; set; }
 }
 
 public class UserCreateDto
@@ -20,6 +29,13 @@ public class UserCreateDto
     public string LastName { get; set; }
     public string UserName { get; set; }
     public string Password { get; set; }
+
+    public int MembershipId { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public DateTimeOffset DateOfBirth { get; set; }
+    public string PaymentOptions { get; set; }
+    public int Loyalty { get; set; }
 }
 
 public class UserUpdateDto
@@ -29,6 +45,13 @@ public class UserUpdateDto
     public string LastName { get; set; }
     public string UserName { get; set; }
     public string Password { get; set; }
+
+    public int MembershipId { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public DateTimeOffset DateOfBirth { get; set; }
+    public string PaymentOptions { get; set; }
+    public int Loyalty { get; set; }
 }
 
 public class UserGetDto
@@ -37,6 +60,13 @@ public class UserGetDto
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string UserName { get; set; }
+
+    public int MembershipId { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public DateTimeOffset DateOfBirth { get; set; }
+    public string PaymentOptions { get; set; }
+    public int Loyalty { get; set; }
 }
 
 public class UserEntityConfiguration : IEntityTypeConfiguration<User>
@@ -51,5 +81,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.UserName)
             .IsRequired();
+
+        builder.ToTable("User");
     }
 }
