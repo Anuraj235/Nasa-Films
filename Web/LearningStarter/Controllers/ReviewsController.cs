@@ -79,7 +79,7 @@ namespace LearningStarter.Controllers
 				TheaterId = ReviewsToCreate.TheaterId
 			};
 
-			response.Data = ReviewsToCreate;
+			response.Data = ReviewToReturn;
 
 			return Created("", response);
 		}
