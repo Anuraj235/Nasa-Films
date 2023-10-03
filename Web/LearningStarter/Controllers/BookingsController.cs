@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace LearningStarter.Controllers;
-[ApiController]
+     [ApiController]
 [RouteAttribute("api/bookings")]
 
 public class BookingsController : ControllerBase
@@ -89,6 +89,8 @@ public class BookingsController : ControllerBase
 
         var bookingToCreate = new Booking
         {
+            CustomerId = createDto.CustomerId,
+            ShowtimeId = createDto.ShowtimeId,
             BookingDate = createDto.BookingDate,
             NumberofTickets = createDto.NumberofTickets,
             TenderAmount = createDto.TenderAmount,
@@ -138,7 +140,8 @@ public class BookingsController : ControllerBase
         }
 
 
-
+        bookingToUpdate.CustomerId =updateDto.CustomerId;
+        bookingToUpdate.ShowtimeId = updateDto.ShowtimeId;
         bookingToUpdate.BookingDate = updateDto.BookingDate;
         bookingToUpdate.NumberofTickets= updateDto.NumberofTickets;
         bookingToUpdate.TenderAmount = updateDto.TenderAmount;

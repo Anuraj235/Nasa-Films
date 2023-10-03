@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.Globalization;
 
 namespace LearningStarter.Entities
@@ -8,9 +9,9 @@ namespace LearningStarter.Entities
 
     {
         public int ID { get; set; }
-        public string CustomerId { get; set; }
-        public string ShowtimeId { get; set; }
-        public int BookingDate { get; set; }
+        public int CustomerId { get; set; }
+        public int ShowtimeId { get; set; }
+        public DateTimeOffset BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set;}
         public int UserId { get; set;}
@@ -20,9 +21,9 @@ namespace LearningStarter.Entities
        public class BookingGetDto
     {
         public int ID { get; set; }
-        public string CustomerId { get; set; }
-        public string ShowtimeId { get; set; }
-        public int BookingDate { get; set; }
+        public int CustomerId { get; set; }
+        public int ShowtimeId { get; set; }
+        public DateTimeOffset BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
         public int UserId { get; set; }
@@ -30,7 +31,9 @@ namespace LearningStarter.Entities
     }
     public class BookingCreateDto
     {
-        public int BookingDate { get; set; }
+        public int CustomerId { get; set; }
+        public int ShowtimeId { get; set; }
+        public DateTimeOffset BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
 
@@ -38,7 +41,9 @@ namespace LearningStarter.Entities
     }
     public class BookingUpdateDto
     {
-        public int BookingDate { get; set; }
+        public int CustomerId { get; set; }
+        public int ShowtimeId { get; set; }
+        public DateTimeOffset BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
 
