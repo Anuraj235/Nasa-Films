@@ -33,6 +33,7 @@ namespace LearningStarter.Controllers
                 .Select(Theaters => new TheaterGetDto
                 {
                     Id = Theaters.Id,
+                    TheaterName = Theaters.TheaterName,
                     Address = Theaters.Address,
                     HallNumbers = Theaters.HallNumbers,
                     Email = Theaters.Email,
@@ -67,6 +68,7 @@ namespace LearningStarter.Controllers
             var theaterToReturn = new TheaterGetDto
             {
                 Id = Theater.Id,
+                TheaterName = Theater.TheaterName,
                 Address = Theater.Address,
                 HallNumbers = Theater.HallNumbers,
                 Email = Theater.Email,
@@ -104,11 +106,11 @@ namespace LearningStarter.Controllers
             var TheaterToCreate = new Theaters
             {
                 Address = createDto.Address,
+                TheaterName=createDto.TheaterName,
                 HallNumbers = createDto.HallNumbers,
                 Email = createDto.Email,
                 Phone = createDto.Phone,
                 Screen = createDto.Screen,
-                Reviews = createDto.Reviews
             };
 
             _dataContext.Set<Theaters>().Add(TheaterToCreate);
@@ -117,12 +119,13 @@ namespace LearningStarter.Controllers
             var TheaterToReturn = new TheaterGetDto
             {
                 Id = TheaterToCreate.Id,
+                TheaterName = TheaterToCreate.TheaterName,
                 Address = TheaterToCreate.Address,
                 HallNumbers = TheaterToCreate.HallNumbers,
                 Email = TheaterToCreate.Email,
                 Phone = TheaterToCreate.Phone,
                 Screen = TheaterToCreate.Screen,
-                Reviews = TheaterToCreate.Reviews
+             
             };
 
             response.Data = TheaterToReturn;
@@ -155,6 +158,7 @@ namespace LearningStarter.Controllers
                 return BadRequest(response);
             }
 
+            TheaterToUpdate.TheaterName = updateDto.TheaterName;
             TheaterToUpdate.Address = updateDto.Address;
             TheaterToUpdate.Phone = updateDto.Phone;
             TheaterToUpdate.HallNumbers = updateDto.HallNumbers;
@@ -167,11 +171,12 @@ namespace LearningStarter.Controllers
             var TheaterToReturn = new TheaterGetDto
             {
                 Address = TheaterToUpdate.Address,
+                TheaterName = TheaterToUpdate.TheaterName,
                 Phone = TheaterToUpdate.Phone,
                 HallNumbers = TheaterToUpdate.HallNumbers,
                 Email = TheaterToUpdate.Email,
                 Screen = TheaterToUpdate.Screen,
-                Reviews = TheaterToUpdate.Reviews
+                
             };
 
             response.Data = TheaterToReturn;
