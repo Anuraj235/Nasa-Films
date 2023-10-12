@@ -45,6 +45,5 @@ public class ReviewsEntityTypeConfiguration : IEntityTypeConfiguration<Reviews>
     {
         builder.ToTable("Reviews");
 
-        builder.HasOne<>
     }
 }

@@ -30,23 +30,22 @@ namespace LearningStarter.Controllers
 
             var data = _dataContext
                 .Set<Theaters>()
-                .Select(Theaters => new TheaterGetDto
+                .Select(theaters => new TheaterGetDto
                 {
-                    Id = Theaters.Id,
-                    Address = Theaters.Address,
-                    HallNumbers = Theaters.HallNumbers,
-                    Email = Theaters.Email,
-                    Phone = Theaters.Phone,
-                    Screen = Theaters.Screen,
-                    Reviews = Theaters.Reviews,
-                    Review = Theaters.Review.Select(x => new TheaterReviewsGetDto
+                    Id = theaters.Id,
+                    Address = theaters.Address,
+                    HallNumbers = theaters.HallNumbers,
+                    Email = theaters.Email,
+                    Phone = theaters.Phone,
+                    Screen = theaters.Screen,
+                    Reviews = theaters.Reviews,
+                    Review = theaters.Review.Select(x => new TheaterReviewsGetDto
                     {
                         Id = x.Review.Id,
+                        TheaterReview = x.Review.TheaterReview,
                         Rating = x.Review.Rating,
-                        Description = x.Review.Description
-
-
-
+                        UserId = x.Review.UserId,
+                        TheaterId = x.Review.TheaterId
                     }).ToList()
 
                 })
@@ -57,17 +56,17 @@ namespace LearningStarter.Controllers
             return Ok(response);
         }
 
-   
+
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var response = new Response();
 
-            var Theater = _dataContext
+            var theater = _dataContext
                 .Set<Theaters>()
                 .FirstOrDefault(Theaters => Theaters.Id == id);
 
-            if (Theater == null)
+            if (theater == null)
             {
                 response.AddError("id", "Theater not found");
                 return NotFound(response);
@@ -75,23 +74,35 @@ namespace LearningStarter.Controllers
 
             var theaterToReturn = new TheaterGetDto
             {
-                Id = Theater.Id,
-                Address = Theater.Address,
-                HallNumbers = Theater.HallNumbers,
-                Email = Theater.Email,
-                Phone = Theater.Phone,
-                Screen = Theater.Screen,
-                Reviews = Theater.Reviews
+                Id = theater.Id,
+                Address = theater.Address,
+                HallNumbers = theater.HallNumbers,
+                Email = theater.Email,
+                Phone = theater.Phone,
+                Screen = theater.Screen,
+                Reviews = theater.Reviews,
+                Review = theater.Review.Select(x => new TheaterReviewsGetDto
+                {
+                    Id = x.Review.Id,
+                    TheaterReview = x.Review.TheaterReview,
+                    Rating = x.Review.Rating,
+                    UserId = x.Review.UserId,
+                    TheaterId = x.Review.TheaterId
+
+                }).ToList()
+                
             };
+            
 
             response.Data = theaterToReturn;
 
             return Ok(response);
         }
+    
 
         // POST api/values
         [HttpPost]
-        public IActionResult Create([FromBody]TheaterCreateDto createDto)
+        public IActionResult Create([FromBody] TheaterCreateDto createDto)
         {
             var response = new Response();
 
@@ -138,7 +149,53 @@ namespace LearningStarter.Controllers
 
             return Created("", response);
         }
+        // /api/theaters/3/review/2?
+        [HttpPost("{theaterId}/review/{reviewsId}")]
+        public IActionResult AddReviewToTheaters(int theaterId, int reviewId, [FromQuery] int quantity)
+        {
+            var response = new Response();
 
+            var theaters = _dataContext.Set<Theaters>()
+                .FirstOrDefault(x => x.Id == theaterId);
+
+            var review = _dataContext.Set<Reviews>()
+                .FirstOrDefault(x => x.Id == reviewId);
+
+            //validation
+
+            var theaterReviews = new TheaterReviews
+                {
+                    Theaters = theaters,
+                    Review = review,
+                    Quantity = quantity
+                };
+                _dataContext.Set<TheaterReviews>().Add(theaterReviews);
+                _dataContext.SaveChanges();
+
+            response.Data = new TheaterGetDto
+            {
+
+                Id = theaters.Id,
+                Address = theaters.Address,
+                HallNumbers = theaters.HallNumbers,
+                Email = theaters.Email,
+                Phone = theaters.Phone,
+                Screen = theaters.Screen,
+                Reviews = theaters.Reviews,
+                Review = theaters.Review.Select(x => new TheaterReviewsGetDto
+                {
+                    Id = x.Review.Id,
+                    TheaterReview = x.Review.TheaterReview,
+                    Rating = x.Review.Rating,
+                    UserId = x.Review.UserId,
+                    TheaterId = x.Review.TheaterId
+
+                }).ToList()
+            };
+
+            return Ok(response);
+        }
+    
         // PUT api/values/5
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]TheaterUpdateDto updateDto)
