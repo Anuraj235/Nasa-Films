@@ -38,7 +38,16 @@ namespace LearningStarter.Controllers
                     Email = Theaters.Email,
                     Phone = Theaters.Phone,
                     Screen = Theaters.Screen,
-                    Reviews = Theaters. Reviews
+                    Reviews = Theaters.Reviews,
+                    Review = Theaters.Review.Select(x => new TheaterReviewsGetDto
+                    {
+                        Id = x.Review.Id,
+                        Rating = x.Review.Rating,
+                        Description = x.Review.Description
+
+
+
+                    }).ToList()
 
                 })
                 .ToList();

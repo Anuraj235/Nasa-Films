@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,6 +14,9 @@ namespace LearningStarter.Entities
         public string Email { get; set; }
         public int Screen { get; set; }
         public string Reviews { get; set; }
+
+        public List<TheaterReviews> Review {  get; set; }
+  
     }
 
     public class TheaterGetDto
@@ -24,6 +28,7 @@ namespace LearningStarter.Entities
         public string Email { get; set; }
         public int Screen { get; set; }
         public string Reviews { get; set; }
+        public List<TheaterReviews> Review { get; set; }
     }
 
     public class TheaterCreateDto
