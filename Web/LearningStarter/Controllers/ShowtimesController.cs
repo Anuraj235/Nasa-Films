@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Http.Headers;
 using LearningStarter.Common;
 using LearningStarter.Data;
@@ -48,8 +49,13 @@ public class ShowtimesController : ControllerBase
 	public IActionResult Create([FromBody] ShowtimesCreateDto createDto)
 	{
 		var response = new Response();
+        if (createDto.StartTime < DateTime.Now)
+        {
+            response.AddError(nameof(createDto.StartTime), "StartTime must be in the future");
+        }
 
-		if (createDto.Price < 0)
+
+        if (createDto.Price < 0)
 		{
 			response.AddError(nameof(createDto.Price), "Price must be positive");
 		}
