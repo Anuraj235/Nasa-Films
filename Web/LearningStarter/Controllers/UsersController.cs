@@ -37,7 +37,7 @@ public class UsersController : ControllerBase
                 UserName = x.UserName,
                 MembershipId = x.MembershipId,
                 Email = x.Email,
-                Phone = x.Phone,
+                PhoneNumber = x.PhoneNumber,
                 DateOfBirth = x.DateOfBirth,
                 PaymentOptions = x.PaymentOptions,
                 Loyalty = x.Loyalty
@@ -69,7 +69,7 @@ public class UsersController : ControllerBase
             UserName = user.UserName,
             MembershipId = user.MembershipId,
             Email = user.Email,
-            Phone = user.Phone,
+            PhoneNumber = user.PhoneNumber,
             DateOfBirth = user.DateOfBirth,
             PaymentOptions = user.PaymentOptions,
             Loyalty = user.Loyalty
@@ -118,7 +118,7 @@ public class UsersController : ControllerBase
             UserName = userCreateDto.UserName,
             MembershipId = userCreateDto.MembershipId,
             Email = userCreateDto.Email,
-            Phone = userCreateDto.Phone,
+            PhoneNumber = userCreateDto.PhoneNumber,
             DateOfBirth = userCreateDto.DateOfBirth,
             PaymentOptions = userCreateDto.PaymentOptions,
             Loyalty = userCreateDto.Loyalty
@@ -137,7 +137,7 @@ public class UsersController : ControllerBase
             UserName = userToCreate.UserName,
             MembershipId = userToCreate.MembershipId,
             Email = userToCreate.Email,
-            Phone = userToCreate.Phone,
+            PhoneNumber = userToCreate.PhoneNumber,
             DateOfBirth = userToCreate.DateOfBirth,
             PaymentOptions = userToCreate.PaymentOptions,
             Loyalty = userToCreate.Loyalty
@@ -199,7 +199,7 @@ public class UsersController : ControllerBase
         userToEdit.UserName = userUpdateDto.UserName;
         userToEdit.MembershipId = userUpdateDto.MembershipId;
         userToEdit.Email = userUpdateDto.Email;
-        userToEdit.Phone = userUpdateDto.Phone;
+        userToEdit.PhoneNumber = userUpdateDto.PhoneNumber;
         userToEdit.DateOfBirth = userUpdateDto.DateOfBirth;
         userToEdit.PaymentOptions = userUpdateDto.PaymentOptions;
         userToEdit.Loyalty = userUpdateDto.Loyalty;
@@ -214,7 +214,7 @@ public class UsersController : ControllerBase
             UserName = userToEdit.UserName,
             MembershipId = userToEdit.MembershipId,
             Email = userToEdit.Email,
-            Phone = userToEdit.Phone,
+            PhoneNumber = userToEdit.PhoneNumber,
             DateOfBirth = userToEdit.DateOfBirth,
             PaymentOptions = userToEdit.PaymentOptions,
             Loyalty = userToEdit.Loyalty
