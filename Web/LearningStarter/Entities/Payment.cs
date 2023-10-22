@@ -11,7 +11,7 @@ namespace LearningStarter.Entities
         public string CardName { get; set; }
         public int CardNumber { get; set; }
         public int CardCvv { get; set; }
-        public DateTimeOffset CardExpiry { get; set; }
+        public DateTime CardExpiry { get; set; }
     }
 
     public class PaymentGetDto
@@ -20,21 +20,21 @@ namespace LearningStarter.Entities
         public string CardName { get; set; }
         public int CardNumber { get; set; }
         public int CardCvv { get; set; }
-        public DateTimeOffset CardExpiry { get; set; }
+        public DateTime CardExpiry { get; set; }
     }
     public class PaymentCreateDto
     {
         public string CardName { get; set; }
         public int CardNumber { get; set; }
         public int CardCvv { get; set; }
-        public DateTimeOffset CardExpiry { get; set; }
+        public DateTime CardExpiry { get; set; }
     }
     public class PaymentUpdateDto
     {
         public string CardName { get; set; }
         public int CardNumber { get; set; }
         public int CardCvv { get; set; }
-        public DateTimeOffset CardExpiry { get; set; }
+        public DateTime CardExpiry { get; set; }
     }
     public class PaymentEntityTypeConfiguraton : IEntityTypeConfiguration<Payment>
     {

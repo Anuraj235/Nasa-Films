@@ -11,19 +11,19 @@ namespace LearningStarter.Entities
         public int ID { get; set; }
         public int CustomerId { get; set; }
         public int ShowtimeId { get; set; }
-        public DateTimeOffset BookingDate { get; set; }
+        public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
-        public int TenderAmount { get; set;}
-        public int UserId { get; set;}
-             
+        public int TenderAmount { get; set; }
+        public int UserId { get; set; }
+
 
     }
-       public class BookingGetDto
+    public class BookingGetDto
     {
         public int ID { get; set; }
         public int CustomerId { get; set; }
         public int ShowtimeId { get; set; }
-        public DateTimeOffset BookingDate { get; set; }
+        public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
         public int UserId { get; set; }
@@ -33,7 +33,7 @@ namespace LearningStarter.Entities
     {
         public int CustomerId { get; set; }
         public int ShowtimeId { get; set; }
-        public DateTimeOffset BookingDate { get; set; }
+        public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
 
@@ -43,13 +43,13 @@ namespace LearningStarter.Entities
     {
         public int CustomerId { get; set; }
         public int ShowtimeId { get; set; }
-        public DateTimeOffset BookingDate { get; set; }
+        public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
 
 
     }
-    public  class BookingEntityTypeConfiguration : IEntityTypeConfiguration<Booking>
+    public class BookingEntityTypeConfiguration : IEntityTypeConfiguration<Booking>
     {
         public void Configure(EntityTypeBuilder<Booking> builder)
         {
