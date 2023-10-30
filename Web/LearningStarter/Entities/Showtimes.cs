@@ -30,6 +30,7 @@ namespace LearningStarter.Entities
         public string Screen { get; set; }
         public List<ShowtimeBookingGetDto> Bookings { get; set; }
     }
+
     public class ShowtimesCreateDto
     {
         public int MovieId { get; set; }

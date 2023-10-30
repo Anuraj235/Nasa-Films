@@ -38,8 +38,13 @@ namespace LearningStarter.Controllers
                     HallNumbers = Theaters.HallNumbers,
                     Email = Theaters.Email,
                     Phone = Theaters.Phone,
-                    Screen = Theaters.Screen,
-                    Reviews = Theaters. Reviews
+                    Reviews = Theaters.Reviews.Select(x => new TheaterReviewGetDto
+                    {
+                        Id = x.Id,
+                        TheaterReview = x.TheaterReview,
+                        Rating = x.Rating,
+                        UserId = x.User.Id
+                    }).ToList()
 
                 })
                 .ToList();
@@ -73,8 +78,13 @@ namespace LearningStarter.Controllers
                 HallNumbers = Theater.HallNumbers,
                 Email = Theater.Email,
                 Phone = Theater.Phone,
-                Screen = Theater.Screen,
-                Reviews = Theater.Reviews
+                Reviews = Theater.Reviews.Select(x => new TheaterReviewGetDto
+                {
+                    Id = x.Id,
+                    TheaterReview = x.TheaterReview,
+                    Rating = x.Rating,
+                    UserId = x.User.Id
+                }).ToList()
             };
 
             response.Data = theaterToReturn;
@@ -105,14 +115,12 @@ namespace LearningStarter.Controllers
 
             var TheaterToCreate = new Theaters
             {
+                TheaterName = createDto.TheaterName,
                 Address = createDto.Address,
-                TheaterName=createDto.TheaterName,
                 HallNumbers = createDto.HallNumbers,
                 Email = createDto.Email,
-                Phone = createDto.Phone,
-                Screen = createDto.Screen,
+                Phone = createDto.Phone
             };
-
             _dataContext.Set<Theaters>().Add(TheaterToCreate);
             _dataContext.SaveChanges();
 
@@ -124,7 +132,6 @@ namespace LearningStarter.Controllers
                 HallNumbers = TheaterToCreate.HallNumbers,
                 Email = TheaterToCreate.Email,
                 Phone = TheaterToCreate.Phone,
-                Screen = TheaterToCreate.Screen,
              
             };
 
@@ -163,8 +170,6 @@ namespace LearningStarter.Controllers
             TheaterToUpdate.Phone = updateDto.Phone;
             TheaterToUpdate.HallNumbers = updateDto.HallNumbers;
             TheaterToUpdate.Email = updateDto.Email;
-            TheaterToUpdate.Screen = updateDto.Screen;
-            TheaterToUpdate.Reviews = updateDto.Reviews;
 
             _dataContext.SaveChanges();
 
@@ -174,9 +179,7 @@ namespace LearningStarter.Controllers
                 TheaterName = TheaterToUpdate.TheaterName,
                 Phone = TheaterToUpdate.Phone,
                 HallNumbers = TheaterToUpdate.HallNumbers,
-                Email = TheaterToUpdate.Email,
-                Screen = TheaterToUpdate.Screen,
-                
+                Email = TheaterToUpdate.Email,                
             };
 
             response.Data = TheaterToReturn;

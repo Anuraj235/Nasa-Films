@@ -11,11 +11,12 @@ namespace LearningStarter.Entities
         public int ID { get; set; }
         public int CustomerId { get; set; }
         public int ShowtimeId { get; set; }
+        public Showtimes Showtime { get; set; }
         public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
-        public int UserId { get; set; }
 
+        public int UserId { get; set; }
 
     }
     public class BookingGetDto
@@ -36,7 +37,7 @@ namespace LearningStarter.Entities
         public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
-
+        public int UserId { get; set; }
 
     }
     public class BookingUpdateDto

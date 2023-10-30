@@ -8,13 +8,16 @@ namespace LearningStarter.Entities
     public class ShowtimeBooking
     {
         public int Id { get; set; }
-        public int ShowtimeId { get; set; }
-        public Showtimes Showtime { get; set; }
+        public int? ShowtimeId { get; set; }
+        public Showtimes Showtime { get; set; } = new();
 
         public int BookingId { get; set; }
-        public Booking Booking { get; set; }
-        public int TotalBooking { get; set; }
+        public Booking Booking { get; set; } = new();
 
+        public int UserId { get; set; }
+        public User User { get; set; } = new();
+
+        public int TotalBooking { get; set; }
 
     }
 
@@ -30,8 +33,19 @@ namespace LearningStarter.Entities
         public int Price { get; set; }
         public string Screen { get; set; }
 
+    }
+
+    public class UserBookingsGetDto
+    {
+        public int ID { get; set; }
+
+        public DateTime StartTime { get; set; }
+        public DateTimeOffset BookingDate { get; set; }
+        public int TotalBooking { get; set; }
+        public int TenderAmount { get; set; }
 
     }
+
     public class ShowtimeBookingEntityTypeConfiguration : IEntityTypeConfiguration<ShowtimeBooking>
     {
         public void Configure(EntityTypeBuilder<ShowtimeBooking> builder)
@@ -41,10 +55,12 @@ namespace LearningStarter.Entities
             builder.HasOne(x => x.Showtime)
             .WithMany(x => x.Bookings);
 
+            builder.HasOne(x => x.User)
+                .WithMany(x => x.Bookings);
+
             builder.HasOne(x => x.Booking)
             .WithMany();
         }
 
     }
 }
-

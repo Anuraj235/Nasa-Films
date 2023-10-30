@@ -94,6 +94,8 @@ public class BookingsController : ControllerBase
             BookingDate = createDto.BookingDate,
             NumberofTickets = createDto.NumberofTickets,
             TenderAmount = createDto.TenderAmount,
+            UserId = createDto.UserId,
+
         };
         _dataContext.Set<Booking>().Add(bookingToCreate);
         _dataContext.SaveChanges();
