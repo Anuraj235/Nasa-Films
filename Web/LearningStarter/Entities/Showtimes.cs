@@ -12,7 +12,6 @@ namespace LearningStarter.Entities
         public int MovieId { get; set; }
         public DateTime StartTime { get; set; }
         public int TheaterID { get; set; }
-        public int Price { get; set; }
         public int AvailableSeats { get; set; }
         public string Screen { get; set; }
         public List<ShowtimeBooking> Bookings { get; set; }
@@ -25,10 +24,15 @@ namespace LearningStarter.Entities
         public int MovieId { get; set; }
         public DateTime StartTime { get; set; }
         public int TheaterID { get; set; }
-        public int Price { get; set; }
         public int AvailableSeats { get; set; }
         public string Screen { get; set; }
         public List<ShowtimeBookingGetDto> Bookings { get; set; }
+    }
+
+    public class BookingShowtimeGetDto
+    {
+        public int Id { get; set; }
+        public DateTime StartTime { get; set; }
     }
 
     public class ShowtimesCreateDto
@@ -36,7 +40,6 @@ namespace LearningStarter.Entities
         public int MovieId { get; set; }
         public DateTime StartTime { get; set; }
         public int TheaterID { get; set; }
-        public int Price { get; set; }
         public int AvailableSeats { get; set; }
         public string Screen { get; set; }
     }
@@ -46,7 +49,6 @@ namespace LearningStarter.Entities
         public int MovieId { get; set; }
         public DateTime StartTime { get; set; }
         public int TheaterID { get; set; }
-        public int Price { get; set; }
         public int AvailableSeats { get; set; }
         public string Screen { get; set; }
     }

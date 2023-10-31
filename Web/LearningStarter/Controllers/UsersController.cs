@@ -5,6 +5,7 @@ using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningStarter.Controllers;
 
@@ -51,10 +52,14 @@ public class UsersController : ControllerBase
 
                 Bookings = user.Bookings.Select(x => new UserBookingsGetDto
                 {
-                    ID = x.Id,
-                    StartTime = x.Showtime.StartTime,
-                    BookingDate = x.Booking.BookingDate,
-                    TotalBooking = x.Booking.NumberofTickets
+                    ID = x.ID,
+                    Showtime = new BookingShowtimeGetDto
+                    {
+                        Id = x.Showtime.Id,
+                        StartTime = x.Showtime.StartTime
+                    },
+                    BookingDate = x.BookingDate,
+                    NumberofTickets = x.NumberofTickets
 
                 }).ToList(),
             })
@@ -69,7 +74,13 @@ public class UsersController : ControllerBase
     {
         var response = new Response();
 
-        var user = _context.Users.FirstOrDefault(x => x.Id == id);
+        var user = _context.Users
+            .Include(x => x.Reviews)
+            .ThenInclude(x => x.Theater)
+            .Include(x => x.Bookings)
+            .ThenInclude(x => x.Showtime)
+            .FirstOrDefault(x => x.Id == id);
+
 
         if (user == null)
         {
@@ -98,11 +109,14 @@ public class UsersController : ControllerBase
             }).ToList(),
             Bookings = user.Bookings.Select(x => new UserBookingsGetDto
             {
-                ID = x.Id,
-                StartTime = x.Showtime.StartTime,
-                BookingDate = x.Booking.BookingDate,
-                TotalBooking = x.Booking.NumberofTickets
-
+                ID = x.ID,
+                Showtime = new BookingShowtimeGetDto
+                {
+                    Id = x.Showtime.Id,
+                    StartTime = x.Showtime.StartTime
+                },
+                BookingDate = x.BookingDate,
+                NumberofTickets = x.NumberofTickets
             }).ToList(),
         };
 
@@ -283,7 +297,6 @@ public class UsersController : ControllerBase
 
         var userBooking = new ShowtimeBooking
         {
-            UserId = user.Id,
             BookingId = booking.ID,
             TotalBooking = numberOfTickets
         };
@@ -304,10 +317,14 @@ public class UsersController : ControllerBase
             Loyalty = user.Loyalty,
             Bookings = user.Bookings.Select(x => new UserBookingsGetDto
             {
-                ID = x.Id,
-                StartTime = x.Showtime.StartTime,
-                BookingDate = x.Booking.BookingDate,
-                TotalBooking = x.TotalBooking
+                ID = x.ID,
+                Showtime = new BookingShowtimeGetDto
+                {
+                    Id = x.Showtime.Id,
+                    StartTime = x.Showtime.StartTime
+                },
+                BookingDate = x.BookingDate,
+                NumberofTickets = x.NumberofTickets
 
             }).ToList(),
         };

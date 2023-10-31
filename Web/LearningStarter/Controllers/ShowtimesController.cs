@@ -33,7 +33,6 @@ public class ShowtimesController : ControllerBase
                 MovieId = showtimes.MovieId,
                 StartTime = showtimes.StartTime,
                 TheaterID = showtimes.TheaterID,
-                Price = showtimes.Price,
                 AvailableSeats = showtimes.AvailableSeats,
                 Screen = showtimes.Screen,
                 Bookings = showtimes.Bookings.Select(x => new ShowtimeBookingGetDto
@@ -68,7 +67,6 @@ public class ShowtimesController : ControllerBase
                   MovieId = showtimes.MovieId,
                   StartTime = showtimes.StartTime,
                   TheaterID = showtimes.TheaterID,
-                  Price = showtimes.Price,
                   AvailableSeats = showtimes.AvailableSeats,
                   Screen = showtimes.Screen,
                   Bookings = showtimes.Bookings.Select(x => new ShowtimeBookingGetDto
@@ -101,10 +99,10 @@ public class ShowtimesController : ControllerBase
         }
 
 
-        if (createDto.Price < 0)
-        {
-            response.AddError(nameof(createDto.Price), "Price must be positive");
-        }
+        //if (createDto.Price < 0)
+        //{
+        //    response.AddError(nameof(createDto.Price), "Price must be positive");
+        //}
         if (createDto.AvailableSeats < 0)
         {
             response.AddError(nameof(createDto.AvailableSeats), "AvailableSeats must be positive");
@@ -124,7 +122,6 @@ public class ShowtimesController : ControllerBase
             MovieId = createDto.MovieId,
             StartTime = createDto.StartTime,
             TheaterID = createDto.TheaterID,
-            Price = createDto.Price,
             AvailableSeats = createDto.AvailableSeats,
             Screen = createDto.Screen
         };
@@ -138,7 +135,6 @@ public class ShowtimesController : ControllerBase
             MovieId = showtimeToCreate.MovieId,
             StartTime = showtimeToCreate.StartTime,
             TheaterID = showtimeToCreate.TheaterID,
-            Price = showtimeToCreate.Price,
             AvailableSeats = showtimeToCreate.AvailableSeats,
             Screen = showtimeToCreate.Screen,
         };
@@ -176,7 +172,6 @@ public class ShowtimesController : ControllerBase
             MovieId = showtime.MovieId,
             StartTime = showtime.StartTime,
             TheaterID = showtime.TheaterID,
-            Price = showtime.Price,
             AvailableSeats = showtime.AvailableSeats,
             Screen = showtime.Screen,
             Bookings = showtime.Bookings.Select(x => new ShowtimeBookingGetDto
@@ -200,10 +195,10 @@ public class ShowtimesController : ControllerBase
     {
         var response = new Response();
 
-        if (updateDto.Price < 0)
-        {
-            response.AddError(nameof(updateDto.Price), "Price must be positive");
-        }
+        //if (updateDto.Price < 0)
+        //{
+        //    response.AddError(nameof(updateDto.Price), "Price must be positive");
+        //}
         if (updateDto.AvailableSeats < 0)
         {
             response.AddError(nameof(updateDto.AvailableSeats), "AvailableSeats must be positive");
@@ -227,7 +222,6 @@ public class ShowtimesController : ControllerBase
         }
         showtimestoUpdate.StartTime = updateDto.StartTime;
         showtimestoUpdate.TheaterID = updateDto.TheaterID;
-        showtimestoUpdate.Price = updateDto.Price;
         showtimestoUpdate.AvailableSeats = updateDto.AvailableSeats;
         showtimestoUpdate.Screen = updateDto.Screen;
         _dataContext.SaveChanges();

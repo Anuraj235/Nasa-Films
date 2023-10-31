@@ -16,6 +16,7 @@ namespace LearningStarter.Entities
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
 
+        public User User { get; set; }
         public int UserId { get; set; }
 
     }
@@ -30,6 +31,20 @@ namespace LearningStarter.Entities
         public int UserId { get; set; }
 
     }
+
+    public class UserBookingsGetDto
+    {
+        public int ID { get; set; }
+
+        public int ShowtimeId { get; set; }
+        public BookingShowtimeGetDto Showtime { get; set; }
+
+        public DateTimeOffset BookingDate { get; set; }
+        public int NumberofTickets { get; set; }
+        public int TenderAmount { get; set; }
+
+    }
+
     public class BookingCreateDto
     {
         public int CustomerId { get; set; }
@@ -55,6 +70,9 @@ namespace LearningStarter.Entities
         public void Configure(EntityTypeBuilder<Booking> builder)
         {
             builder.ToTable("Bookings");
+
+            builder.HasOne(x => x.User)
+                .WithMany(x => x.Bookings);
         }
 
     }

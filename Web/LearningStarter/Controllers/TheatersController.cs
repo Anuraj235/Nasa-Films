@@ -7,6 +7,7 @@ using LearningStarter.Common;
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -62,6 +63,8 @@ namespace LearningStarter.Controllers
 
             var Theater = _dataContext
                 .Set<Theaters>()
+                .Include(x => x.Reviews)
+                .ThenInclude(x => x.User)
                 .FirstOrDefault(Theaters => Theaters.Id == id);
 
             if (Theater == null)

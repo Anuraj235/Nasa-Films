@@ -22,7 +22,7 @@ public class User : IdentityUser<int>
     public List<Reviews> Reviews { get; set; }
 
     public int BookingId { get;}
-    public List<ShowtimeBooking> Bookings { get; set; }
+    public List<Booking> Bookings { get; set; }
 }
 
 public class UserCreateDto
@@ -66,8 +66,8 @@ public class UserGetDto
     public string PaymentOptions { get; set; }
     public int Loyalty { get; set; }
 
-    public List<UserReviewGetDto> Reviews { get; set; }
-    public List<UserBookingsGetDto> Bookings { get; set; }
+    public List<UserReviewGetDto>? Reviews { get; set; }
+    public List<UserBookingsGetDto>? Bookings { get; set; }
 }
 
 public class UserEntityConfiguration : IEntityTypeConfiguration<User>

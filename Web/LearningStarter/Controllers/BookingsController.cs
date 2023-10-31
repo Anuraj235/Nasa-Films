@@ -32,8 +32,6 @@ public class BookingsController : ControllerBase
                 TenderAmount = booking.TenderAmount,
                 UserId = booking.UserId,
 
-
-
             })
             .ToList();
         response.Data = data;
@@ -95,6 +93,7 @@ public class BookingsController : ControllerBase
             NumberofTickets = createDto.NumberofTickets,
             TenderAmount = createDto.TenderAmount,
             UserId = createDto.UserId,
+           // User = user
 
         };
         _dataContext.Set<Booking>().Add(bookingToCreate);
