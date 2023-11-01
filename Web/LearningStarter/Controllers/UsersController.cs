@@ -1,9 +1,11 @@
 ﻿using System.Linq;
+using System.Numerics;
 using LearningStarter.Common;
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningStarter.Controllers;
 
@@ -28,12 +30,38 @@ public class UsersController : ControllerBase
 
         response.Data = _context
             .Users
-            .Select(x => new UserGetDto
+            .Select(user => new UserGetDto
             {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                UserName = x.UserName
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                DateOfBirth = user.DateOfBirth,
+                PaymentOptions = user.PaymentOptions,
+                Loyalty = user.Loyalty,
+                Reviews = user.Reviews.Select(x => new UserReviewGetDto
+                {
+                    Id = x.Id,
+                    TheaterId = x.Theater.Id,
+                    TheaterName = x.Theater.TheaterName,
+                    UserReview = x.TheaterReview,
+                    Rating = x.Rating
+                }).ToList(),
+
+                Bookings = user.Bookings.Select(x => new UserBookingsGetDto
+                {
+                    ID = x.ID,
+                    Showtime = new BookingShowtimeGetDto
+                    {
+                        Id = x.Showtime.Id,
+                        StartTime = x.Showtime.StartTime
+                    },
+                    BookingDate = x.BookingDate,
+                    NumberofTickets = x.NumberofTickets
+
+                }).ToList(),
             })
             .ToList();
 
@@ -46,7 +74,13 @@ public class UsersController : ControllerBase
     {
         var response = new Response();
 
-        var user = _context.Users.FirstOrDefault(x => x.Id == id);
+        var user = _context.Users
+            .Include(x => x.Reviews)
+            .ThenInclude(x => x.Theater)
+            .Include(x => x.Bookings)
+            .ThenInclude(x => x.Showtime)
+            .FirstOrDefault(x => x.Id == id);
+
 
         if (user == null)
         {
@@ -60,6 +94,30 @@ public class UsersController : ControllerBase
             FirstName = user.FirstName,
             LastName = user.LastName,
             UserName = user.UserName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            DateOfBirth = user.DateOfBirth,
+            PaymentOptions = user.PaymentOptions,
+            Loyalty = user.Loyalty,
+            Reviews = user.Reviews.Select(x => new UserReviewGetDto
+            {
+                Id = x.Id,
+                TheaterId = x.Theater.Id,
+                TheaterName = x.Theater.TheaterName,
+                UserReview = x.TheaterReview,
+                Rating = x.Rating
+            }).ToList(),
+            Bookings = user.Bookings.Select(x => new UserBookingsGetDto
+            {
+                ID = x.ID,
+                Showtime = new BookingShowtimeGetDto
+                {
+                    Id = x.Showtime.Id,
+                    StartTime = x.Showtime.StartTime
+                },
+                BookingDate = x.BookingDate,
+                NumberofTickets = x.NumberofTickets
+            }).ToList(),
         };
 
         response.Data = userGetDto;
@@ -103,8 +161,14 @@ public class UsersController : ControllerBase
             FirstName = userCreateDto.FirstName,
             LastName = userCreateDto.LastName,
             UserName = userCreateDto.UserName,
+            Email = userCreateDto.Email,
+            PhoneNumber = userCreateDto.PhoneNumber,
+            DateOfBirth = userCreateDto.DateOfBirth,
+            PaymentOptions = userCreateDto.PaymentOptions,
+            Loyalty = userCreateDto.Loyalty
         };
-
+        _context.Set<User>().Add(userToCreate);
+        _context.SaveChanges();
         _userManager.CreateAsync(userToCreate, userCreateDto.Password);
         _userManager.AddToRoleAsync(userToCreate, "Admin");
         _context.SaveChanges();
@@ -114,7 +178,12 @@ public class UsersController : ControllerBase
             Id = userToCreate.Id,
             FirstName = userToCreate.FirstName,
             LastName = userToCreate.LastName,
-            UserName = userToCreate.UserName
+            UserName = userToCreate.UserName,
+            Email = userToCreate.Email,
+            PhoneNumber = userToCreate.PhoneNumber,
+            DateOfBirth = userToCreate.DateOfBirth,
+            PaymentOptions = userToCreate.PaymentOptions,
+            Loyalty = userToCreate.Loyalty
         };
 
         response.Data = userGetDto;
@@ -124,7 +193,7 @@ public class UsersController : ControllerBase
 
     [HttpPut("{id}")]
     public IActionResult Edit(
-        [FromRoute] int id, 
+        [FromRoute] int id,
         [FromBody] UserUpdateDto userUpdateDto)
     {
         var response = new Response();
@@ -134,7 +203,7 @@ public class UsersController : ControllerBase
             response.AddError("id", "There was a problem editing the user.");
             return NotFound(response);
         }
-        
+
         var userToEdit = _context.Users.FirstOrDefault(x => x.Id == id);
 
         if (userToEdit == null)
@@ -171,6 +240,11 @@ public class UsersController : ControllerBase
         userToEdit.FirstName = userUpdateDto.FirstName;
         userToEdit.LastName = userUpdateDto.LastName;
         userToEdit.UserName = userUpdateDto.UserName;
+        userToEdit.Email = userUpdateDto.Email;
+        userToEdit.PhoneNumber = userUpdateDto.PhoneNumber;
+        userToEdit.DateOfBirth = userUpdateDto.DateOfBirth;
+        userToEdit.PaymentOptions = userUpdateDto.PaymentOptions;
+        userToEdit.Loyalty = userUpdateDto.Loyalty;
 
         _context.SaveChanges();
 
@@ -180,6 +254,11 @@ public class UsersController : ControllerBase
             FirstName = userToEdit.FirstName,
             LastName = userToEdit.LastName,
             UserName = userToEdit.UserName,
+            Email = userToEdit.Email,
+            PhoneNumber = userToEdit.PhoneNumber,
+            DateOfBirth = userToEdit.DateOfBirth,
+            PaymentOptions = userToEdit.PaymentOptions,
+            Loyalty = userToEdit.Loyalty
         };
 
         response.Data = userGetDto;
@@ -201,6 +280,54 @@ public class UsersController : ControllerBase
 
         _context.Users.Remove(user);
         _context.SaveChanges();
+
+        return Ok(response);
+    }
+
+    [HttpPost("{userId}/booking/{bookingId}")]
+    public IActionResult AddUserBooking(int userId, int bookingId, [FromQuery] int numberOfTickets)
+    {
+        var response = new Response();
+
+        var user = _context.Set<User>()
+            .FirstOrDefault(x => x.Id == userId);
+
+        var booking = _context.Set<Booking>()
+            .FirstOrDefault(x => x.ID == bookingId);
+
+        var userBooking = new ShowtimeBooking
+        {
+            BookingId = booking.ID,
+            TotalBooking = numberOfTickets
+        };
+
+        _context.Set<ShowtimeBooking>().Add(userBooking);
+        _context.SaveChanges();
+
+        response.Data = new UserGetDto
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            UserName = user.UserName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            DateOfBirth = user.DateOfBirth,
+            PaymentOptions = user.PaymentOptions,
+            Loyalty = user.Loyalty,
+            Bookings = user.Bookings.Select(x => new UserBookingsGetDto
+            {
+                ID = x.ID,
+                Showtime = new BookingShowtimeGetDto
+                {
+                    Id = x.Showtime.Id,
+                    StartTime = x.Showtime.StartTime
+                },
+                BookingDate = x.BookingDate,
+                NumberofTickets = x.NumberofTickets
+
+            }).ToList(),
+        };
 
         return Ok(response);
     }

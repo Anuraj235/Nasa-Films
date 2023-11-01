@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -103,9 +104,9 @@ public class Startup
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext dataContext)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext dataContext, ILogger<Startup> logger)
     {
-       // dataContext.Database.EnsureDeleted();
+        dataContext.Database.EnsureDeleted();
         dataContext.Database.EnsureCreated();
         
         app.UseHsts();
@@ -151,8 +152,14 @@ public class Startup
         
         using var scope = app.ApplicationServices.CreateScope();
         var userManager = scope.ServiceProvider.GetService<UserManager<User>>();
-
-        SeedUsers(dataContext, userManager).Wait();
+        try
+        {
+            SeedUsers(dataContext, userManager).Wait();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while seeding the database.");
+        }
     }
 
     private static async Task SeedUsers(DataContext dataContext, UserManager<User> userManager)
