@@ -7,6 +7,7 @@ using LearningStarter.Common;
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,12 +34,18 @@ namespace LearningStarter.Controllers
                 .Select(Theaters => new TheaterGetDto
                 {
                     Id = Theaters.Id,
+                    TheaterName = Theaters.TheaterName,
                     Address = Theaters.Address,
                     HallNumbers = Theaters.HallNumbers,
                     Email = Theaters.Email,
                     Phone = Theaters.Phone,
-                    Screen = Theaters.Screen,
-                    Reviews = Theaters. Reviews
+                    Reviews = Theaters.Reviews.Select(x => new TheaterReviewGetDto
+                    {
+                        Id = x.Id,
+                        TheaterReview = x.TheaterReview,
+                        Rating = x.Rating,
+                        UserId = x.User.Id
+                    }).ToList()
 
                 })
                 .ToList();
@@ -56,6 +63,8 @@ namespace LearningStarter.Controllers
 
             var Theater = _dataContext
                 .Set<Theaters>()
+                .Include(x => x.Reviews)
+                .ThenInclude(x => x.User)
                 .FirstOrDefault(Theaters => Theaters.Id == id);
 
             if (Theater == null)
@@ -67,12 +76,18 @@ namespace LearningStarter.Controllers
             var theaterToReturn = new TheaterGetDto
             {
                 Id = Theater.Id,
+                TheaterName = Theater.TheaterName,
                 Address = Theater.Address,
                 HallNumbers = Theater.HallNumbers,
                 Email = Theater.Email,
                 Phone = Theater.Phone,
-                Screen = Theater.Screen,
-                Reviews = Theater.Reviews
+                Reviews = Theater.Reviews.Select(x => new TheaterReviewGetDto
+                {
+                    Id = x.Id,
+                    TheaterReview = x.TheaterReview,
+                    Rating = x.Rating,
+                    UserId = x.User.Id
+                }).ToList()
             };
 
             response.Data = theaterToReturn;
@@ -103,26 +118,24 @@ namespace LearningStarter.Controllers
 
             var TheaterToCreate = new Theaters
             {
+                TheaterName = createDto.TheaterName,
                 Address = createDto.Address,
                 HallNumbers = createDto.HallNumbers,
                 Email = createDto.Email,
-                Phone = createDto.Phone,
-                Screen = createDto.Screen,
-                Reviews = createDto.Reviews
+                Phone = createDto.Phone
             };
-
             _dataContext.Set<Theaters>().Add(TheaterToCreate);
             _dataContext.SaveChanges();
 
             var TheaterToReturn = new TheaterGetDto
             {
                 Id = TheaterToCreate.Id,
+                TheaterName = TheaterToCreate.TheaterName,
                 Address = TheaterToCreate.Address,
                 HallNumbers = TheaterToCreate.HallNumbers,
                 Email = TheaterToCreate.Email,
                 Phone = TheaterToCreate.Phone,
-                Screen = TheaterToCreate.Screen,
-                Reviews = TheaterToCreate.Reviews
+             
             };
 
             response.Data = TheaterToReturn;
@@ -155,23 +168,21 @@ namespace LearningStarter.Controllers
                 return BadRequest(response);
             }
 
+            TheaterToUpdate.TheaterName = updateDto.TheaterName;
             TheaterToUpdate.Address = updateDto.Address;
             TheaterToUpdate.Phone = updateDto.Phone;
             TheaterToUpdate.HallNumbers = updateDto.HallNumbers;
             TheaterToUpdate.Email = updateDto.Email;
-            TheaterToUpdate.Screen = updateDto.Screen;
-            TheaterToUpdate.Reviews = updateDto.Reviews;
 
             _dataContext.SaveChanges();
 
             var TheaterToReturn = new TheaterGetDto
             {
                 Address = TheaterToUpdate.Address,
+                TheaterName = TheaterToUpdate.TheaterName,
                 Phone = TheaterToUpdate.Phone,
                 HallNumbers = TheaterToUpdate.HallNumbers,
-                Email = TheaterToUpdate.Email,
-                Screen = TheaterToUpdate.Screen,
-                Reviews = TheaterToUpdate.Reviews
+                Email = TheaterToUpdate.Email,                
             };
 
             response.Data = TheaterToReturn;
