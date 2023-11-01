@@ -14,7 +14,7 @@ namespace LearningStarter.Entities
         public int TheaterID { get; set; }
         public int AvailableSeats { get; set; }
         public string Screen { get; set; }
-        public List<ShowtimeBooking> Bookings { get; set; }
+        public List<ShowtimeBooking> Bookings { get; set; } = new();
 
 
     }

@@ -36,7 +36,6 @@ public class ShowtimesController : ControllerBase
                 AvailableSeats = showtimes.AvailableSeats,
                 Screen = showtimes.Screen,
                 Bookings = showtimes.Bookings.Select(x => new ShowtimeBookingGetDto
-
                 {
                     Id = x.Booking.ID,
                     NumberofTickets = x.Booking.NumberofTickets,
