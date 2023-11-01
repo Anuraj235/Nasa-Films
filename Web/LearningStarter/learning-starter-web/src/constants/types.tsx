@@ -21,3 +21,11 @@ export type UserDto = {
   lastName: string;
   userName: string;
 };
+
+
+export type ShowtimeGetDto = {
+  id: number;
+  price: number;
+  availableseats: number;
+  screen: number;
+};

@@ -65,6 +65,16 @@ const navigation: NavigationItem[] = [
       to: routes.user,
     },
   },
+ 
+{
+  text: "Showtimes",
+  hide: false,
+  nav: {
+    to: routes.showtimesListing,
+  },
+},
+
+
 ];
 
 const DesktopNavigation = () => {

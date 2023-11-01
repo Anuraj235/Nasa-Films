@@ -1,14 +1,20 @@
 import { Container, createStyles, Text } from "@mantine/core";
+import "./LandingPage.css";
+import Goku from "./Goku.jpg";
+
 
 //This is a basic Component, and since it is used inside of
 //'../../routes/config.tsx' line 31, that also makes it a page
 export const LandingPage = () => {
   const { classes } = useStyles();
   return (
-    <Container className={classes.homePageContainer}>
-      <Text size="lg">Home Page</Text>
+  
+    <Container className={classes.homePageContainer}>    
+      <Text size="lg">NASSA FILMS</Text>      
     </Container>
+     
   );
+  
 };
 
 const useStyles = createStyles(() => {
