@@ -26,7 +26,6 @@ public class BookingsController : ControllerBase
             .Select(booking => new BookingGetDto
             {
                 ID = booking.ID,
-                CustomerId = booking.CustomerId,
                 ShowtimeId = booking.ShowtimeId,
                 BookingDate = booking.BookingDate,
                 NumberofTickets = booking.NumberofTickets,
@@ -48,7 +47,6 @@ public class BookingsController : ControllerBase
             .Select(booking => new BookingGetDto
             {
                 ID = booking.ID,
-                CustomerId = booking.CustomerId,
                 ShowtimeId = booking.ShowtimeId,
                 BookingDate = booking.BookingDate,
                 NumberofTickets = booking.NumberofTickets,
@@ -90,7 +88,6 @@ public class BookingsController : ControllerBase
 
         var bookingToCreate = new Booking
         {
-            CustomerId = createDto.CustomerId,
             ShowtimeId = createDto.ShowtimeId,
             BookingDate = createDto.BookingDate,
             NumberofTickets = createDto.NumberofTickets,
@@ -114,7 +111,6 @@ public class BookingsController : ControllerBase
         var bookingToReturn = new BookingGetDto
         {
             ID = bookingToCreate.ID,
-            CustomerId = bookingToCreate.CustomerId,
             ShowtimeId = bookingToCreate.ShowtimeId,
             BookingDate = bookingToCreate.BookingDate,
             NumberofTickets = bookingToCreate.NumberofTickets,
@@ -153,7 +149,6 @@ public class BookingsController : ControllerBase
         }
 
 
-        bookingToUpdate.CustomerId = updateDto.CustomerId;
         bookingToUpdate.ShowtimeId = updateDto.ShowtimeId;
         bookingToUpdate.BookingDate = updateDto.BookingDate;
         bookingToUpdate.NumberofTickets = updateDto.NumberofTickets;
@@ -165,7 +160,6 @@ public class BookingsController : ControllerBase
         var bookingToReturn = new BookingGetDto
         {
             ID = bookingToUpdate.ID,
-            CustomerId = bookingToUpdate.CustomerId,
             ShowtimeId = bookingToUpdate.ShowtimeId,
             BookingDate = bookingToUpdate.BookingDate,
             NumberofTickets = bookingToUpdate.NumberofTickets,

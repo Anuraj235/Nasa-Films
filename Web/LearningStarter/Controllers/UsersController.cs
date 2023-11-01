@@ -39,7 +39,6 @@ public class UsersController : ControllerBase
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
-                PaymentOptions = user.PaymentOptions,
                 Loyalty = user.Loyalty,
                 Reviews = user.Reviews.Select(x => new UserReviewGetDto
                 {
@@ -62,6 +61,15 @@ public class UsersController : ControllerBase
                     NumberofTickets = x.NumberofTickets
 
                 }).ToList(),
+
+                Payments = user.Payments.Select(x => new PaymentGetDto
+                {
+                    Id = x.Id,
+                    CardName = x.CardName,
+                    CardNumber = x.CardNumber,
+                    CardCvv = x.CardCvv,
+                    CardExpiry = x.CardExpiry
+                }).ToList()
             })
             .ToList();
 
@@ -79,6 +87,7 @@ public class UsersController : ControllerBase
             .ThenInclude(x => x.Theater)
             .Include(x => x.Bookings)
             .ThenInclude(x => x.Showtime)
+            .Include(x => x.Payments)
             .FirstOrDefault(x => x.Id == id);
 
 
@@ -97,7 +106,6 @@ public class UsersController : ControllerBase
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             DateOfBirth = user.DateOfBirth,
-            PaymentOptions = user.PaymentOptions,
             Loyalty = user.Loyalty,
             Reviews = user.Reviews.Select(x => new UserReviewGetDto
             {
@@ -107,6 +115,7 @@ public class UsersController : ControllerBase
                 UserReview = x.TheaterReview,
                 Rating = x.Rating
             }).ToList(),
+
             Bookings = user.Bookings.Select(x => new UserBookingsGetDto
             {
                 ID = x.ID,
@@ -118,6 +127,15 @@ public class UsersController : ControllerBase
                 BookingDate = x.BookingDate,
                 NumberofTickets = x.NumberofTickets
             }).ToList(),
+
+            Payments = user.Payments.Select(x => new PaymentGetDto
+            {
+                Id = x.Id,
+                CardName = x.CardName,
+                CardNumber = x.CardNumber,
+                CardCvv = x.CardCvv,
+                CardExpiry = x.CardExpiry
+            }).ToList()
         };
 
         response.Data = userGetDto;
@@ -164,7 +182,6 @@ public class UsersController : ControllerBase
             Email = userCreateDto.Email,
             PhoneNumber = userCreateDto.PhoneNumber,
             DateOfBirth = userCreateDto.DateOfBirth,
-            PaymentOptions = userCreateDto.PaymentOptions,
             Loyalty = userCreateDto.Loyalty
         };
         _context.Set<User>().Add(userToCreate);
@@ -182,7 +199,6 @@ public class UsersController : ControllerBase
             Email = userToCreate.Email,
             PhoneNumber = userToCreate.PhoneNumber,
             DateOfBirth = userToCreate.DateOfBirth,
-            PaymentOptions = userToCreate.PaymentOptions,
             Loyalty = userToCreate.Loyalty
         };
 
@@ -243,7 +259,6 @@ public class UsersController : ControllerBase
         userToEdit.Email = userUpdateDto.Email;
         userToEdit.PhoneNumber = userUpdateDto.PhoneNumber;
         userToEdit.DateOfBirth = userUpdateDto.DateOfBirth;
-        userToEdit.PaymentOptions = userUpdateDto.PaymentOptions;
         userToEdit.Loyalty = userUpdateDto.Loyalty;
 
         _context.SaveChanges();
@@ -257,7 +272,6 @@ public class UsersController : ControllerBase
             Email = userToEdit.Email,
             PhoneNumber = userToEdit.PhoneNumber,
             DateOfBirth = userToEdit.DateOfBirth,
-            PaymentOptions = userToEdit.PaymentOptions,
             Loyalty = userToEdit.Loyalty
         };
 
@@ -313,7 +327,6 @@ public class UsersController : ControllerBase
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             DateOfBirth = user.DateOfBirth,
-            PaymentOptions = user.PaymentOptions,
             Loyalty = user.Loyalty,
             Bookings = user.Bookings.Select(x => new UserBookingsGetDto
             {
