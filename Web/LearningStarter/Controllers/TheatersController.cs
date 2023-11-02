@@ -45,7 +45,25 @@ namespace LearningStarter.Controllers
                         TheaterReview = x.TheaterReview,
                         Rating = x.Rating,
                         UserId = x.User.Id
-                    }).ToList()
+                    }).ToList(),
+
+                    Screens = Theaters.Screens.Select(x => new ScreenGetDto
+                    {
+                        Id = x.Id,
+                        TotalCapacity = x.TotalCapacity,
+                        TheaterId = x.TheaterId,
+                     
+
+                    }).ToList(),
+
+                    Showtimes = Theaters.Showtimes.Select(x=> new TheaterShowtimeGetDto
+                    {
+                        Id=x.Id,
+                        StartTime = x.StartTime,    
+                        AvailableSeats = x.AvailableSeats,
+                        MovieId = x.MovieId,
+                    }).ToList(),
+
 
                 })
                 .ToList();
@@ -65,6 +83,8 @@ namespace LearningStarter.Controllers
                 .Set<Theaters>()
                 .Include(x => x.Reviews)
                 .ThenInclude(x => x.User)
+                .Include(x => x.Screens)
+                .Include(x => x.Showtimes)
                 .FirstOrDefault(Theaters => Theaters.Id == id);
 
             if (Theater == null)
@@ -87,7 +107,23 @@ namespace LearningStarter.Controllers
                     TheaterReview = x.TheaterReview,
                     Rating = x.Rating,
                     UserId = x.User.Id
-                }).ToList()
+                }).ToList(),
+
+                Screens = Theater.Screens.Select(x => new ScreenGetDto
+                {
+                    Id = x.Id,                    
+                    TotalCapacity = x.TotalCapacity,
+                    TheaterId = x.TheaterId,
+
+                }).ToList(),
+                Showtimes = Theater.Showtimes.Select(x => new TheaterShowtimeGetDto
+                {
+                    Id = x.Id,
+                    StartTime = x.StartTime,
+                    AvailableSeats = x.AvailableSeats,
+                    MovieId = x.MovieId,
+                }).ToList(),
+
             };
 
             response.Data = theaterToReturn;

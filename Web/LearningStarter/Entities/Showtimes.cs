@@ -15,6 +15,7 @@ namespace LearningStarter.Entities
         public int AvailableSeats { get; set; }
         public string Screen { get; set; }
         public List<ShowtimeBooking> Bookings { get; set; } = new();
+        public Theaters Theater { get; set; } = new();
 
 
     }
@@ -27,6 +28,16 @@ namespace LearningStarter.Entities
         public int AvailableSeats { get; set; }
         public string Screen { get; set; }
         public List<ShowtimeBookingGetDto> Bookings { get; set; }
+
+    }
+    public class TheaterShowtimeGetDto
+    {
+        public int Id { get; set; }
+        public DateTime StartTime { get; set; }
+        public int AvailableSeats { get; set; }
+        public int MovieId { get; set; }
+
+
     }
 
     public class BookingShowtimeGetDto
