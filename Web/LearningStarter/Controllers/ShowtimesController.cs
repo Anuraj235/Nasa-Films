@@ -41,6 +41,7 @@ public class ShowtimesController : ControllerBase
                     BookingDate = x.Booking.BookingDate,
                     TenderAmount = x.Booking.TenderAmount,
                 }).ToList(),
+
                 Movie = new ShowtimeMovieGetDto {
                     Id = showtimes.Movie.Id,
                     Title = showtimes.Movie.Title,
@@ -51,8 +52,9 @@ public class ShowtimesController : ControllerBase
                     ReleaseDate = showtimes.Movie.ReleaseDate,
                 }
 
+               
             })
-            .ToList();
+                .ToList();
 
         response.Data = data;
 
@@ -95,6 +97,9 @@ public class ShowtimesController : ControllerBase
                       ReleaseDate = showtimes.Movie.ReleaseDate,
                   }
 
+                  }).ToList(),
+
+       
 
               })
             .FirstOrDefault(showtimes => showtimes.Id == id);
@@ -161,6 +166,48 @@ public class ShowtimesController : ControllerBase
         return Created("", response);
 
     }
+    /*
+        [HttpPost("{showtimeId}/theater/{theaterId}")]
+        public IActionResult AddTheaterToShowtime(int showtimeId, int theaterId, [FromQuery] int TotalBooking)
+        {
+            var response = new Response();
+
+            var showtime = _dataContext.Set<Showtimes>()
+                .FirstOrDefault(x => x.Id == showtimeId);
+
+            var booking = _dataContext.Set<Theaters>()
+                .FirstOrDefault(x => x.Id == theaterId);
+
+            var showtimeBooking = new ShowtimeBooking
+            {
+                Theater = theater,
+                Showtime = showtime,
+                TotalBooking = TotalBooking
+            };
+
+            _dataContext.Set<ShowtimeTheater>().Add(showtimeTheater);
+            _dataContext.SaveChanges();
+
+            response.Data = new ShowtimesGetDto
+            {
+                Id = showtime.Id,
+                MovieId = showtime.MovieId,
+                StartTime = showtime.StartTime,
+                TheaterID = showtime.TheaterID,
+                AvailableSeats = showtime.AvailableSeats,
+                Screen = showtime.Screen,
+                Theaters = showtime.Theaters.Select(x => new ShowtimeTheaterGetDto
+
+                {
+                    Id = x.Id,
+                    TheaterId = x.TheaterId,
+                    TheaterName = x.Theater.TheaterName,
+                    Address = x.Theater.Address
+                }).ToList()
+
+            };
+
+            return Ok(response);*/
 
     [HttpPost("{showtimeId}/booking/{bookingId}")]
     public IActionResult AddBookingToShowtime(int showtimeId, int bookingId, [FromQuery] int TotalBooking)
@@ -204,7 +251,6 @@ public class ShowtimesController : ControllerBase
         return Ok(response);
 
     }
-
 
     [HttpPut("{id}")]
     public IActionResult Update([FromBody] ShowtimesUpdateDto updateDto, int id)
@@ -277,6 +323,8 @@ public class ShowtimesController : ControllerBase
     }
 
 
-
-
 }
+
+
+
+
