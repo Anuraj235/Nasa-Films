@@ -5,7 +5,7 @@ using LearningStarter.Common;
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningStarter.Controllers;
 
@@ -34,14 +34,22 @@ public class ShowtimesController : ControllerBase
                 StartTime = showtimes.StartTime,
                 TheaterID = showtimes.TheaterID,
                 AvailableSeats = showtimes.AvailableSeats,
-                Screen = showtimes.Screen,
                 Bookings = showtimes.Bookings.Select(x => new ShowtimeBookingGetDto
                 {
                     Id = x.Booking.ID,
                     NumberofTickets = x.Booking.NumberofTickets,
                     BookingDate = x.Booking.BookingDate,
                     TenderAmount = x.Booking.TenderAmount,
-                }).ToList()
+                }).ToList(),
+                Movie = new ShowtimeMovieGetDto {
+                    Id = showtimes.Movie.Id,
+                    Title = showtimes.Movie.Title,
+                    Duration = showtimes.Movie.Duration,
+                    Genre = showtimes.Movie.Genre,
+                    Rating = showtimes.Movie.Rating,
+                    Description = showtimes.Movie.Description,
+                    ReleaseDate = showtimes.Movie.ReleaseDate,
+                }
 
             })
             .ToList();
@@ -60,6 +68,7 @@ public class ShowtimesController : ControllerBase
 
 
               .Set<Showtimes>()
+              .Include(x => x.Movie)
               .Select(showtimes => new ShowtimesGetDto
               {
                   Id = showtimes.Id,
@@ -67,7 +76,6 @@ public class ShowtimesController : ControllerBase
                   StartTime = showtimes.StartTime,
                   TheaterID = showtimes.TheaterID,
                   AvailableSeats = showtimes.AvailableSeats,
-                  Screen = showtimes.Screen,
                   Bookings = showtimes.Bookings.Select(x => new ShowtimeBookingGetDto
 
                   {
@@ -75,7 +83,18 @@ public class ShowtimesController : ControllerBase
                       NumberofTickets = x.Booking.NumberofTickets,
                       BookingDate = x.Booking.BookingDate,
                       TenderAmount = x.Booking.TenderAmount,
-                  }).ToList()
+                  }).ToList(),
+                  Movie = new ShowtimeMovieGetDto
+                  {
+                      Id = showtimes.Movie.Id,
+                      Title = showtimes.Movie.Title,
+                      Duration = showtimes.Movie.Duration,
+                      Genre = showtimes.Movie.Genre,
+                      Rating = showtimes.Movie.Rating,
+                      Description = showtimes.Movie.Description,
+                      ReleaseDate = showtimes.Movie.ReleaseDate,
+                  }
+
 
               })
             .FirstOrDefault(showtimes => showtimes.Id == id);
@@ -135,7 +154,6 @@ public class ShowtimesController : ControllerBase
             StartTime = showtimeToCreate.StartTime,
             TheaterID = showtimeToCreate.TheaterID,
             AvailableSeats = showtimeToCreate.AvailableSeats,
-            Screen = showtimeToCreate.Screen,
         };
 
         response.Data = showtimeToReturn;
@@ -172,7 +190,6 @@ public class ShowtimesController : ControllerBase
             StartTime = showtime.StartTime,
             TheaterID = showtime.TheaterID,
             AvailableSeats = showtime.AvailableSeats,
-            Screen = showtime.Screen,
             Bookings = showtime.Bookings.Select(x => new ShowtimeBookingGetDto
 
             {
