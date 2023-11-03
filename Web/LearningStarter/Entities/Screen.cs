@@ -39,12 +39,7 @@ public class ScreenEntityConfiguration : IEntityTypeConfiguration<Screen>
 {
     public void Configure(EntityTypeBuilder<Screen> builder)
     {
-       /* builder.Property(x => x.Id)
-            .IsRequired();
-
-        builder.Property(x => x.TotalCapacity)
-            .IsRequired();*/
-
+       
         builder.ToTable("Screens");
     }
 }

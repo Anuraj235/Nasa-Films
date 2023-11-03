@@ -83,6 +83,5 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
 
-        // builder.ToTable("User");
     }
 }

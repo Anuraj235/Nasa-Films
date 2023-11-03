@@ -75,24 +75,12 @@ public class PaymentsController : ControllerBase
     {
         var response = new Response();
 
-        //if (createDto.CardNumber < 0)
-        //{
-        //    response.AddError(nameof(createDto.CardNumber), "Cardnumber must be valid ");
-        //}
-
-        //if (createDto.CardCvv < 0)
-        //{
-        //    response.AddError(nameof(createDto.CardCvv), "CardCvv  must be valid ");
-        //}
-
         if (response.HasErrors)
         {
             return BadRequest(response);
 
         }
-
-        //HashAlgorithm hash = SHA256.Create();
-        //byte[] result = hash.ComputeHash((byte[]) createDto.CardCvv);
+      
 
         var paymentToCreate = new Payment
         {
@@ -125,18 +113,6 @@ public class PaymentsController : ControllerBase
     {
         var response = new Response();
 
-        //if (updateDto.CardNumber < 0)
-        //{
-        //    response.AddError(nameof(updateDto.CardNumber), "Cardnumber must be valid ");
-        //}
-
-        //if (updateDto.CardCvv < 0)
-        //{
-        //    response.AddError(nameof(updateDto.CardCvv), "CardCvv  must be valid ");
-        //}
-
-
-
 
         var paymentToUpdate = _dataContext.Set<Payment>()
             .FirstOrDefault(payment => payment.Id == id);
@@ -149,8 +125,6 @@ public class PaymentsController : ControllerBase
         {
             return BadRequest(response);
         }
-
-
 
         paymentToUpdate.CardName = updateDto.CardName;
         paymentToUpdate.CardNumber = updateDto.CardNumber;

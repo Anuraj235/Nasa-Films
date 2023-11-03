@@ -2,7 +2,9 @@
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LearningStarter.Controllers;
@@ -73,44 +75,50 @@ public class BookingsController : ControllerBase
         }
         if (createDto.NumberofTickets < 0)
         {
-            response.AddError(nameof(createDto.NumberofTickets), "Number of Tickets  must be positive");
+            response.AddError(nameof(createDto.NumberofTickets), "Number of Tickets must be positive");
         }
 
         if (response.HasErrors)
         {
             return BadRequest(response);
-
         }
 
+        
         var showtime = _dataContext.Set<Showtimes>()
-            .Include(x => x.Bookings)
-            .First(x => x.Id == createDto.ShowtimeId);
+            .Include(s => s.Bookings)
+            .ThenInclude(sb => sb.Booking)
+            .FirstOrDefault(s => s.Id == createDto.ShowtimeId);
 
+  
+       
+        if (showtime.Bookings == null)
+        {
+            showtime.Bookings = new List<ShowtimeBooking>();
+        }
+
+       
+        var user = _dataContext.Users.Find(createDto.UserId);
+        if (user == null)
+        {
+            response.AddError("UserId", "Invalid user associated with the booking");
+            return BadRequest(response);
+        }
+      
         var bookingToCreate = new Booking
         {
             ShowtimeId = createDto.ShowtimeId,
             BookingDate = createDto.BookingDate,
             NumberofTickets = createDto.NumberofTickets,
             TenderAmount = createDto.TenderAmount,
-            UserId = createDto.UserId,
-            // User = user
+            UserId = user.Id,
         };
 
-        var showtimeBookingToCreate = new ShowtimeBooking
-        {
-            ShowtimeId = createDto.ShowtimeId,
-            BookingId = bookingToCreate.ID
-        };
+        _dataContext.Set<Booking>().Add(bookingToCreate);
 
-        showtime.Bookings.Add(showtimeBookingToCreate);
-
-        var showtimebookings = _dataContext.Set<ShowtimeBooking>();
-        showtimebookings.Add(showtimeBookingToCreate);
-
-        var booking = showtimebookings.Select(x => x.Id == bookingToCreate.ID);
-
+        
         _dataContext.SaveChanges();
 
+       
         var bookingToReturn = new BookingGetDto
         {
             ID = bookingToCreate.ID,
@@ -120,10 +128,12 @@ public class BookingsController : ControllerBase
             TenderAmount = bookingToCreate.TenderAmount,
             UserId = bookingToCreate.UserId,
         };
-        response.Data = bookingToReturn;
-        return Created("", response);
 
+        response.Data = bookingToReturn;
+        
+        return Created("", response);
     }
+
     [HttpPut("{id}")]
     public IActionResult Update([FromBody] BookingUpdateDto updateDto, int id)
     {
@@ -200,4 +210,3 @@ public class BookingsController : ControllerBase
     }
 
 }
-//Anurajj

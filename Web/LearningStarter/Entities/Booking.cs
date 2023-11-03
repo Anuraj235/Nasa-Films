@@ -67,8 +67,7 @@ namespace LearningStarter.Entities
         {
             builder.ToTable("Bookings");
 
-            builder.HasOne(x => x.User)
-                .WithMany(x => x.Bookings);
+         
         }
 
     }

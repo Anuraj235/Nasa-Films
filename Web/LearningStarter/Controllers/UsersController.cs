@@ -298,50 +298,5 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("{userId}/booking/{bookingId}")]
-    public IActionResult AddUserBooking(int userId, int bookingId, [FromQuery] int numberOfTickets)
-    {
-        var response = new Response();
-
-        var user = _context.Set<User>()
-            .FirstOrDefault(x => x.Id == userId);
-
-        var booking = _context.Set<Booking>()
-            .FirstOrDefault(x => x.ID == bookingId);
-
-        var userBooking = new ShowtimeBooking
-        {
-            BookingId = booking.ID,
-            TotalBooking = numberOfTickets
-        };
-
-        _context.Set<ShowtimeBooking>().Add(userBooking);
-        _context.SaveChanges();
-
-        response.Data = new UserGetDto
-        {
-            Id = user.Id,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            UserName = user.UserName,
-            Email = user.Email,
-            PhoneNumber = user.PhoneNumber,
-            DateOfBirth = user.DateOfBirth,
-            Loyalty = user.Loyalty,
-            Bookings = user.Bookings.Select(x => new UserBookingsGetDto
-            {
-                ID = x.ID,
-                Showtime = new BookingShowtimeGetDto
-                {
-                    Id = x.Showtime.Id,
-                    StartTime = x.Showtime.StartTime
-                },
-                BookingDate = x.BookingDate,
-                NumberofTickets = x.NumberofTickets
-
-            }).ToList(),
-        };
-
-        return Ok(response);
-    }
+ 
 }

@@ -14,7 +14,6 @@ namespace LearningStarter.Entities
         public int BookingId { get; set; }
         public Booking Booking { get; set; } = new();
 
-        public int TotalBooking { get; set; }
     }
 
     public class ShowtimeBookingGetDto
