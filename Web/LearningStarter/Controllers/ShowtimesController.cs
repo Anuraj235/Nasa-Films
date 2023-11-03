@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using LearningStarter.Common;
 using LearningStarter.Data;
+
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -52,9 +53,8 @@ public class ShowtimesController : ControllerBase
                     ReleaseDate = showtimes.Movie.ReleaseDate,
                 }
 
-               
-            })
-                .ToList();
+
+            }).ToList();
 
         response.Data = data;
 
@@ -97,19 +97,17 @@ public class ShowtimesController : ControllerBase
                       ReleaseDate = showtimes.Movie.ReleaseDate,
                   }
 
-                  }).ToList(),
+              }).ToList();
 
-       
-
-              })
-            .FirstOrDefault(showtimes => showtimes.Id == id);
+        //.FirstOrDefault(showtimes => showtimes.Id == id);
 
         response.Data = data;
         return Ok(data);
 
-
-
     }
+          
+
+    
 
 
     [HttpPost]

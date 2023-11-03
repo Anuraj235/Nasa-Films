@@ -99,13 +99,16 @@ public class BookingsController : ControllerBase
         var showtimeBookingToCreate = new ShowtimeBooking
         {
             ShowtimeId = createDto.ShowtimeId,
-            Booking = bookingToCreate
+            BookingId = bookingToCreate.ID
         };
 
         showtime.Bookings.Add(showtimeBookingToCreate);
 
+        var showtimebookings = _dataContext.Set<ShowtimeBooking>();
+        showtimebookings.Add(showtimeBookingToCreate);
 
-        _dataContext.Set<ShowtimeBooking>().Add(showtimeBookingToCreate);
+        var booking = showtimebookings.Select(x => x.Id == bookingToCreate.ID);
+
         _dataContext.SaveChanges();
 
         var bookingToReturn = new BookingGetDto
