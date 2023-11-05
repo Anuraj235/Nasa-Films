@@ -28,7 +28,8 @@ private readonly DataContext _dataContext;
         .Select(screen => new ScreenGetDto
         {
             Id = screen.Id,
-            TotalCapacity = screen.TotalCapacity
+            TotalCapacity = screen.TotalCapacity,
+            TheaterId = screen.TheaterId,
         })
         .ToList();
         response.Data = data;
@@ -45,6 +46,7 @@ private readonly DataContext _dataContext;
             {
                 Id = screen.Id,
                 TotalCapacity = screen.TotalCapacity,
+                TheaterId = screen.TheaterId,
             })
             .FirstOrDefault(screen => screen.Id == id);
 
@@ -74,7 +76,10 @@ private readonly DataContext _dataContext;
         var screenToCreate = new Screen
         {
             TotalCapacity = createDto.TotalCapacity,
-
+            TheaterId=createDto.TheaterId,
+                   
+           
+            
         };
 
         _dataContext.Set<Screen>().Add(screenToCreate);
@@ -84,6 +89,7 @@ private readonly DataContext _dataContext;
         {
             Id = screenToCreate.Id,
             TotalCapacity = screenToCreate.TotalCapacity,
+               TheaterId= screenToCreate.TheaterId,
         };
         response.Data = screenToReturn;
 
@@ -121,7 +127,9 @@ private readonly DataContext _dataContext;
         var screenToReturn = new ScreenGetDto
         {
             Id = screenToUpdate.Id,
-            TotalCapacity = screenToUpdate.TotalCapacity
+            TotalCapacity = screenToUpdate.TotalCapacity,
+            TheaterId = screenToUpdate.TheaterId
+          
         };
 
         response.Data = screenToReturn;

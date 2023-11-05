@@ -2,7 +2,9 @@
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LearningStarter.Controllers;
@@ -26,7 +28,6 @@ public class BookingsController : ControllerBase
             .Select(booking => new BookingGetDto
             {
                 ID = booking.ID,
-                CustomerId = booking.CustomerId,
                 ShowtimeId = booking.ShowtimeId,
                 BookingDate = booking.BookingDate,
                 NumberofTickets = booking.NumberofTickets,
@@ -48,7 +49,6 @@ public class BookingsController : ControllerBase
             .Select(booking => new BookingGetDto
             {
                 ID = booking.ID,
-                CustomerId = booking.CustomerId,
                 ShowtimeId = booking.ShowtimeId,
                 BookingDate = booking.BookingDate,
                 NumberofTickets = booking.NumberofTickets,
@@ -75,56 +75,65 @@ public class BookingsController : ControllerBase
         }
         if (createDto.NumberofTickets < 0)
         {
-            response.AddError(nameof(createDto.NumberofTickets), "Number of Tickets  must be positive");
+            response.AddError(nameof(createDto.NumberofTickets), "Number of Tickets must be positive");
         }
 
         if (response.HasErrors)
         {
             return BadRequest(response);
-
         }
 
+        
         var showtime = _dataContext.Set<Showtimes>()
-            .Include(x => x.Bookings)
-            .First(x => x.Id == createDto.ShowtimeId);
+            .Include(s => s.Bookings)
+            .ThenInclude(sb => sb.Booking)
+            .FirstOrDefault(s => s.Id == createDto.ShowtimeId);
 
+  
+       
+        if (showtime.Bookings == null)
+        {
+            showtime.Bookings = new List<ShowtimeBooking>();
+        }
+
+       
+        var user = _dataContext.Users.Find(createDto.UserId);
+        if (user == null)
+        {
+            response.AddError("UserId", "Invalid user associated with the booking");
+            return BadRequest(response);
+        }
+      
         var bookingToCreate = new Booking
         {
-            CustomerId = createDto.CustomerId,
             ShowtimeId = createDto.ShowtimeId,
             BookingDate = createDto.BookingDate,
             NumberofTickets = createDto.NumberofTickets,
             TenderAmount = createDto.TenderAmount,
-            UserId = createDto.UserId,
-            // User = user
+            UserId = user.Id,
         };
 
-        var showtimeBookingToCreate = new ShowtimeBooking
-        {
-            ShowtimeId = createDto.ShowtimeId,
-            Booking = bookingToCreate
-        };
+        _dataContext.Set<Booking>().Add(bookingToCreate);
 
-        showtime.Bookings.Add(showtimeBookingToCreate);
-
-
-        _dataContext.Set<ShowtimeBooking>().Add(showtimeBookingToCreate);
+        
         _dataContext.SaveChanges();
 
+       
         var bookingToReturn = new BookingGetDto
         {
             ID = bookingToCreate.ID,
-            CustomerId = bookingToCreate.CustomerId,
             ShowtimeId = bookingToCreate.ShowtimeId,
             BookingDate = bookingToCreate.BookingDate,
             NumberofTickets = bookingToCreate.NumberofTickets,
             TenderAmount = bookingToCreate.TenderAmount,
             UserId = bookingToCreate.UserId,
         };
-        response.Data = bookingToReturn;
-        return Created("", response);
 
+        response.Data = bookingToReturn;
+        
+        return Created("", response);
     }
+
     [HttpPut("{id}")]
     public IActionResult Update([FromBody] BookingUpdateDto updateDto, int id)
     {
@@ -153,7 +162,6 @@ public class BookingsController : ControllerBase
         }
 
 
-        bookingToUpdate.CustomerId = updateDto.CustomerId;
         bookingToUpdate.ShowtimeId = updateDto.ShowtimeId;
         bookingToUpdate.BookingDate = updateDto.BookingDate;
         bookingToUpdate.NumberofTickets = updateDto.NumberofTickets;
@@ -165,7 +173,6 @@ public class BookingsController : ControllerBase
         var bookingToReturn = new BookingGetDto
         {
             ID = bookingToUpdate.ID,
-            CustomerId = bookingToUpdate.CustomerId,
             ShowtimeId = bookingToUpdate.ShowtimeId,
             BookingDate = bookingToUpdate.BookingDate,
             NumberofTickets = bookingToUpdate.NumberofTickets,
