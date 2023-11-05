@@ -14,11 +14,6 @@ namespace LearningStarter.Entities
         public int BookingId { get; set; }
         public Booking Booking { get; set; } = new();
 
-        //public int UserId { get; set; }
-        //public User User { get; set; } = new();
-
-        public int TotalBooking { get; set; }
-
     }
 
     public class ShowtimeBookingGetDto
@@ -31,7 +26,6 @@ namespace LearningStarter.Entities
         public DateTime StartTime { get; set; }
 
         public string Screen { get; set; }
-
     }
 
    
@@ -44,9 +38,6 @@ namespace LearningStarter.Entities
 
             builder.HasOne(x => x.Showtime)
             .WithMany(x => x.Bookings);
-
-            //builder.HasOne(x => x.User)
-            //    .WithMany(x => x.Bookings);
 
             builder.HasOne(x => x.Booking)
             .WithMany();

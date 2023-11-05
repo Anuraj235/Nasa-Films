@@ -6,6 +6,7 @@
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'LearningStarterServer' " />
   <ItemGroup>
     <Content Remove="%2a%2a\%2a.config" />
     <Content Remove="%2a%2a\%2a.cshtml" />

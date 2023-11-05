@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityModel;
@@ -108,7 +109,7 @@ public class Startup
     {
         dataContext.Database.EnsureDeleted();
         dataContext.Database.EnsureCreated();
-        
+
         app.UseHsts();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
@@ -149,12 +150,23 @@ public class Startup
                 spa.UseProxyToSpaDevelopmentServer("http://localhost:3001");
             }
         });
-        
+
         using var scope = app.ApplicationServices.CreateScope();
         var userManager = scope.ServiceProvider.GetService<UserManager<User>>();
         try
         {
             SeedUsers(dataContext, userManager).Wait();
+            SeedTheaters(dataContext);
+            SeedReviews(dataContext);
+
+            SeedScreens(dataContext);
+            SeedMovie(dataContext);
+
+            SeedShowtimes(dataContext);
+            SeedBookings(dataContext);
+
+            SeedShowtimeBooking(dataContext);
+
         }
         catch (Exception ex)
         {
@@ -178,5 +190,157 @@ public class Startup
             await userManager.CreateAsync(seededUser, "Password");
             await dataContext.SaveChangesAsync();
         }
+    }
+
+    public static void SeedTheaters(DataContext dataContext)
+    {
+        if (dataContext.Set<Theaters>().Any())
+        {
+            return;
+        }
+
+        var seededTheaters = new Theaters
+        {
+            TheaterName = "NASSA Films",
+            Address = "This Street Ave",
+            Phone = "0123456789",
+            Email = "nassafilms@watch.com"
+        };
+
+        dataContext.Set<Theaters>().Add(seededTheaters);
+        dataContext.SaveChanges();
+    }
+
+    public static void SeedMovie(DataContext dataContext)
+    {
+        if (dataContext.Set<Movie>().Any())
+        {
+            return;
+        }
+
+        var seededMovie = new Movie
+        {
+            Title = "One Piece Red",
+            Rating = 5,
+            //ReleaseDate = 2023 - 01 - 01,
+            Description = "Luffy meets Shanks!!!",
+            Genre = "Fantacy",
+            Duration = 120
+
+        };
+
+        dataContext.Set<Movie>().Add(seededMovie);
+        dataContext.SaveChanges();
+    }
+
+    public static void SeedBookings(DataContext dataContext)
+    {
+        if (dataContext.Set<Booking>().Any())
+        {
+            return;
+        }
+
+        var seededBookings = new Booking
+        {
+            ShowtimeId = 1,
+            //BookingDate = ,
+            NumberofTickets = 3,
+            TenderAmount = 20,
+            UserId = 1,
+
+        };
+
+        dataContext.Set<Booking>().Add(seededBookings);
+        dataContext.SaveChanges();
+    }
+
+    public static void SeedReviews(DataContext dataContext)
+    {
+        if (dataContext.Set<Reviews>().Any())
+        {
+            return;
+        }
+
+        var seededReview = new Reviews
+        {
+            TheaterReview = "Great place!",
+            Rating = 5,
+            UserId = 1,
+            TheaterId = 1
+        };
+
+        dataContext.Set<Reviews>().Add(seededReview);
+        dataContext.SaveChanges();
+    }
+
+    public static void SeedScreens(DataContext dataContext)
+    {
+        if (dataContext.Set<Screen>().Any())
+        {
+            return;
+        }
+
+        var seededScreen = new List<Screen>()
+        {
+            new()
+            {
+                TotalCapacity = 152,
+                TheaterId = 1,
+            },
+            new()
+            {
+                TotalCapacity = 85,
+                TheaterId = 1,
+            }
+        };
+
+        dataContext.Set<Screen>().AddRange(seededScreen);
+        dataContext.SaveChanges();
+    }
+
+    public static void SeedShowtimes(DataContext dataContext)
+    {
+        if (dataContext.Set<Showtimes>().Any())
+        {
+            return;
+        }
+
+        var seededShowtimes = new List<Showtimes>()
+        {
+            new()
+            {
+                MovieId = 1,
+                //StartTime = createDto.StartTime,
+                TheaterID = 1,
+                AvailableSeats = 85,
+            },
+            new()
+            {
+                MovieId = 1,
+                //StartTime = createDto.StartTime,
+                TheaterID = 1,
+                AvailableSeats = 85,
+            }
+        };
+
+        dataContext.Set<Showtimes>().AddRange(seededShowtimes);
+        dataContext.SaveChanges();
+    }
+
+    public static void SeedShowtimeBooking(DataContext dataContext)
+    {
+        if (dataContext.Set<ShowtimeBooking>().Any())
+        {
+            return;
+        }
+
+        var seededShowtimeBookings = new ShowtimeBooking
+        {
+            Showtime = dataContext.Set<Showtimes>().First(),
+            Booking = dataContext.Set<Booking>().First()
+        };
+
+        dataContext.Set<ShowtimeBooking>().Add(seededShowtimeBookings);
+        dataContext.SaveChanges();
     }
 }

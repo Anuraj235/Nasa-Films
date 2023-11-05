@@ -4,6 +4,7 @@ using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Security.Cryptography;
 
 namespace LearningStarter.Controllers;
 [ApiController]
@@ -34,6 +35,7 @@ public class PaymentsController : ControllerBase
                 CardNumber = payment.CardNumber,
                 CardExpiry = payment.CardExpiry,
                 CardCvv = payment.CardCvv,
+                UserId = payment.UserId
 
             })
             .ToList();
@@ -55,6 +57,7 @@ public class PaymentsController : ControllerBase
                 CardNumber = payment.CardNumber,
                 CardExpiry = payment.CardExpiry,
                 CardCvv = payment.CardCvv,
+                UserId = payment.UserId
             })
 
             .FirstOrDefault(payment => payment.Id == id);
@@ -72,22 +75,12 @@ public class PaymentsController : ControllerBase
     {
         var response = new Response();
 
-        if (createDto.CardNumber < 0)
-        {
-            response.AddError(nameof(createDto.CardNumber), "Cardnumber must be valid ");
-        }
-
-        if (createDto.CardCvv < 0)
-        {
-            response.AddError(nameof(createDto.CardCvv), "CardCvv  must be valid ");
-        }
-
         if (response.HasErrors)
         {
             return BadRequest(response);
 
         }
-
+      
 
         var paymentToCreate = new Payment
         {
@@ -95,6 +88,7 @@ public class PaymentsController : ControllerBase
             CardNumber = createDto.CardNumber,
             CardExpiry = createDto.CardExpiry,
             CardCvv = createDto.CardCvv,
+            UserId = createDto.UserId
         };
         _dataContext.Set<Payment>().Add(paymentToCreate);
         _dataContext.SaveChanges();
@@ -106,6 +100,8 @@ public class PaymentsController : ControllerBase
             CardNumber = paymentToCreate.CardNumber,
             CardExpiry = paymentToCreate.CardExpiry,
             CardCvv = paymentToCreate.CardCvv,
+            UserId = createDto.UserId
+
 
         };
         response.Data = paymentToReturn;
@@ -116,18 +112,6 @@ public class PaymentsController : ControllerBase
     public IActionResult Update([FromBody] PaymentUpdateDto updateDto, int id)
     {
         var response = new Response();
-
-        if (updateDto.CardNumber < 0)
-        {
-            response.AddError(nameof(updateDto.CardNumber), "Cardnumber must be valid ");
-        }
-
-        if (updateDto.CardCvv < 0)
-        {
-            response.AddError(nameof(updateDto.CardCvv), "CardCvv  must be valid ");
-        }
-
-
 
 
         var paymentToUpdate = _dataContext.Set<Payment>()
@@ -141,8 +125,6 @@ public class PaymentsController : ControllerBase
         {
             return BadRequest(response);
         }
-
-
 
         paymentToUpdate.CardName = updateDto.CardName;
         paymentToUpdate.CardNumber = updateDto.CardNumber;

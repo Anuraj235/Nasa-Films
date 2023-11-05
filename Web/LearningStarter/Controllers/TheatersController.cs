@@ -9,7 +9,6 @@ using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LearningStarter.Controllers
 {
@@ -23,7 +22,6 @@ namespace LearningStarter.Controllers
             _dataContext = dataConText;
         }
 
-        // GET: api/values
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -36,7 +34,6 @@ namespace LearningStarter.Controllers
                     Id = Theaters.Id,
                     TheaterName = Theaters.TheaterName,
                     Address = Theaters.Address,
-                    HallNumbers = Theaters.HallNumbers,
                     Email = Theaters.Email,
                     Phone = Theaters.Phone,
                     Reviews = Theaters.Reviews.Select(x => new TheaterReviewGetDto
@@ -45,7 +42,25 @@ namespace LearningStarter.Controllers
                         TheaterReview = x.TheaterReview,
                         Rating = x.Rating,
                         UserId = x.User.Id
-                    }).ToList()
+                    }).ToList(),
+
+                    Screens = Theaters.Screens.Select(x => new ScreenGetDto
+                    {
+                        Id = x.Id,
+                        TotalCapacity = x.TotalCapacity,
+                        TheaterId = x.TheaterId,
+                     
+
+                    }).ToList(),
+
+                    Showtimes = Theaters.Showtimes.Select(x=> new TheaterShowtimeGetDto
+                    {
+                        Id=x.Id,
+                        StartTime = x.StartTime,    
+                        AvailableSeats = x.AvailableSeats,
+                        MovieId = x.MovieId,
+                    }).ToList(),
+
 
                 })
                 .ToList();
@@ -65,6 +80,8 @@ namespace LearningStarter.Controllers
                 .Set<Theaters>()
                 .Include(x => x.Reviews)
                 .ThenInclude(x => x.User)
+                .Include(x => x.Screens)
+                .Include(x => x.Showtimes)
                 .FirstOrDefault(Theaters => Theaters.Id == id);
 
             if (Theater == null)
@@ -78,7 +95,6 @@ namespace LearningStarter.Controllers
                 Id = Theater.Id,
                 TheaterName = Theater.TheaterName,
                 Address = Theater.Address,
-                HallNumbers = Theater.HallNumbers,
                 Email = Theater.Email,
                 Phone = Theater.Phone,
                 Reviews = Theater.Reviews.Select(x => new TheaterReviewGetDto
@@ -87,7 +103,23 @@ namespace LearningStarter.Controllers
                     TheaterReview = x.TheaterReview,
                     Rating = x.Rating,
                     UserId = x.User.Id
-                }).ToList()
+                }).ToList(),
+
+                Screens = Theater.Screens.Select(x => new ScreenGetDto
+                {
+                    Id = x.Id,                    
+                    TotalCapacity = x.TotalCapacity,
+                    TheaterId = x.TheaterId,
+
+                }).ToList(),
+                Showtimes = Theater.Showtimes.Select(x => new TheaterShowtimeGetDto
+                {
+                    Id = x.Id,
+                    StartTime = x.StartTime,
+                    AvailableSeats = x.AvailableSeats,
+                    MovieId = x.MovieId,
+                }).ToList(),
+
             };
 
             response.Data = theaterToReturn;
@@ -95,7 +127,6 @@ namespace LearningStarter.Controllers
             return Ok(response);
         }
 
-        // POST api/values
         [HttpPost]
         public IActionResult Create([FromBody]TheaterCreateDto createDto)
         {
@@ -120,7 +151,6 @@ namespace LearningStarter.Controllers
             {
                 TheaterName = createDto.TheaterName,
                 Address = createDto.Address,
-                HallNumbers = createDto.HallNumbers,
                 Email = createDto.Email,
                 Phone = createDto.Phone
             };
@@ -132,7 +162,6 @@ namespace LearningStarter.Controllers
                 Id = TheaterToCreate.Id,
                 TheaterName = TheaterToCreate.TheaterName,
                 Address = TheaterToCreate.Address,
-                HallNumbers = TheaterToCreate.HallNumbers,
                 Email = TheaterToCreate.Email,
                 Phone = TheaterToCreate.Phone,
              
@@ -143,7 +172,6 @@ namespace LearningStarter.Controllers
             return Created("", response);
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]TheaterUpdateDto updateDto)
         {
@@ -171,7 +199,6 @@ namespace LearningStarter.Controllers
             TheaterToUpdate.TheaterName = updateDto.TheaterName;
             TheaterToUpdate.Address = updateDto.Address;
             TheaterToUpdate.Phone = updateDto.Phone;
-            TheaterToUpdate.HallNumbers = updateDto.HallNumbers;
             TheaterToUpdate.Email = updateDto.Email;
 
             _dataContext.SaveChanges();
@@ -181,7 +208,6 @@ namespace LearningStarter.Controllers
                 Address = TheaterToUpdate.Address,
                 TheaterName = TheaterToUpdate.TheaterName,
                 Phone = TheaterToUpdate.Phone,
-                HallNumbers = TheaterToUpdate.HallNumbers,
                 Email = TheaterToUpdate.Email,                
             };
 
