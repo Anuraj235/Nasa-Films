@@ -120,11 +120,7 @@ public class ShowtimesController : ControllerBase
             response.AddError(nameof(createDto.AvailableSeats), "AvailableSeats must be positive");
         }
 
-        if (string.IsNullOrEmpty(createDto.Screen))
-        {
-            response.AddError(nameof(createDto.Screen), "Screen name is required");
-
-        }
+        
         if (response.HasErrors)
         {
             return BadRequest(response);
@@ -134,8 +130,8 @@ public class ShowtimesController : ControllerBase
             MovieId = createDto.MovieId,
             StartTime = createDto.StartTime,
             TheaterID = createDto.TheaterID,
-            AvailableSeats = createDto.AvailableSeats,
-            Screen = createDto.Screen
+            AvailableSeats = createDto.AvailableSeats
+          
         };
 
         _dataContext.Set<Showtimes>().Add(showtimeToCreate);
@@ -166,10 +162,7 @@ public class ShowtimesController : ControllerBase
             response.AddError(nameof(updateDto.AvailableSeats), "AvailableSeats must be positive");
         }
 
-        if (string.IsNullOrEmpty(updateDto.Screen))
-        {
-            response.AddError(nameof(updateDto.Screen), "Screen name is required");
-        }
+       
         var showtimestoUpdate = _dataContext.Set<Showtimes>()
             .FirstOrDefault(showtimes => showtimes.Id == id);
         if (showtimestoUpdate == null)
@@ -185,7 +178,7 @@ public class ShowtimesController : ControllerBase
         showtimestoUpdate.StartTime = updateDto.StartTime;
         showtimestoUpdate.TheaterID = updateDto.TheaterID;
         showtimestoUpdate.AvailableSeats = updateDto.AvailableSeats;
-        showtimestoUpdate.Screen = updateDto.Screen;
+       
         _dataContext.SaveChanges();
         var showtimetoReturn = new ShowtimesGetDto
         {
