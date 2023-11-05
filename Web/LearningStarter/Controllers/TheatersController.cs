@@ -34,7 +34,6 @@ namespace LearningStarter.Controllers
                     Id = Theaters.Id,
                     TheaterName = Theaters.TheaterName,
                     Address = Theaters.Address,
-                    HallNumbers = Theaters.HallNumbers,
                     Email = Theaters.Email,
                     Phone = Theaters.Phone,
                     Reviews = Theaters.Reviews.Select(x => new TheaterReviewGetDto
@@ -96,7 +95,6 @@ namespace LearningStarter.Controllers
                 Id = Theater.Id,
                 TheaterName = Theater.TheaterName,
                 Address = Theater.Address,
-                HallNumbers = Theater.HallNumbers,
                 Email = Theater.Email,
                 Phone = Theater.Phone,
                 Reviews = Theater.Reviews.Select(x => new TheaterReviewGetDto
@@ -153,7 +151,6 @@ namespace LearningStarter.Controllers
             {
                 TheaterName = createDto.TheaterName,
                 Address = createDto.Address,
-                HallNumbers = createDto.HallNumbers,
                 Email = createDto.Email,
                 Phone = createDto.Phone
             };
@@ -165,7 +162,6 @@ namespace LearningStarter.Controllers
                 Id = TheaterToCreate.Id,
                 TheaterName = TheaterToCreate.TheaterName,
                 Address = TheaterToCreate.Address,
-                HallNumbers = TheaterToCreate.HallNumbers,
                 Email = TheaterToCreate.Email,
                 Phone = TheaterToCreate.Phone,
              
@@ -203,7 +199,6 @@ namespace LearningStarter.Controllers
             TheaterToUpdate.TheaterName = updateDto.TheaterName;
             TheaterToUpdate.Address = updateDto.Address;
             TheaterToUpdate.Phone = updateDto.Phone;
-            TheaterToUpdate.HallNumbers = updateDto.HallNumbers;
             TheaterToUpdate.Email = updateDto.Email;
 
             _dataContext.SaveChanges();
@@ -213,7 +208,6 @@ namespace LearningStarter.Controllers
                 Address = TheaterToUpdate.Address,
                 TheaterName = TheaterToUpdate.TheaterName,
                 Phone = TheaterToUpdate.Phone,
-                HallNumbers = TheaterToUpdate.HallNumbers,
                 Email = TheaterToUpdate.Email,                
             };
 

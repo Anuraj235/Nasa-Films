@@ -10,7 +10,6 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string TheaterName { get; set; }
         public string Address { get; set; }
-        public int HallNumbers { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
 
@@ -27,7 +26,6 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string TheaterName { get; set; }
         public string Address { get; set; }
-        public int HallNumbers { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
         public List<TheaterReviewGetDto> Reviews { get; set; }
@@ -49,7 +47,6 @@ namespace LearningStarter.Entities
     {
         public string TheaterName { get; set; }
         public string Address { get; set; }
-        public int HallNumbers { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
     }
@@ -59,7 +56,6 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string TheaterName { get; set; }
         public string Address { get; set; }
-        public int HallNumbers { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
     }
