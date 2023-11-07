@@ -2,9 +2,7 @@
 export const routes = {
   root: `/`,
   home: `/home`,
-  user: `/user`,
-  bookingsListing:`/bookings`,
-  bookingUpdate: `/bookings/:id`,
+  user: `/user`, 
   showtimesListing:`/showtimes`,
-  showtimeUpdate: `/showtimes/:id`,
+
 };
