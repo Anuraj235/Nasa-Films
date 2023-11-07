@@ -9,32 +9,39 @@ namespace LearningStarter.Entities
     {
         public int Id { get; set; }
         public string CardName { get; set; }
-        public int CardNumber { get; set; }
-        public int CardCvv { get; set; }
-        public DateTimeOffset CardExpiry { get; set; }
+        public string CardNumber { get; set; }
+        public string CardCvv { get; set; }
+        public DateTime CardExpiry { get; set; }
+
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 
     public class PaymentGetDto
     {
         public int Id { get; set; }
         public string CardName { get; set; }
-        public int CardNumber { get; set; }
-        public int CardCvv { get; set; }
-        public DateTimeOffset CardExpiry { get; set; }
+        public string CardNumber { get; set; }
+        public string CardCvv { get; set; }
+        public DateTime CardExpiry { get; set; }
+        public int UserId { get; set; }
+
     }
     public class PaymentCreateDto
     {
         public string CardName { get; set; }
-        public int CardNumber { get; set; }
-        public int CardCvv { get; set; }
-        public DateTimeOffset CardExpiry { get; set; }
+        public string CardNumber { get; set; }
+        public string CardCvv { get; set; }
+        public DateTime CardExpiry { get; set; }
+        public int UserId { get; set; }
+
     }
     public class PaymentUpdateDto
     {
         public string CardName { get; set; }
-        public int CardNumber { get; set; }
-        public int CardCvv { get; set; }
-        public DateTimeOffset CardExpiry { get; set; }
+        public string CardNumber { get; set; }
+        public string CardCvv { get; set; }
+        public DateTime CardExpiry { get; set; }
     }
     public class PaymentEntityTypeConfiguraton : IEntityTypeConfiguration<Payment>
     {
@@ -42,6 +49,7 @@ namespace LearningStarter.Entities
         {
             {
                 builder.ToTable("Payments");
+
             }
 
         }

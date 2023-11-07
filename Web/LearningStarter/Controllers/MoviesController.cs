@@ -2,6 +2,7 @@
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -37,7 +38,13 @@ public class MoviesController : ControllerBase
             Description = movie.Description,
             Genre = movie.Genre,
             Duration = movie.Duration,
-            ShowTimeId = movie.ShowTimeId
+            ShowTimeId = movie.ShowTimeId,
+            Showtimes = movie.Showtimes.Select(x => new MovieShowtimeGetDto
+            {
+                Id = x.Id,
+                StartTime = x.StartTime,
+                TheaterID = x.TheaterID
+            }).ToList()
         })
 		.ToList();
         response.Data = data;
@@ -50,6 +57,7 @@ public class MoviesController : ControllerBase
         var response = new Response();
         var data = _dataContext
             .Set<Movie>()
+            .Include(x => x.Showtimes)
             .Select(movie => new MovieGetDto
             {
                 Id = movie.Id,
@@ -60,6 +68,12 @@ public class MoviesController : ControllerBase
                 Genre = movie.Genre,
                 Duration = movie.Duration,
                 ShowTimeId= movie.ShowTimeId,
+                Showtimes = movie.Showtimes.Select(x => new MovieShowtimeGetDto
+                {
+                    Id = x.Id,
+                    StartTime = x.StartTime,
+                    TheaterID = x.TheaterID
+                }).ToList()
             })
             .FirstOrDefault(movie => movie.Id == id);
 

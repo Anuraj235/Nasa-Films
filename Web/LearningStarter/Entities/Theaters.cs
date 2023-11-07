@@ -10,14 +10,15 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string TheaterName { get; set; }
         public string Address { get; set; }
-        public int HallNumbers { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public int Screen { get; set; }
-        public string Reviews { get; set; }
-        
-        public List<TheaterReviews> Review { get; set;}
-  
+
+        public int? ReviewId { get; }
+        public List<Reviews> Reviews { get; }
+        public int ScreenId { get; set; }
+        public List<Screen> Screens { get; set; }
+
+        public List<Showtimes> Showtimes { get; set; }
     }
 
     public class TheaterGetDto
@@ -25,22 +26,29 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string TheaterName { get; set; }
         public string Address { get; set; }
-        public int HallNumbers { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public int Screen { get; set; }
-        public string Reviews { get; set; }
-        public List<TheaterReviewsGetDto> Review { get; set; }
+        public List<TheaterReviewGetDto> Reviews { get; set; }
+        public List<ScreenGetDto> Screens { get; set; }
+
+        public List<TheaterShowtimeGetDto> Showtimes { get; set; }
     }
 
+    public class ShowtimeTheaterGetDto
+    {
+        public int Id { get; set; }
+        public int TheaterId { get; set; }
+        public string TheaterName { get; set; }
+        public string Address { get; set; }
+
+
+    }
     public class TheaterCreateDto
     {
-        public string Address { get; set; }
         public string TheaterName { get; set; }
-        public int HallNumbers { get; set; }
+        public string Address { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public int Screen { get; set; }
     }
 
     public class TheaterUpdateDto
@@ -48,11 +56,8 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string TheaterName { get; set; }
         public string Address { get; set; }
-        public int HallNumbers { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public int Screen { get; set; }
-        public string Reviews { get; set; }
     }
 
     public class TheatersEntityTypeConfiguration : IEntityTypeConfiguration<Theaters>

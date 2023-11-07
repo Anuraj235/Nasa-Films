@@ -5,6 +5,7 @@ using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningStarter.Controllers;
 
@@ -29,18 +30,46 @@ public class UsersController : ControllerBase
 
         response.Data = _context
             .Users
-            .Select(x => new UserGetDto
+            .Select(user => new UserGetDto
             {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                UserName = x.UserName,
-                MembershipId = x.MembershipId,
-                Email = x.Email,
-                Phone = x.Phone,
-                DateOfBirth = x.DateOfBirth,
-                PaymentOptions = x.PaymentOptions,
-                Loyalty = x.Loyalty
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                DateOfBirth = user.DateOfBirth,
+                Loyalty = user.Loyalty,
+                Reviews = user.Reviews.Select(x => new UserReviewGetDto
+                {
+                    Id = x.Id,
+                    TheaterId = x.Theater.Id,
+                    TheaterName = x.Theater.TheaterName,
+                    UserReview = x.TheaterReview,
+                    Rating = x.Rating
+                }).ToList(),
+
+                Bookings = user.Bookings.Select(x => new UserBookingsGetDto
+                {
+                    ID = x.ID,
+                    Showtime = new BookingShowtimeGetDto
+                    {
+                        Id = x.Showtime.Id,
+                        StartTime = x.Showtime.StartTime
+                    },
+                    BookingDate = x.BookingDate,
+                    NumberofTickets = x.NumberofTickets
+
+                }).ToList(),
+
+                Payments = user.Payments.Select(x => new PaymentGetDto
+                {
+                    Id = x.Id,
+                    CardName = x.CardName,
+                    CardNumber = x.CardNumber,
+                    CardCvv = x.CardCvv,
+                    CardExpiry = x.CardExpiry
+                }).ToList()
             })
             .ToList();
 
@@ -53,7 +82,14 @@ public class UsersController : ControllerBase
     {
         var response = new Response();
 
-        var user = _context.Users.FirstOrDefault(x => x.Id == id);
+        var user = _context.Users
+            .Include(x => x.Reviews)
+            .ThenInclude(x => x.Theater)
+            .Include(x => x.Bookings)
+            .ThenInclude(x => x.Showtime)
+            .Include(x => x.Payments)
+            .FirstOrDefault(x => x.Id == id);
+
 
         if (user == null)
         {
@@ -67,12 +103,39 @@ public class UsersController : ControllerBase
             FirstName = user.FirstName,
             LastName = user.LastName,
             UserName = user.UserName,
-            MembershipId = user.MembershipId,
             Email = user.Email,
-            Phone = user.Phone,
+            PhoneNumber = user.PhoneNumber,
             DateOfBirth = user.DateOfBirth,
-            PaymentOptions = user.PaymentOptions,
-            Loyalty = user.Loyalty
+            Loyalty = user.Loyalty,
+            Reviews = user.Reviews.Select(x => new UserReviewGetDto
+            {
+                Id = x.Id,
+                TheaterId = x.Theater.Id,
+                TheaterName = x.Theater.TheaterName,
+                UserReview = x.TheaterReview,
+                Rating = x.Rating
+            }).ToList(),
+
+            Bookings = user.Bookings.Select(x => new UserBookingsGetDto
+            {
+                ID = x.ID,
+                Showtime = new BookingShowtimeGetDto
+                {
+                    Id = x.Showtime.Id,
+                    StartTime = x.Showtime.StartTime
+                },
+                BookingDate = x.BookingDate,
+                NumberofTickets = x.NumberofTickets
+            }).ToList(),
+
+            Payments = user.Payments.Select(x => new PaymentGetDto
+            {
+                Id = x.Id,
+                CardName = x.CardName,
+                CardNumber = x.CardNumber,
+                CardCvv = x.CardCvv,
+                CardExpiry = x.CardExpiry
+            }).ToList()
         };
 
         response.Data = userGetDto;
@@ -116,11 +179,9 @@ public class UsersController : ControllerBase
             FirstName = userCreateDto.FirstName,
             LastName = userCreateDto.LastName,
             UserName = userCreateDto.UserName,
-            MembershipId = userCreateDto.MembershipId,
             Email = userCreateDto.Email,
-            Phone = userCreateDto.Phone,
+            PhoneNumber = userCreateDto.PhoneNumber,
             DateOfBirth = userCreateDto.DateOfBirth,
-            PaymentOptions = userCreateDto.PaymentOptions,
             Loyalty = userCreateDto.Loyalty
         };
         _context.Set<User>().Add(userToCreate);
@@ -135,11 +196,9 @@ public class UsersController : ControllerBase
             FirstName = userToCreate.FirstName,
             LastName = userToCreate.LastName,
             UserName = userToCreate.UserName,
-            MembershipId = userToCreate.MembershipId,
             Email = userToCreate.Email,
-            Phone = userToCreate.Phone,
+            PhoneNumber = userToCreate.PhoneNumber,
             DateOfBirth = userToCreate.DateOfBirth,
-            PaymentOptions = userToCreate.PaymentOptions,
             Loyalty = userToCreate.Loyalty
         };
 
@@ -197,11 +256,9 @@ public class UsersController : ControllerBase
         userToEdit.FirstName = userUpdateDto.FirstName;
         userToEdit.LastName = userUpdateDto.LastName;
         userToEdit.UserName = userUpdateDto.UserName;
-        userToEdit.MembershipId = userUpdateDto.MembershipId;
         userToEdit.Email = userUpdateDto.Email;
-        userToEdit.Phone = userUpdateDto.Phone;
+        userToEdit.PhoneNumber = userUpdateDto.PhoneNumber;
         userToEdit.DateOfBirth = userUpdateDto.DateOfBirth;
-        userToEdit.PaymentOptions = userUpdateDto.PaymentOptions;
         userToEdit.Loyalty = userUpdateDto.Loyalty;
 
         _context.SaveChanges();
@@ -212,11 +269,9 @@ public class UsersController : ControllerBase
             FirstName = userToEdit.FirstName,
             LastName = userToEdit.LastName,
             UserName = userToEdit.UserName,
-            MembershipId = userToEdit.MembershipId,
             Email = userToEdit.Email,
-            Phone = userToEdit.Phone,
+            PhoneNumber = userToEdit.PhoneNumber,
             DateOfBirth = userToEdit.DateOfBirth,
-            PaymentOptions = userToEdit.PaymentOptions,
             Loyalty = userToEdit.Loyalty
         };
 
@@ -242,4 +297,6 @@ public class UsersController : ControllerBase
 
         return Ok(response);
     }
+
+ 
 }

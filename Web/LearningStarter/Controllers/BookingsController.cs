@@ -2,10 +2,13 @@
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LearningStarter.Controllers;
-     [ApiController]
+[ApiController]
 [RouteAttribute("api/bookings")]
 
 public class BookingsController : ControllerBase
@@ -25,21 +28,18 @@ public class BookingsController : ControllerBase
             .Select(booking => new BookingGetDto
             {
                 ID = booking.ID,
-                CustomerId = booking.CustomerId,
                 ShowtimeId = booking.ShowtimeId,
                 BookingDate = booking.BookingDate,
                 NumberofTickets = booking.NumberofTickets,
                 TenderAmount = booking.TenderAmount,
                 UserId = booking.UserId,
 
-
-
             })
             .ToList();
         response.Data = data;
         return Ok(response);
 
-      }
+    }
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
@@ -49,7 +49,6 @@ public class BookingsController : ControllerBase
             .Select(booking => new BookingGetDto
             {
                 ID = booking.ID,
-                CustomerId = booking.CustomerId,
                 ShowtimeId = booking.ShowtimeId,
                 BookingDate = booking.BookingDate,
                 NumberofTickets = booking.NumberofTickets,
@@ -62,8 +61,6 @@ public class BookingsController : ControllerBase
 
         response.Data = data;
         return Ok(response);
-
-
     }
 
 
@@ -72,51 +69,76 @@ public class BookingsController : ControllerBase
     {
         var response = new Response();
 
-       if( createDto.TenderAmount < 0 )
+        if (createDto.TenderAmount < 0)
         {
-            response.AddError(nameof(createDto.TenderAmount), "Tender Amount must be positive" );
+            response.AddError(nameof(createDto.TenderAmount), "Tender Amount must be positive");
         }
         if (createDto.NumberofTickets < 0)
         {
-            response.AddError(nameof(createDto.NumberofTickets), "Number of Tickets  must be positive");
+            response.AddError(nameof(createDto.NumberofTickets), "Number of Tickets must be positive");
         }
 
-        if(response.HasErrors) {
-        return BadRequest(response);
+        if (response.HasErrors)
+        {
+            return BadRequest(response);
+        }
+
         
+        var showtime = _dataContext.Set<Showtimes>()
+            .Include(s => s.Bookings)
+            .ThenInclude(sb => sb.Booking)
+            .FirstOrDefault(s => s.Id == createDto.ShowtimeId);
+
+  
+       
+        if (showtime.Bookings == null)
+        {
+            showtime.Bookings = new List<ShowtimeBooking>();
         }
 
-
+       
+        var user = _dataContext.Users.Find(createDto.UserId);
+        if (user == null)
+        {
+            response.AddError("UserId", "Invalid user associated with the booking");
+            return BadRequest(response);
+        }
+      
         var bookingToCreate = new Booking
         {
-            CustomerId = createDto.CustomerId,
             ShowtimeId = createDto.ShowtimeId,
             BookingDate = createDto.BookingDate,
             NumberofTickets = createDto.NumberofTickets,
             TenderAmount = createDto.TenderAmount,
+            UserId = user.Id,
         };
+
         _dataContext.Set<Booking>().Add(bookingToCreate);
+
+        
         _dataContext.SaveChanges();
 
+       
         var bookingToReturn = new BookingGetDto
         {
             ID = bookingToCreate.ID,
-            CustomerId = bookingToCreate.CustomerId,
             ShowtimeId = bookingToCreate.ShowtimeId,
             BookingDate = bookingToCreate.BookingDate,
             NumberofTickets = bookingToCreate.NumberofTickets,
             TenderAmount = bookingToCreate.TenderAmount,
             UserId = bookingToCreate.UserId,
         };
-        response.Data = bookingToReturn;
-        return Created("", response);
 
+        response.Data = bookingToReturn;
+        
+        return Created("", response);
     }
+
     [HttpPut("{id}")]
-    public IActionResult Update([FromBody] BookingUpdateDto updateDto,  int id)
+    public IActionResult Update([FromBody] BookingUpdateDto updateDto, int id)
     {
         var response = new Response();
-        
+
         if (updateDto.TenderAmount < 0)
         {
             response.AddError(nameof(updateDto.TenderAmount), "Tender Amount must be positive");
@@ -126,8 +148,8 @@ public class BookingsController : ControllerBase
             response.AddError(nameof(updateDto.NumberofTickets), "Number of Tickets  must be positive");
         }
 
-      
-        var bookingToUpdate =  _dataContext.Set<Booking>()
+
+        var bookingToUpdate = _dataContext.Set<Booking>()
             .FirstOrDefault(booking => booking.ID == id);
 
         if (bookingToUpdate == null)
@@ -140,10 +162,9 @@ public class BookingsController : ControllerBase
         }
 
 
-        bookingToUpdate.CustomerId =updateDto.CustomerId;
         bookingToUpdate.ShowtimeId = updateDto.ShowtimeId;
         bookingToUpdate.BookingDate = updateDto.BookingDate;
-        bookingToUpdate.NumberofTickets= updateDto.NumberofTickets;
+        bookingToUpdate.NumberofTickets = updateDto.NumberofTickets;
         bookingToUpdate.TenderAmount = updateDto.TenderAmount;
 
 
@@ -152,7 +173,6 @@ public class BookingsController : ControllerBase
         var bookingToReturn = new BookingGetDto
         {
             ID = bookingToUpdate.ID,
-            CustomerId = bookingToUpdate.CustomerId,
             ShowtimeId = bookingToUpdate.ShowtimeId,
             BookingDate = bookingToUpdate.BookingDate,
             NumberofTickets = bookingToUpdate.NumberofTickets,
@@ -167,16 +187,16 @@ public class BookingsController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var  response = new Response();
-        
-        var bookingToDelete= _dataContext.Set<Booking>()
+        var response = new Response();
+
+        var bookingToDelete = _dataContext.Set<Booking>()
             .FirstOrDefault(booking => booking.ID == id);
 
-         if (bookingToDelete == null)
+        if (bookingToDelete == null)
         {
             response.AddError("id", "Booking not found .");
         }
-         if (response.HasErrors)
+        if (response.HasErrors)
         {
             return BadRequest(response);
         }
@@ -184,15 +204,9 @@ public class BookingsController : ControllerBase
         _dataContext.Set<Booking>().Remove(bookingToDelete);
         _dataContext.SaveChanges();
 
-        response.Data = true; 
+        response.Data = true;
         return Ok(response);
 
     }
 
 }
-
-
-        
-
-    
-
