@@ -9,7 +9,7 @@ namespace LearningStarter.Entities
     public class Showtimes
     {
         public int Id { get; set; }
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
         public int TheaterID { get; set; }
         public int AvailableSeats { get; set; }
 
@@ -25,7 +25,7 @@ namespace LearningStarter.Entities
     {
         public int Id { get; set; }
         public int MovieId { get; set; }
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
         public int TheaterID { get; set; }
         public int AvailableSeats { get; set; }
 
@@ -37,7 +37,7 @@ namespace LearningStarter.Entities
     public class TheaterShowtimeGetDto
     {
         public int Id { get; set; }
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
         public int AvailableSeats { get; set; }
         public int MovieId { get; set; }
 
@@ -47,7 +47,7 @@ namespace LearningStarter.Entities
     public class MovieShowtimeGetDto
     {
         public int Id { get; set; }
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
         public int TheaterID { get; set; }
         public int AvailableSeats { get; set; }
     }
@@ -55,13 +55,13 @@ namespace LearningStarter.Entities
     public class BookingShowtimeGetDto
     {
         public int Id { get; set; }
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
     }
 
     public class ShowtimesCreateDto
     {
         public int MovieId { get; set; }
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
         public int TheaterID { get; set; }
         public int AvailableSeats { get; set; }
     }
@@ -69,7 +69,7 @@ namespace LearningStarter.Entities
     {
         public int Id { get; set; }
         public int MovieId { get; set; }
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
         public int TheaterID { get; set; }
         public int AvailableSeats { get; set; }
     }

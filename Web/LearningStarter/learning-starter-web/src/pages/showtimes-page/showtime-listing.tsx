@@ -1,73 +1,88 @@
-import { Container, TextInput, Button, Group } from "@mantine/core";
-import api from "../../config/axios";
 import { useEffect, useState } from "react";
-import { ShowtimeCreateDto } from "../../constants/types";
+import { ApiResponse, ShowtimesGetDto } from "../../constants/types";
+import api from "../../config/axios";
+import { showNotification } from "@mantine/notifications";
+import { Header, Loader, Space, Table, createStyles } from "@mantine/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes";
 
-const ShowtimesForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    movieID: '',
-    startTime: '',
-    theaterID: '',
-    availableSeats: '',
-  });
 
-  const handleInputChange = (name: string, value: string) => {
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault(); 
-    try {
-      console.log(formData);
-      const response = await api.post('/api/showtimes', formData);
-      if (response.status === 201) {
-        console.log('Showtime created successfully!');
-      } else {
-        console.error('Failed to create showtime');
-      }
-    } catch (error) {
-      console.error('An error occurred while creating showtime', error);
-    }
-  };
+export const ShowtimeListing = () => {
+    const [showtimes , setShowtimes]= useState<ShowtimesGetDto[]>();
+    const navigate= useNavigate();
+   const { classes }= useStyles ();
 
+
+    useEffect( () =>{
+        fetchShowtimes();
+
+        async function  fetchShowtimes(){
+            const response = await api.get<ApiResponse<ShowtimesGetDto[]>>("/api/showtimes")
+            if (response.data.hasErrors){
+                showNotification({message: "Error Fetching Showtimes."});
+                 }
+
+                 if(response.data.data){
+                    setShowtimes(response.data.data);
+                 }
+             }
+        
+      },[]);       
+      
+              
+    
+    return  (
+        <>
+          <Header height={32} >Showtimes</Header>
+          <Space h="md"/>
+          {showtimes && (           
+          
+          <Table withBorder striped>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        Starttime
+                    </th>
+                    <th>
+                        AvailableSeats
+                    </th>                   
+                </tr>
+            </thead>
+            <tbody>
+               
+            {showtimes.map((showtime) => {
   return (
-    <Container>
-      <h2>Add Showtime</h2>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          label="Movie ID"
-          value={formData.movieID}
-          onChange={(event) => handleInputChange('movieID', event.currentTarget.value)}
+    <tr >
+      <td>
+        <FontAwesomeIcon
+        className ={classes.iconButton}
+          icon={faPenSquare}
+          onClick={() => {
+            navigate(routes.showtimeUpdate.replace(":id", `${showtime.id}`));
+          }}
         />
-
-        <TextInput
-          label="Start Time"
-          type="datetime-local"
-          value={formData.startTime}
-          onChange={(event) => handleInputChange('startTime', event.currentTarget.value)}
-        />
-
-        <TextInput
-          label="Theater ID"
-          value={formData.theaterID}
-          onChange={(event) => handleInputChange('theaterID', event.currentTarget.value)}
-        />
-
-        <TextInput
-          label="Available Seats"
-          type="number"
-          value={formData.availableSeats}
-          onChange={(event) => handleInputChange('availableSeats', event.currentTarget.value)}
-        />
-
-        <Group position="right" mt="md">
-          <Button type="submit">
-            Add Showtime
-          </Button>
-        </Group>
-      </form>
-    </Container>
+      </td>
+      <td>{showtime.startTime}</td>
+      <td>{showtime.availableSeats}</td>
+    </tr>
   );
+})}
+</tbody>
+</Table>
+)}
+        </>
+    );
 };
 
-export default ShowtimesForm;
+const useStyles = createStyles(() => {
+
+    return{
+        iconButton:{
+            cursor:"pointer"
+        }
+    }
+})

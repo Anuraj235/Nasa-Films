@@ -16,13 +16,3 @@ root.render(
     <App />
   </Router>
 );
-
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-export const routes = {
-  root: "/",
-  home: "/home",
-  user: "/user",
-  Showtime: "/showtimes",
-  
-};
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

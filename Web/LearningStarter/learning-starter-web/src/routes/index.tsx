@@ -3,6 +3,8 @@ export const routes = {
   root: `/`,
   home: `/home`,
   user: `/user`, 
-  showtimesListing:`/showtimes`,
+  showtimecreate:`/showtime-create`,
+  showtimelisting:`/showtime-listing`,
+  showtimeUpdate: `/showtimes/:id`,
 
 };

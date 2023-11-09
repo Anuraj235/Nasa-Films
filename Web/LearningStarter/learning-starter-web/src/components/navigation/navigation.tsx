@@ -71,7 +71,7 @@ const navigation: NavigationItem[] = [
     text: "Showtimes", 
     hide: false,
     nav: {
-      to: routes.showtimesListing,
+      to: routes.showtimecreate,
     },
   },
 ];
@@ -87,7 +87,8 @@ const DesktopNavigation = () => {
 
   return (
     <>
-      <Container px={0} className={classes.desktopNav}>
+    
+      <Container px={0} className={classes.desktopNav} >
         <Flex direction="row" align="center" className={classes.fullHeight}>
           {navigation
             .filter((x) => !x.hide)

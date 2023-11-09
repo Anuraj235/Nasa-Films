@@ -24,7 +24,15 @@ export type UserDto = {
   lastName: string;
   userName: string;
 };
-export type ShowtimeCreateDto={
+export type ShowtimesCreateUpdateDto={
+  movieID: any;
+  startTime: any;
+  theaterID: any;
+  availableSeats: any; 
+
+}
+export type ShowtimesGetDto={
+  id:any;
   movieID: any;
   startTime: any;
   theaterID: any;
