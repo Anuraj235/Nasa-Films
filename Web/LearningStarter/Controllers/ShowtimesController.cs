@@ -110,10 +110,6 @@ public class ShowtimesController : ControllerBase
     public IActionResult Create([FromBody] ShowtimesCreateDto createDto)
     {
         var response = new Response();
-        if (createDto.StartTime < DateTime.Now)
-        {
-            response.AddError(nameof(createDto.StartTime), "StartTime must be in the future");
-        }
 
         if (createDto.AvailableSeats < 0)
         {

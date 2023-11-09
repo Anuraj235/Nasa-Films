@@ -1,3 +1,4 @@
+
 import { Route, Routes as Switch, Navigate } from "react-router-dom";
 import { LandingPage } from "../pages/landing-page/landing-page";
 import { NotFoundPage } from "../pages/not-found";
@@ -5,6 +6,10 @@ import { useUser } from "../authentication/use-auth";
 import { UserPage } from "../pages/user-page/user-page";
 import { PageWrapper } from "../components/page-wrapper/page-wrapper";
 import { routes } from ".";
+import {ShowtimesForm} from "../pages/showtimes-page/showtime-create";
+import { ShowtimeListing } from "../pages/showtimes-page/showtime-listing";
+import { ShowtimeUpdate } from "../pages/showtimes-page/showtime-update";
+import { MovieBookingPage } from "../pages/movie-bookings-page/movie-bookings";
 import { MoviesPage } from "../pages/movies-page/movies-page";
 
 
@@ -20,9 +25,19 @@ export const Routes = () => {
           {/* When path === / render LandingPage */}
           <Route path={routes.home} element={<LandingPage />} />
           {/* When path === /iser render UserPage */}
+          <Route path={routes.user} element={<UserPage />} />
+
+
+          <Route path={routes.showtimecreate} element={<ShowtimesForm />} />
+          <Route path={routes.showtimelisting} element={<ShowtimeListing />} />
+          <Route path={routes.showtimeUpdate} element={<ShowtimeUpdate />} />
+          <Route path={routes.movieBookingPage} element={<MovieBookingPage />} />
+
           <Route path={routes.user} element={<UserPage />} />     
           {/* Going to route "localhost:5001/" will go to homepage */}
           <Route path={routes.root} element={<Navigate to={routes.home} />} />
+          
+
 
           <Route path={routes.addMovie} element={<MoviesPage />} />     
 
