@@ -343,6 +343,7 @@ public class Startup
                 //StartTime = createDto.StartTime,
                 TheaterID = 1,
                 AvailableSeats = 85,
+
             },
             new()
             {
