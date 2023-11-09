@@ -82,9 +82,6 @@ public class MovieEntityConfiguration : IEntityTypeConfiguration<Movie>
         builder.Property(x => x.Title)
             .IsRequired();
 
-        builder.Property(x => x.Rating)
-            .IsRequired();
-
         builder.Property(x => x.ReleaseDate)
             .IsRequired();
 

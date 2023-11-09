@@ -8,8 +8,6 @@ import image2 from '../../assets/theatre2.jpg';
 import image3 from '../../assets/theatre3.jpg';
 import DemoCard from "./demo-card";
 
-import { Container, createStyles, Text } from "@mantine/core";
-
 
 //This is a basic Component, and since it is used inside of
 //'../../routes/config.tsx' line 31, that also makes it a page

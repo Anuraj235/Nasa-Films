@@ -9,5 +9,4 @@ export const routes = {
   movieBookingPage: `/movie-booking/:id`,
   addMovie:`/addMovie`,
   movies: '/movies'
-  
 };

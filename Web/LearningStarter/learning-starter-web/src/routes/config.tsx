@@ -11,6 +11,7 @@ import { ShowtimeListing } from "../pages/showtimes-page/showtime-listing";
 import { ShowtimeUpdate } from "../pages/showtimes-page/showtime-update";
 import { MovieBookingPage } from "../pages/movie-bookings-page/movie-bookings";
 import { MoviesPage } from "../pages/movies-page/movies-page";
+import { Movies } from "../pages/movies-page/movies-display";
 
 
 //This is where you will tell React Router what to render when the path matches the route specified.
@@ -31,15 +32,14 @@ export const Routes = () => {
           <Route path={routes.showtimecreate} element={<ShowtimesForm />} />
           <Route path={routes.showtimelisting} element={<ShowtimeListing />} />
           <Route path={routes.showtimeUpdate} element={<ShowtimeUpdate />} />
-          <Route path={routes.movieBookingPage} element={<MovieBookingPage />} />
 
-          <Route path={routes.user} element={<UserPage />} />     
+          <Route path={routes.movieBookingPage} element={<MovieBookingPage />} />
+          
+          <Route path={routes.addMovie} element={<MoviesPage />} />  
+          <Route path={routes.movies} element={<Movies />} />  
+     
           {/* Going to route "localhost:5001/" will go to homepage */}
           <Route path={routes.root} element={<Navigate to={routes.home} />} />
-          
-
-
-          <Route path={routes.addMovie} element={<MoviesPage />} />     
 
           {/* This should always come last.  
             If the path has no match, show page not found */}

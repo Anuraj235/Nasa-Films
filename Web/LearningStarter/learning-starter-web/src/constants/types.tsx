@@ -42,13 +42,31 @@ export type ShowtimesGetDto={
 
 };
 
+export type MovieCreateDto={
+  title: string;
+  releaseDate: Date;
+  description: string;
+  genre:null| string;
+  duration: number;
+  imageUrl:string;
+}
+
 export type MovieGetDto ={
+  id:number,
   title:string,
   description:string,
   releaseDate: Date,
+  duration: number,
   genre:string,
   rating:number,
   imageUrl:string,
+  showtimes:[
+    {
+      id:number,
+      startTime:string,
+      availableSeats:number,
+    }
+  ]
 }
 
 

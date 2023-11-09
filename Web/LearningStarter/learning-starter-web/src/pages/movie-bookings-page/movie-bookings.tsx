@@ -1,78 +1,115 @@
 import React, { useEffect, useState } from "react";
-import { ApiResponse, MovieGetDto} from "../../constants/types";
+import { ApiResponse, MovieGetDto } from "../../constants/types";
 import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
-import { Rating, NumberInput, Image, Button } from '@mantine/core';
+import {
+  Rating,
+  NumberInput,
+  Image,
+  Button,
+  Container,
+  Grid,
+  Card,
+  Text,
+} from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../../routes";
 
 export const MovieBookingPage = () => {
-    const [movie, setMovies] = useState<MovieGetDto>();
-    const { id } = useParams(); 
-    const navigate = useNavigate();
+  const [movie, setMovies] = useState<MovieGetDto>();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    const [ticketCount, setTicketCount] = useState(0);
-    const handleTicketChange = (value) => {
-    setTicketCount(value);
-    };
+  const [ticketCount, setTicketCount] = useState(1);
+  const handleTicketChange = (value) => {
+    if (value > 0) {
+      setTicketCount(value);
+    }
+  };
 
-    useEffect(() => {
-        fetchMovie();
+  useEffect(() => {
+    fetchMovie();
 
-        async function fetchMovie() {
-                const response = await api.get<ApiResponse<MovieGetDto>>(`/api/movies/${id}`);
+    async function fetchMovie() {
+      const response = await api.get<ApiResponse<MovieGetDto>>(
+        `/api/movies/${id}`
+      );
 
-                if (response.data.hasErrors) {
-                    showNotification({ message: "Error fetching products." });
-                }
+      if (response.data.hasErrors) {
+        showNotification({ message: "Error fetching products." });
+      }
 
-                if (response.data.data) {
-                    setMovies(response.data.data);
-                }
-        }
-    }, [id]);
+      if (response.data.data) {
+        console.log("data",response.data.data)
+        setMovies(response.data.data);
+      }
+    }
+  }, [id]);
 
-      
-
-    return (
-        <>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-
+  return (
+    <>
+      <Container>
+        <Grid gutter="md">
+          <Grid.Col span={6}>
             {movie && (
-                <div style={{ margin: '20px', padding: '20px', textAlign: 'center'}}>
-                    <h2 style={{ margin: '1px 0' }}>{movie.title}</h2>
-                    <div style={{ margin: '3px 0', textAlign: 'center' }}>
-                        <Rating value={movie.rating} style={{ margin: '0 auto' }} />
-                        <p style={{ margin: '10px 0', textAlign: 'center' }}><strong>Description:</strong> {movie.description}</p>
-                    </div>
-                    <div style={{ margin: '20px'}}><Image src={movie.imageUrl} radius="md" h={150} w={200} fit="contain" alt="small Image" /></div>
-                </div>
-                
+              <Card shadow="sm" p="lg">
+                <Card.Section>
+                  <Image
+                    src={movie.imageUrl}
+                    alt={movie.title}
+                    style={{objectFit:"contain"}}
+                  />
+                </Card.Section>
+              </Card>
             )}
-            <div>
-            <NumberInput
-                style={{ marginTop: '100px' }}
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <Container>
+              <Text size="xl" weight={500} mt="md">
+                {movie && movie.title}
+              </Text>
+              <Rating value={movie && movie.rating} />
+              <Text mt="xs" color="dimmed" size="sm">
+                Description: {movie && movie.description}
+              </Text>
+              <NumberInput
+                style={{ marginTop: "12px" }}
                 variant="filled"
                 radius="xs"
                 label="Tickets:"
                 withAsterisk
-                description="Enter the number of tickets you want to purchase"
-                placeholder="Input placeholder"
+                placeholder="Enter the number of tickets."
                 value={ticketCount}
                 onChange={handleTicketChange}
-            />
-                
-            <p style={{ margin: '12px 0', textAlign:"center"}}>Estimated Amount: $ {ticketCount * 5}</p>
-            <div style={{textAlign: "center"}}>
-                <Button variant="light" radius="md" 
-                    onClick={() =>{
-                        navigate(
-                            routes.showtimelisting
-                        );
-                    }}>Book now</Button></div>
-            </div>
-        </div>
-        
-        </>
-    );
+                max={10}
+                min={1}
+              />
+
+              <p style={{ margin: "12px 0", textAlign: "center" }}>
+                Estimated Amount: $ {ticketCount > 0 ? ticketCount * 5 : 0}
+              </p>
+              <ul>
+                {movie && movie.showtimes.map((showtime) => (
+                  <li key={showtime.id}>
+                    {showtime.startTime} - Available Seats: {showtime.availableSeats}
+                  </li>
+                ))}
+              </ul>
+              <Container style={{ textAlign: "center" }}>
+                <Button
+                  variant="light"
+                  radius="md"
+                  onClick={() => {
+                    navigate(routes.showtimelisting);
+                  }}
+                >
+                  Book now
+                </Button>
+              </Container>
+            </Container>
+          </Grid.Col>
+        </Grid>
+      </Container>
+    </>
+  );
 };
