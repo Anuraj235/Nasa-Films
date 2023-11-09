@@ -21,3 +21,12 @@ export type UserDto = {
   lastName: string;
   userName: string;
 };
+
+export type MovieGetDto ={
+  title:string,
+  description:string,
+  releaseDate: Date,
+  genre:string,
+  rating:number,
+  imageUrl:string,
+}
