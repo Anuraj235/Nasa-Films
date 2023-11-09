@@ -51,3 +51,4 @@ export type MovieGetDto ={
   imageUrl:string,
 }
 
+

@@ -74,6 +74,22 @@ const navigation: NavigationItem[] = [
       to: routes.showtimecreate,
     },
   },
+
+  {
+    text: "AddMovies",
+    hide: false,
+    nav: {
+      to: routes.addMovie,
+    },
+  },
+
+  {
+    text: "Movies",
+    hide:false,
+    nav:{
+      to:routes.movies,
+    }
+  }
 ];
 
 const DesktopNavigation = () => {

@@ -7,5 +7,7 @@ export const routes = {
   showtimelisting:`/showtime-listing`,
   showtimeUpdate: `/showtimes/:id`,
   movieBookingPage: `/movie-booking/:id`,
-
+  addMovie:`/addMovie`,
+  movies: '/movies'
+  
 };
