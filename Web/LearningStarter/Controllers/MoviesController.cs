@@ -44,7 +44,8 @@ public class MoviesController : ControllerBase
             {
                 Id = x.Id,
                 StartTime = x.StartTime,
-                TheaterID = x.TheaterID
+                TheaterID = x.TheaterID,
+                AvailableSeats = x.AvailableSeats
             }).ToList()
         })
 		.ToList();
@@ -74,7 +75,9 @@ public class MoviesController : ControllerBase
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
-                    TheaterID = x.TheaterID
+                    TheaterID = x.TheaterID,
+                    AvailableSeats=x.AvailableSeats
+
                 }).ToList()
             })
             .FirstOrDefault(movie => movie.Id == id);
@@ -97,11 +100,6 @@ public class MoviesController : ControllerBase
             response.AddError("title", "Title cannot be empty.");
         }
 
-        if (createDto.Rating < 1 || createDto.Rating > 5)
-        {
-            response.AddError("rating", "Rating must be between 1 and 5.");
-        }
-
 
         if (createDto.ReleaseDate < DateTime.Now)
         {
@@ -116,7 +114,6 @@ public class MoviesController : ControllerBase
         var movieToCreate = new Movie
         {
             Title = createDto.Title,
-            Rating = createDto.Rating,
             ReleaseDate = createDto.ReleaseDate,
             Description = createDto.Description,
             Genre = createDto.Genre,

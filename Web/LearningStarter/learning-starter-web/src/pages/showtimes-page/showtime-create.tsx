@@ -101,7 +101,7 @@ const useStyles = createStyles(() => ({
   inputField: {
     mt:'4rem',
     'label': {
-      color: "#FFFF",
+      color: "#9C7A4B",
     },
   },
   submitButton: {

@@ -1,33 +1,41 @@
 import {
-  Container,
   TextInput,
   Button,
   Group,
   Box,
   Select,
+  createStyles,
+  Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { MovieCreateDto, MovieGetDto } from "./types";
 import { showNotification } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 import api from "../../config/axios";
-import { ApiResponse } from "../../constants/types";
+import {
+  ApiResponse,
+  MovieCreateDto,
+  MovieGetDto,
+} from "../../constants/types";
 
 export const MoviesPage = () => {
   const navigate = useNavigate();
+  const { classes } = useStyles();
   const genreOptions = [
     { value: "action", label: "Action" },
     { value: "comedy", label: "Comedy" },
     { value: "horror", label: "Horror" },
     { value: "romance", label: "Romance" },
     { value: "animation", label: "Animation" },
+    { value: "documentry", label: "Documentry" },
   ];
+
   const movieForm = useForm<MovieCreateDto>({
     initialValues: {
       title: "",
       releaseDate: new Date(),
       description: "",
+      imageUrl: "",
       genre: "",
       duration: 0,
     },
@@ -35,7 +43,10 @@ export const MoviesPage = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await api.post<ApiResponse<MovieGetDto>>("/api/movies", movieForm.values);
+      const response = await api.post<ApiResponse<MovieGetDto>>(
+        "/api/movies",
+        movieForm.values
+      );
 
       if (response.status === 201) {
         showNotification({
@@ -59,7 +70,10 @@ export const MoviesPage = () => {
   };
 
   return (
-    <Container>
+    <>
+      <Title order={2} align="center" style={{ color: "white" }}>
+        Add New Movie
+      </Title>
       <Box sx={{ maxWidth: 300 }} mx="auto">
         <form onSubmit={movieForm.onSubmit(handleSubmit)}>
           <TextInput
@@ -67,6 +81,7 @@ export const MoviesPage = () => {
             label="Title"
             placeholder="Movie Title"
             {...movieForm.getInputProps("title")}
+            className={classes.inputField}
           />
 
           <TextInput
@@ -74,6 +89,7 @@ export const MoviesPage = () => {
             label="Release Date"
             type="date"
             {...movieForm.getInputProps("releaseDate")}
+            className={classes.inputField}
           />
 
           <TextInput
@@ -81,8 +97,16 @@ export const MoviesPage = () => {
             label="Description"
             placeholder="Movie Description"
             {...movieForm.getInputProps("description")}
+            className={classes.inputField}
           />
 
+          <TextInput
+            withAsterisk
+            label="Image Url"
+            placeholder="Enter Image URL"
+            {...movieForm.getInputProps("imageUrl")}
+            className={classes.inputField}
+          />
           <Select
             value={movieForm.values.genre}
             onChange={(value) => movieForm.setFieldValue("genre", value)}
@@ -90,6 +114,7 @@ export const MoviesPage = () => {
             placeholder="Select Genre"
             id="genre"
             label="Genre"
+            className={classes.inputField}
           />
 
           <TextInput
@@ -98,13 +123,34 @@ export const MoviesPage = () => {
             placeholder="Movie Duration (minutes)"
             type="number"
             {...movieForm.getInputProps("duration")}
+            className={classes.inputField}
           />
 
-          <Group position="right" mt="md">
-            <Button type="submit">Create Movie</Button>
+          <Group position="center" className={classes.submitButton}>
+            <Button
+              variant="gradient"
+              gradient={{ from: "teal", to: "blue", deg: 60 }}
+              type="submit"
+            >
+              Create Movie
+            </Button>
           </Group>
         </form>
       </Box>
-    </Container>
+    </>
   );
 };
+const useStyles = createStyles(() => ({
+  inputField: {
+    mt: "4rem",
+    label: {
+      color: "#9C7A4B",
+    },
+  },
+  submitButton: {
+    padding: "12px 0",
+    fontSize: "18px",
+    fontWeight: "bold",
+    transition: "background 0.3s",
+  },
+}));
