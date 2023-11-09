@@ -6,5 +6,6 @@ export const routes = {
   showtimecreate:`/showtime-create`,
   showtimelisting:`/showtime-listing`,
   showtimeUpdate: `/showtimes/:id`,
+  movieBookingPage: `/movie-booking/:id`,
 
 };

@@ -24,13 +24,15 @@ export type UserDto = {
   lastName: string;
   userName: string;
 };
+
 export type ShowtimesCreateUpdateDto={
   movieID: any;
   startTime: any;
   theaterID: any;
   availableSeats: any; 
 
-}
+};
+
 export type ShowtimesGetDto={
   id:any;
   movieID: any;
@@ -38,6 +40,14 @@ export type ShowtimesGetDto={
   theaterID: any;
   availableSeats: any; 
 
-}
+};
 
+export type MovieGetDto ={
+  title:string,
+  description:string,
+  releaseDate: Date,
+  genre:string,
+  rating:number,
+  imageUrl:string,
+}
 
