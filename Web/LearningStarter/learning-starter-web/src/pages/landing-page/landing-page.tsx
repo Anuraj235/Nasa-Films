@@ -1,6 +1,4 @@
 import { Container, createStyles, Text } from "@mantine/core";
-import "./LandingPage.css";
-import Goku from "./Goku.jpg";
 
 
 //This is a basic Component, and since it is used inside of

@@ -65,16 +65,22 @@ const navigation: NavigationItem[] = [
       to: routes.user,
     },
   },
- 
-{
-  text: "Showtimes",
-  hide: false,
-  nav: {
-    to: routes.showtimesListing,
+
+  {
+    text: "AddMovies",
+    hide: false,
+    nav: {
+      to: routes.addMovie,
+    },
   },
-},
 
-
+  {
+    text: "Movies",
+    hide:false,
+    nav:{
+      to:routes.movies,
+    }
+  }
 ];
 
 const DesktopNavigation = () => {

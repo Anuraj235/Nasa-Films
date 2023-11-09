@@ -23,9 +23,4 @@ export type UserDto = {
 };
 
 
-export type ShowtimeGetDto = {
-  id: number;
-  price: number;
-  availableseats: number;
-  screen: number;
-};
+
