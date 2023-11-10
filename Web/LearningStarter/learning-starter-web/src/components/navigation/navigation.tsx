@@ -89,7 +89,14 @@ const navigation: NavigationItem[] = [
     nav:{
       to:routes.movies,
     }
-  }
+  },
+  {
+    text: "Theater",
+    hide: false,
+    nav: {
+      to: routes.theater,
+    },
+  },
 ];
 
 const DesktopNavigation = () => {

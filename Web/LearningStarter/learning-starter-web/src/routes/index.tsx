@@ -9,5 +9,6 @@ export const routes = {
   showtimeUpdate: `/showtimes/:id`,
   movieBookingPage: `/movie-booking/:id`,
   addMovie:`/addMovie`,
-  movies: '/movies'
+  movies: '/movies',
+  theater:`/theater`
 };
