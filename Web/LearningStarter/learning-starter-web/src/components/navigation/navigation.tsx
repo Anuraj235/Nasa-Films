@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import { routes } from "../../routes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -65,6 +67,29 @@ const navigation: NavigationItem[] = [
       to: routes.user,
     },
   },
+  {
+    text: "Showtimes", 
+    hide: false,
+    nav: {
+      to: routes.showtimecreate,
+    },
+  },
+
+  {
+    text: "AddMovies",
+    hide: false,
+    nav: {
+      to: routes.addMovie,
+    },
+  },
+
+  {
+    text: "Movies",
+    hide:false,
+    nav:{
+      to:routes.movies,
+    }
+  }
 ];
 
 const DesktopNavigation = () => {
@@ -78,7 +103,8 @@ const DesktopNavigation = () => {
 
   return (
     <>
-      <Container px={0} className={classes.desktopNav}>
+    
+      <Container px={0} className={classes.desktopNav} >
         <Flex direction="row" align="center" className={classes.fullHeight}>
           {navigation
             .filter((x) => !x.hide)
@@ -139,6 +165,7 @@ const DesktopNavigation = () => {
     </>
   );
 };
+
 
 export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
   user,
@@ -224,4 +251,6 @@ const useStyles = createStyles((theme) => {
       height: "100%",
     },
   };
+  
+  
 });

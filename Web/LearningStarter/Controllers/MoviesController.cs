@@ -38,12 +38,14 @@ public class MoviesController : ControllerBase
             Description = movie.Description,
             Genre = movie.Genre,
             Duration = movie.Duration,
+            ImageUrl = movie.ImageUrl,
             ShowTimeId = movie.ShowTimeId,
             Showtimes = movie.Showtimes.Select(x => new MovieShowtimeGetDto
             {
                 Id = x.Id,
                 StartTime = x.StartTime,
-                TheaterID = x.TheaterID
+                TheaterID = x.TheaterID,
+                AvailableSeats = x.AvailableSeats
             }).ToList()
         })
 		.ToList();
@@ -67,12 +69,15 @@ public class MoviesController : ControllerBase
                 Description = movie.Description,
                 Genre = movie.Genre,
                 Duration = movie.Duration,
-                ShowTimeId= movie.ShowTimeId,
+                ImageUrl = movie.ImageUrl,
+                ShowTimeId = movie.ShowTimeId,
                 Showtimes = movie.Showtimes.Select(x => new MovieShowtimeGetDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
-                    TheaterID = x.TheaterID
+                    TheaterID = x.TheaterID,
+                    AvailableSeats=x.AvailableSeats
+
                 }).ToList()
             })
             .FirstOrDefault(movie => movie.Id == id);
@@ -95,11 +100,6 @@ public class MoviesController : ControllerBase
             response.AddError("title", "Title cannot be empty.");
         }
 
-        if (createDto.Rating < 1 || createDto.Rating > 5)
-        {
-            response.AddError("rating", "Rating must be between 1 and 5.");
-        }
-
 
         if (createDto.ReleaseDate < DateTime.Now)
         {
@@ -114,12 +114,13 @@ public class MoviesController : ControllerBase
         var movieToCreate = new Movie
         {
             Title = createDto.Title,
-            Rating = createDto.Rating,
             ReleaseDate = createDto.ReleaseDate,
             Description = createDto.Description,
             Genre = createDto.Genre,
             Duration = createDto.Duration,
-       
+            ImageUrl = createDto.ImageUrl,
+
+
         };
 
         _dataContext.Set<Movie>().Add(movieToCreate);
@@ -134,6 +135,7 @@ public class MoviesController : ControllerBase
             Description = movieToCreate.Description,
             Genre = movieToCreate.Genre,
             Duration = movieToCreate.Duration,
+            ImageUrl = movieToCreate.ImageUrl,
             ShowTimeId = movieToCreate.ShowTimeId,
         };
         response.Data = moiveToReturn;

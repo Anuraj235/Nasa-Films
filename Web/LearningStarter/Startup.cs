@@ -107,7 +107,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext dataContext, ILogger<Startup> logger)
     {
-        dataContext.Database.EnsureDeleted();
+        //dataContext.Database.EnsureDeleted();
         dataContext.Database.EnsureCreated();
 
         app.UseHsts();
@@ -254,18 +254,48 @@ public class Startup
             return;
         }
 
-        var seededMovie = new Movie
+        var seededMovie = new List<Movie>()
         {
-            Title = "One Piece Red",
-            Rating = 5,
-            //ReleaseDate = 2023 - 01 - 01,
-            Description = "Luffy meets Shanks!!!",
-            Genre = "Fantacy",
-            Duration = 120
+            new(){
+                Title = "One Piece Red",
+                Rating = 5,
+                //ReleaseDate = 2023 - 01 - 01,
+                Description = "Luffy meets Shanks!!!",
+                Genre = "Fantacy",
+                Duration = 120,
+                ImageUrl = "https://i.redd.it/z4pkzmtwb8r81.jpg"
+            },
+            new(){
+                Title = "Taylor Swift The Eros Tour",
+                Rating = 3,
+                //ReleaseDate = 2023 - 01 - 01,
+                Description = "Anish loves Taylor.",
+                Genre = "Fantacy",
+                Duration = 164,
+                ImageUrl = "https://m.media-amazon.com/images/M/MV5BM2E0NjA5MDktYmUxOC00NWUzLWJlNzMtZmJlNjU1ODZiMjgyXkEyXkFqcGdeQXVyMTY3ODkyNDkz._V1_.jpg"
+            },
+            new(){
+                Title = "Your Name",
+                Rating = 4,
+                //ReleaseDate = 2023 - 01 - 01,
+                Description = "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
+                Genre = "Fantacy",
+                Duration = 164,
+                ImageUrl = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSdCn7P_niNCbNFHt9vLgDc-YlRIhwvnCPtHzyiHVP_GK-XmDS1"
+            },
+            new(){
+                Title = "One Direction: This Is Us",
+                Rating = 2,
+                //ReleaseDate = 2023 - 01 - 01,
+                Description = "Groomed for stardom by \"X-Factor's\" Simon Cowell, the members of pop supergroup One Direction -- Niall Horan, Zayn Malik, Harry Styles, Louis Tomlinson and Liam Payne -- have emerged as a worldwide phenomenon. ",
+                Genre = "Gay",
+                Duration = 184,
+                ImageUrl = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcR7Wrvd1v6Y7QfTmiz3UJ0RylsREWLkjQOpz--_86AACtKnHLoW"
+            },
 
         };
 
-        dataContext.Set<Movie>().Add(seededMovie);
+        dataContext.Set<Movie>().AddRange(seededMovie);
         dataContext.SaveChanges();
     }
 
@@ -349,6 +379,7 @@ public class Startup
                 //StartTime = createDto.StartTime,
                 TheaterID = 1,
                 AvailableSeats = 85,
+
             },
             new()
             {
