@@ -69,4 +69,20 @@ export type MovieGetDto ={
   ]
 }
 
+export type TheaterGetDto = {
+  id: number;
+  address: string;
+  hallNumbers: number;
+  phone: number;
+  email: string;
+  screen: number;
+  reviews: string;
+};
+
+export type TheaterCreateDto = {
+  theaterName: string,
+  address: string,
+  phone: string,
+  email: string
+};
 

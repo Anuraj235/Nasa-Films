@@ -12,6 +12,7 @@ import { ShowtimeUpdate } from "../pages/showtimes-page/showtime-update";
 import { MovieBookingPage } from "../pages/movie-bookings-page/movie-bookings";
 import { MoviesPage } from "../pages/movies-page/movies-page";
 import { Movies } from "../pages/movies-page/movies-display";
+import { TheaterPage } from "../pages/theater-page/theater-page";
 
 
 //This is where you will tell React Router what to render when the path matches the route specified.
@@ -38,6 +39,9 @@ export const Routes = () => {
           <Route path={routes.addMovie} element={<MoviesPage />} />  
           <Route path={routes.movies} element={<Movies />} />  
      
+          {/* When path === /theater render TheaterPage */}
+          <Route path={routes.theater} element={<TheaterPage />} />
+
           {/* Going to route "localhost:5001/" will go to homepage */}
           <Route path={routes.root} element={<Navigate to={routes.home} />} />
 
