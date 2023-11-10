@@ -29,7 +29,7 @@ namespace LearningStarter.Controllers
 
             var data = _dataContext
                 .Set<Theaters>()
-                .Select(theaters => new TheaterGetDto
+                .Select(Theaters => new TheaterGetDto
                 {
                     Id = Theaters.Id,
                     TheaterName = Theaters.TheaterName,
@@ -49,14 +49,14 @@ namespace LearningStarter.Controllers
                         Id = x.Id,
                         TotalCapacity = x.TotalCapacity,
                         TheaterId = x.TheaterId,
-                     
+
 
                     }).ToList(),
 
-                    Showtimes = Theaters.Showtimes.Select(x=> new TheaterShowtimeGetDto
+                    Showtimes = Theaters.Showtimes.Select(x => new TheaterShowtimeGetDto
                     {
-                        Id=x.Id,
-                        StartTime = x.StartTime,    
+                        Id = x.Id,
+                        StartTime = x.StartTime,
                         AvailableSeats = x.AvailableSeats,
                         MovieId = x.MovieId,
                     }).ToList(),
@@ -76,7 +76,7 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            var theater = _dataContext
+            var Theater = _dataContext
                 .Set<Theaters>()
                 .Include(x => x.Reviews)
                 .ThenInclude(x => x.User)
@@ -84,7 +84,7 @@ namespace LearningStarter.Controllers
                 .Include(x => x.Showtimes)
                 .FirstOrDefault(Theaters => Theaters.Id == id);
 
-            if (theater == null)
+            if (Theater == null)
             {
                 response.AddError("id", "Theater not found");
                 return NotFound(response);
@@ -107,7 +107,7 @@ namespace LearningStarter.Controllers
 
                 Screens = Theater.Screens.Select(x => new ScreenGetDto
                 {
-                    Id = x.Id,                    
+                    Id = x.Id,
                     TotalCapacity = x.TotalCapacity,
                     TheaterId = x.TheaterId,
 
@@ -121,13 +121,11 @@ namespace LearningStarter.Controllers
                 }).ToList(),
 
             };
-            
 
             response.Data = theaterToReturn;
 
             return Ok(response);
         }
-    
 
         [HttpPost]
         public IActionResult Create([FromBody] TheaterCreateDto createDto)
@@ -166,21 +164,16 @@ namespace LearningStarter.Controllers
                 Address = TheaterToCreate.Address,
                 Email = TheaterToCreate.Email,
                 Phone = TheaterToCreate.Phone,
-             
+
             };
 
             response.Data = TheaterToReturn;
 
             return Created("", response);
         }
-        // /api/theaters/3/review/2?
-        [HttpPost("{theaterId}/review/{reviewsId}")]
-        public IActionResult AddReviewToTheaters(int theaterId, int reviewId, [FromQuery] int quantity)
-        {
-            var response = new Response();
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]TheaterUpdateDto updateDto)
+        public IActionResult Update(int id, [FromBody] TheaterUpdateDto updateDto)
         {
             var response = new Response();
 
@@ -215,14 +208,14 @@ namespace LearningStarter.Controllers
                 Address = TheaterToUpdate.Address,
                 TheaterName = TheaterToUpdate.TheaterName,
                 Phone = TheaterToUpdate.Phone,
-                Email = TheaterToUpdate.Email,                
+                Email = TheaterToUpdate.Email,
             };
 
             response.Data = TheaterToReturn;
             return Ok(response);
         }
 
-  
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -257,4 +250,3 @@ namespace LearningStarter.Controllers
         }
     }
 }
-

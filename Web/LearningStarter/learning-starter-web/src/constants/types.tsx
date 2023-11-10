@@ -18,11 +18,15 @@ export type AnyObject = {
   [index: string]: any;
 };
 
-export type UserDto = {
+export type UserGetDto = {
   id: number;
   firstName: string;
   lastName: string;
   userName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  loyalty: number;
 };
 
 export type ShowtimesCreateUpdateDto={

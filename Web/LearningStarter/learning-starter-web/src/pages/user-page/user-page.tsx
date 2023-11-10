@@ -1,37 +1,91 @@
-import { Container, createStyles, Divider, Flex, Text } from "@mantine/core";
+import { Container, createStyles, Divider, Flex, Header, Loader, Space, Table, Text } from "@mantine/core";
 import { useUser } from "../../authentication/use-auth";
+import { useEffect, useState } from "react";
+import { ApiResponse, UserGetDto } from "../../constants/types";
+import api from "../../config/axios";
+import { showNotification } from "@mantine/notifications";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes";
 
 export const UserPage = () => {
-  const user = useUser();
-  const { classes } = useStyles();
+  const [user, setUser] = useState<UserGetDto[]>();
+  const navigate = useNavigate();
+  const {classes} = useStyles();
+
+  useEffect ( () => {
+    fetchUser();
+
+    async function fetchUser() {
+      const response = await api.get<ApiResponse<UserGetDto[]>>("/api/user")
+
+      if(response.data.hasErrors){
+        showNotification({message: "Error fetching User."});
+      }
+
+      if(response.data.data){
+        setUser(response.data.data);
+      }
+    }
+  }, []);
+
   return (
-    <Container>
-      <Container>
-        <Text size="lg" align="center">
-          User Information
-        </Text>
-        <Container className={classes.textAlignLeft}>
-          <Flex direction="row">
-            <Text size="md" className={classes.labelText}>
-              First Name:
-            </Text>
-            <Text size="md">{user.firstName}</Text>
-          </Flex>
-          <Divider />
-          <Flex direction="row">
-            <Text size="md" className={classes.labelText}>
-              Last Name:
-            </Text>
-            <Text size="md">{user.lastName}</Text>
-          </Flex>
-        </Container>
+   <Container>
+    <Header height={32}> User </Header>
+    <Space h="md"/>
+    {user ? (
+      <Table withBorder striped>
+        <thead>
+          <tr>
+            <th></th>
+            <th> First Name </th>
+            <th> Last Name </th>
+            <th> User Name </th>
+            <th> Email </th>
+            <th> Phone Number </th>
+            <th> Date of Birth </th>
+            <th> Loyalty </th>
+            </tr>
+            </thead>
+            <tbody>
+              {user?.map((user) => {
+              return (
+                <tr>
+                  <td><FontAwesomeIcon 
+                  className={classes.iconButton}
+                  icon={faPencil} onClick={() => {
+                    navigate(
+                      routes.userUpdate.replace(":id", '${user.id}'))
+                  }} /></td>
+                  <td> {user.firstName} </td>
+                  <td> {user.lastName} </td>
+                  <td> {user.userName} </td>
+                  <td> {user.phoneNumber} </td>
+                  <td> {user.dateOfBirth} </td>
+                  <td> {user.loyalty} </td>
+                </tr>
+              )
+              })}
+            </tbody>
+        </Table>
+    ) : (
+      <>
+      <Loader />
+      </>
+    )}
       </Container>
-    </Container>
-  );
-};
+      )
+    };
+
 
 const useStyles = createStyles(() => {
   return {
+
+    iconButton: {
+      cursor: "pointer",
+    }, 
+
     textAlignLeft: {
       textAlign: "left",
     },

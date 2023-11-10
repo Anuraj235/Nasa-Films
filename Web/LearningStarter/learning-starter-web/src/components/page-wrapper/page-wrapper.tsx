@@ -1,10 +1,10 @@
-import { UserDto } from "../../constants/types";
+import { UserGetDto } from "../../constants/types";
 import { PrimaryNavigation } from "../navigation/navigation";
 import { Container } from "@mantine/core";
 import { createStyles } from "@mantine/core";
 
 type PageWrapperProps = {
-  user?: UserDto;
+  user?: UserGetDto;
   children?: React.ReactNode;
 };
 

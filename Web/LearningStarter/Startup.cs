@@ -107,7 +107,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext dataContext, ILogger<Startup> logger)
     {
-        //dataContext.Database.EnsureDeleted();
+        dataContext.Database.EnsureDeleted();
         dataContext.Database.EnsureCreated();
 
         app.UseHsts();
@@ -173,42 +173,6 @@ public class Startup
             logger.LogError(ex, "An error occurred while seeding the database.");
         }
     }
-    // seeded theaters
-    private static void SeedTheaters(DataContext dataContext)
-    {
-        if(dataContext.Set<Theaters>().Any())
-        {
-            return;
-        }
-        var theatersToSeed = new List<Theaters>()
-        {
-            new()
-            {
-            TheaterName = "AMC",
-            Address = "111 Turnberry Ln",
-            HallNumbers = 12,
-            Phone = "5049125615",
-            Email = "AMC@yahoo.com",
-            Screen = 24,
-            Reviews = "Pretty clean place",
-        },
-        new()
-        {
-            TheaterName = "Satym Theaters",
-            Address = "2023 SouthDrive Ln",
-            HallNumbers = 6,
-            Phone = "5048889536",
-            Email = "Satyam@yahoo.com",
-            Screen = 12,
-            Reviews = "Snacks are amazing!",
-        }
-    };
-       
-       
-        dataContext.Set<Theaters>().AddRange(theatersToSeed);
-        dataContext.SaveChanges();
-    }
-
 
     private static async Task SeedUsers(DataContext dataContext, UserManager<User> userManager)
     {

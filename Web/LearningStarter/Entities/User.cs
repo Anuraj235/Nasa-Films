@@ -17,10 +17,10 @@ public class User : IdentityUser<int>
     public DateTimeOffset DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 
-    public int  ReviewId { get; set; }
+    public int ReviewId { get; set; }
     public List<Reviews> Reviews { get; set; }
 
-    public int BookingId { get;}
+    public int BookingId { get; }
     public List<Booking> Bookings { get; set; }
 
     public List<Payment> Payments { get; set; } = new();
@@ -34,7 +34,7 @@ public class UserCreateDto
     public string Password { get; set; }
 
     public string Email { get; set; }
-    public string PhoneNumber{ get; set; }
+    public string PhoneNumber { get; set; }
     public DateTimeOffset DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 }
@@ -47,7 +47,7 @@ public class UserUpdateDto
     public string UserName { get; set; }
     public string Password { get; set; }
     public string Email { get; set; }
-    public string PhoneNumber{ get; set; }
+    public string PhoneNumber { get; set; }
     public DateTimeOffset DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 }
@@ -60,7 +60,7 @@ public class UserGetDto
     public string UserName { get; set; }
 
     public string Email { get; set; }
-    public string PhoneNumber{ get; set; }
+    public string PhoneNumber { get; set; }
     public DateTimeOffset DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 
