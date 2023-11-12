@@ -69,7 +69,7 @@ export const UserCreate = () => {
                     withAsterisk/>
                     <TextInput
                     {...mantineForm.getInputProps("loyalty")}
-                    label="Loayalty"
+                    label="Loyalty"
                     withAsterisk/>
 
                     <Space h={18} />

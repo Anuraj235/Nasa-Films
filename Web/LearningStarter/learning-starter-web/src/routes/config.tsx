@@ -13,7 +13,7 @@ import { MovieBookingPage } from "../pages/movie-bookings-page/movie-bookings";
 import { MoviesPage } from "../pages/movies-page/movies-page";
 import { Movies } from "../pages/movies-page/movies-display";
 import { UserUpdate } from "../pages/user-page/user-update";
-import { UserCreate } from "../pages/user-page/user-creat";
+import { UserCreate } from "../pages/user-page/user-create";
 
 
 //This is where you will tell React Router what to render when the path matches the route specified.
