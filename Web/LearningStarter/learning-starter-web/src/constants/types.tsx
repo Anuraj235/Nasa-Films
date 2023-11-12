@@ -1,8 +1,6 @@
 //This type uses a generic (<T>).  For more information on generics see: https://www.typescriptlang.org/docs/handbook/2/generics.html
 //You probably wont need this for the scope of this class :)
 
-import { Key } from "react";
-
 export type ApiResponse<T> = {
   data: T;
   errors: ApiError[];
@@ -27,6 +25,17 @@ export type UserGetDto = {
   phoneNumber: string;
   dateOfBirth: string;
   loyalty: number;
+};
+
+export type UserCreateUpdateDto = {
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  loyalty: number;
+  
 };
 
 export type ShowtimesCreateUpdateDto={

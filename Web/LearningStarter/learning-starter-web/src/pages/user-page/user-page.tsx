@@ -1,5 +1,4 @@
-import { Container, createStyles, Divider, Flex, Header, Loader, Space, Table, Text } from "@mantine/core";
-import { useUser } from "../../authentication/use-auth";
+import { Container, createStyles, Header, Loader, Space, Table} from "@mantine/core";
 import { useEffect, useState } from "react";
 import { ApiResponse, UserGetDto } from "../../constants/types";
 import api from "../../config/axios";
@@ -18,7 +17,9 @@ export const UserPage = () => {
     fetchUser();
 
     async function fetchUser() {
-      const response = await api.get<ApiResponse<UserGetDto[]>>("/api/user")
+      const response = await api.get<ApiResponse<UserGetDto[]>>("/api/user");
+
+      console.log("API Response:", response.data);
 
       if(response.data.hasErrors){
         showNotification({message: "Error fetching User."});
@@ -26,9 +27,11 @@ export const UserPage = () => {
 
       if(response.data.data){
         setUser(response.data.data);
+        console.log("User data:", response.data.data);
       }
     }
   }, []);
+
 
   return (
    <Container>
@@ -56,7 +59,7 @@ export const UserPage = () => {
                   className={classes.iconButton}
                   icon={faPencil} onClick={() => {
                     navigate(
-                      routes.userUpdate.replace(":id", '${user.id}'))
+                      routes.userUpdate.replace(":id", '${useUser.id}'))
                   }} /></td>
                   <td> {user.firstName} </td>
                   <td> {user.lastName} </td>
