@@ -37,6 +37,7 @@ public class UsersController : ControllerBase
                 LastName = user.LastName,
                 UserName = user.UserName,
                 Email = user.Email,
+                Password = user.Password,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
                 Loyalty = user.Loyalty,
@@ -103,6 +104,7 @@ public class UsersController : ControllerBase
             FirstName = user.FirstName,
             LastName = user.LastName,
             UserName = user.UserName,
+            Password = user.Password,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             DateOfBirth = user.DateOfBirth,
@@ -161,12 +163,22 @@ public class UsersController : ControllerBase
 
         if (string.IsNullOrEmpty(userCreateDto.UserName))
         {
-            response.AddError("userName", "User name cannot be empty.");
+            response.AddError("userName", "Username must contain at least 12 characters.");
         }
 
         if (string.IsNullOrEmpty(userCreateDto.Password))
         {
             response.AddError("password", "Password cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(userCreateDto.Email))
+        {
+            response.AddError("email", "Email must be valid.");
+        }
+
+        if (string.IsNullOrEmpty(userCreateDto.PhoneNumber))
+        {
+            response.AddError("phoneNumber", "Phone number must contain 10 numbers.");
         }
 
         if (response.HasErrors)

@@ -1,10 +1,10 @@
-import { Container, createStyles, Header, Loader, Space, Table} from "@mantine/core";
+import { Button, Container, createStyles, Flex, Header, Loader, Space, Table, Title} from "@mantine/core";
 import { useEffect, useState } from "react";
 import { ApiResponse, UserGetDto } from "../../constants/types";
 import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 
@@ -35,7 +35,17 @@ export const UserPage = () => {
 
   return (
    <Container>
-    <Header height={32}> User </Header>
+    <Flex direction="row" justify="space-between">
+    <Title order={3}> User </Title>
+    <Button 
+    onClick={() => {
+      navigate(routes.userCreate);
+    }}
+    >
+      <FontAwesomeIcon icon={faPlus} /> <Space w={8} />
+      New User
+    </Button>
+    </Flex>
     <Space h="md"/>
     {user ? (
       <Table withBorder striped>

@@ -11,12 +11,15 @@ public class User : IdentityUser<int>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
-
-    public List<UserRole> UserRoles { get; set; } = new();
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public string Email { get; set; }
+    public string PhoneNumber { get; set; }
 
     public DateTimeOffset DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 
+    public List<UserRole> UserRoles { get; set; } = new();
     public int ReviewId { get; set; }
     public List<Reviews> Reviews { get; set; }
 
@@ -32,7 +35,6 @@ public class UserCreateDto
     public string LastName { get; set; }
     public string UserName { get; set; }
     public string Password { get; set; }
-
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public DateTimeOffset DateOfBirth { get; set; }
@@ -58,7 +60,7 @@ public class UserGetDto
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string UserName { get; set; }
-
+    public string Password { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public DateTimeOffset DateOfBirth { get; set; }
@@ -73,14 +75,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(x => x.FirstName)
-            .IsRequired();
-
-        builder.Property(x => x.LastName)
-            .IsRequired();
-
-        builder.Property(x => x.UserName)
-            .IsRequired();
+        builder.ToTable("users");
 
 
     }

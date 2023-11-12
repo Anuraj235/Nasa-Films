@@ -2,8 +2,9 @@
 export const routes = {
   root: `/`,
   home: `/home`,
-  userUpdate: '/user/:id',
   user: `/user`, 
+  userUpdate: `/user/:id`,
+  userCreate: `/user/create`,
   showtimecreate:`/showtime-create`,
   showtimelisting:`/showtime-listing`,
   showtimeUpdate: `/showtimes/:id`,
