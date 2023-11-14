@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ApiResponse, BookingGetDto, MovieGetDto } from "../../constants/types";
+import { ApiResponse, MovieGetDto } from "../../constants/types";
 import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
 import {
@@ -11,19 +11,14 @@ import {
   Grid,
   Card,
   Text,
-  createStyles,
 } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../../routes";
-import { useForm } from "@mantine/form";
 
 export const MovieBookingPage = () => {
   const [movie, setMovies] = useState<MovieGetDto>();
-  const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { classes } = useStyles();
-
 
   const [ticketCount, setTicketCount] = useState(1);
   const handleTicketChange = (value) => {
@@ -45,44 +40,11 @@ export const MovieBookingPage = () => {
       }
 
       if (response.data.data) {
-        console.log("data", response.data.data);
+        console.log("data",response.data.data)
         setMovies(response.data.data);
       }
     }
   }, [id]);
-
-  const form = useForm({
-    initialValues: {
-        showtimeId: 0,
-        numberOfTickets: 0,
-        tenderAmount: 0,
-    },
-});
-
-const handleSubmit = async () => {
-  try {
-    const selectedShowtimeId = movie?.showtimes.find((showtime) => showtime.startTime === selectedShowtime)?.id;
-
-    if (selectedShowtimeId) {
-      form.setFieldValue('showtimeId', selectedShowtimeId);
-      form.setFieldValue('tenderAmount', ticketCount * 5);
-      form.setFieldValue('numberOfTickets', ticketCount);
-      //form.setFieldValue('userId', 1);
-
-      const response = await api.post<ApiResponse<BookingGetDto>>('/api/bookings', form.values);
-
-      if (response.data.data) {
-        showNotification({ message: "Successfully booked tickets", color: "green" });
-        form.reset();
-        navigate(routes.home);
-      }
-    } else {
-      showNotification({ message: "Please select a showtime", color: "red" });
-    }
-  } catch (error) {
-    showNotification({ message: "Error creating booking", color: "red" });
-  }
-};
 
   return (
     <>
@@ -95,7 +57,7 @@ const handleSubmit = async () => {
                   <Image
                     src={movie.imageUrl}
                     alt={movie.title}
-                    style={{ objectFit: "contain" }}
+                    style={{objectFit:"contain"}}
                   />
                 </Card.Section>
               </Card>
@@ -110,23 +72,6 @@ const handleSubmit = async () => {
               <Text mt="xs" color="dimmed" size="sm">
                 Description: {movie && movie.description}
               </Text>
-
-              <p>Available showtimes:</p>
-              <Container>
-                {movie &&
-                  movie.showtimes.map((showtime) => (
-                    <Button
-                      key={showtime.id}
-                      variant="outline"
-                      color={selectedShowtime === showtime.startTime ? "blue" : "gray"}
-                      style={{ marginRight: '8px' }}
-                      onClick={() => setSelectedShowtime(showtime.startTime)}
-                    >
-                      {showtime.startTime}
-                    </Button>
-                  ))}
-              </Container>
-
               <NumberInput
                 style={{ marginTop: "12px" }}
                 variant="filled"
@@ -143,12 +88,20 @@ const handleSubmit = async () => {
               <p style={{ margin: "12px 0", textAlign: "center" }}>
                 Estimated Amount: $ {ticketCount > 0 ? ticketCount * 5 : 0}
               </p>
-
+              <ul>
+                {movie && movie.showtimes.map((showtime) => (
+                  <li key={showtime.id}>
+                    {showtime.startTime} - Available Seats: {showtime.availableSeats}
+                  </li>
+                ))}
+              </ul>
               <Container style={{ textAlign: "center" }}>
                 <Button
                   variant="light"
                   radius="md"
-                  onClick={handleSubmit}
+                  onClick={() => {
+                    navigate(routes.showtimelisting);
+                  }}
                 >
                   Book now
                 </Button>
@@ -160,17 +113,3 @@ const handleSubmit = async () => {
     </>
   );
 };
-
-const useStyles = createStyles(() => ({
-  inputField: {
-    'label': {
-      color: "#9C7A4B",
-    },
-  },
-  submitButton: {
-    padding: "12px 0",
-    fontSize: "18px",
-    fontWeight: "bold",
-    transition: "background 0.3s",
-  },
-}));

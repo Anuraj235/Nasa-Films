@@ -11,4 +11,4 @@ export const routes = {
   addMovie:`/addMovie`,
   movies: '/movies',
   theater:`/theater`
-};
+}

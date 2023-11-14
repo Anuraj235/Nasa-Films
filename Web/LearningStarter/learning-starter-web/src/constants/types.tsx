@@ -87,6 +87,19 @@ export type TheaterCreateDto = {
   theaterName: string,
   address: string,
   phone: string,
-  email: string
+  email: string,
 };
 
+export type BookingCreateDto = {
+  showtimeId: number,
+  numberOfTickets: number,
+  tenderAmount: number,
+  userId: number,
+};
+
+export type BookingGetDto = {
+  showtimeId: number,
+  numberOfTickets: number,
+  tenderAmount: number,
+  userId: number,
+}

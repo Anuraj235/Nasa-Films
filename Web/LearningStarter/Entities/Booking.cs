@@ -46,7 +46,7 @@ namespace LearningStarter.Entities
     public class BookingCreateDto
     {
         public int ShowtimeId { get; set; }
-        public DateTime BookingDate { get; set; }
+        public DateTime? BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
         public int UserId { get; set; }
