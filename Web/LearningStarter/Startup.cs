@@ -340,7 +340,7 @@ public class Startup
             new()
             {
                 MovieId = 1,
-                //StartTime = createDto.StartTime,
+                StartTime = "9:00",
                 TheaterID = 1,
                 AvailableSeats = 85,
 
@@ -348,9 +348,16 @@ public class Startup
             new()
             {
                 MovieId = 1,
-                //StartTime = createDto.StartTime,
+                StartTime = "11:00",
                 TheaterID = 1,
                 AvailableSeats = 85,
+            },
+            new()
+            {
+                MovieId = 1,
+                StartTime = "13:00",
+                TheaterID = 1,
+                AvailableSeats = 75,
             }
         };
 

@@ -49,14 +49,14 @@ namespace LearningStarter.Controllers
                         Id = x.Id,
                         TotalCapacity = x.TotalCapacity,
                         TheaterId = x.TheaterId,
-                     
+
 
                     }).ToList(),
 
-                    Showtimes = Theaters.Showtimes.Select(x=> new TheaterShowtimeGetDto
+                    Showtimes = Theaters.Showtimes.Select(x => new TheaterShowtimeGetDto
                     {
-                        Id=x.Id,
-                        StartTime = x.StartTime,    
+                        Id = x.Id,
+                        StartTime = x.StartTime,
                         AvailableSeats = x.AvailableSeats,
                         MovieId = x.MovieId,
                     }).ToList(),
@@ -70,7 +70,7 @@ namespace LearningStarter.Controllers
             return Ok(response);
         }
 
-   
+
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -107,7 +107,7 @@ namespace LearningStarter.Controllers
 
                 Screens = Theater.Screens.Select(x => new ScreenGetDto
                 {
-                    Id = x.Id,                    
+                    Id = x.Id,
                     TotalCapacity = x.TotalCapacity,
                     TheaterId = x.TheaterId,
 
@@ -128,7 +128,7 @@ namespace LearningStarter.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]TheaterCreateDto createDto)
+        public IActionResult Create([FromBody] TheaterCreateDto createDto)
         {
             var response = new Response();
 
@@ -164,7 +164,7 @@ namespace LearningStarter.Controllers
                 Address = TheaterToCreate.Address,
                 Email = TheaterToCreate.Email,
                 Phone = TheaterToCreate.Phone,
-             
+
             };
 
             response.Data = TheaterToReturn;
@@ -173,7 +173,7 @@ namespace LearningStarter.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]TheaterUpdateDto updateDto)
+        public IActionResult Update(int id, [FromBody] TheaterUpdateDto updateDto)
         {
             var response = new Response();
 
@@ -208,14 +208,14 @@ namespace LearningStarter.Controllers
                 Address = TheaterToUpdate.Address,
                 TheaterName = TheaterToUpdate.TheaterName,
                 Phone = TheaterToUpdate.Phone,
-                Email = TheaterToUpdate.Email,                
+                Email = TheaterToUpdate.Email,
             };
 
             response.Data = TheaterToReturn;
             return Ok(response);
         }
 
-  
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -250,4 +250,3 @@ namespace LearningStarter.Controllers
         }
     }
 }
-

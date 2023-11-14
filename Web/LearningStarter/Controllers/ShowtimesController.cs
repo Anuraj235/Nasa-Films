@@ -43,7 +43,8 @@ public class ShowtimesController : ControllerBase
                     TenderAmount = x.Booking.TenderAmount,
                 }).ToList(),
 
-                Movie = new ShowtimeMovieGetDto {
+                Movie = new ShowtimeMovieGetDto
+                {
                     Id = showtimes.Movie.Id,
                     Title = showtimes.Movie.Title,
                     Duration = showtimes.Movie.Duration,
@@ -98,13 +99,13 @@ public class ShowtimesController : ControllerBase
                   }
 
               }).ToList();
- 
+
 
         response.Data = data;
         return Ok(data);
 
-    }       
-       
+    }
+
 
     [HttpPost]
     public IActionResult Create([FromBody] ShowtimesCreateDto createDto)
@@ -116,7 +117,7 @@ public class ShowtimesController : ControllerBase
             response.AddError(nameof(createDto.AvailableSeats), "AvailableSeats must be positive");
         }
 
-        
+
         if (response.HasErrors)
         {
             return BadRequest(response);
@@ -127,7 +128,7 @@ public class ShowtimesController : ControllerBase
             StartTime = createDto.StartTime,
             TheaterID = createDto.TheaterID,
             AvailableSeats = createDto.AvailableSeats
-          
+
         };
 
         _dataContext.Set<Showtimes>().Add(showtimeToCreate);
@@ -147,18 +148,18 @@ public class ShowtimesController : ControllerBase
         return Created("", response);
 
     }
-  
+
     [HttpPut("{id}")]
     public IActionResult Update([FromBody] ShowtimesUpdateDto updateDto, int id)
     {
         var response = new Response();
-       
+
         if (updateDto.AvailableSeats < 0)
         {
             response.AddError(nameof(updateDto.AvailableSeats), "AvailableSeats must be positive");
         }
 
-       
+
         var showtimestoUpdate = _dataContext.Set<Showtimes>()
             .FirstOrDefault(showtimes => showtimes.Id == id);
         if (showtimestoUpdate == null)
@@ -174,7 +175,7 @@ public class ShowtimesController : ControllerBase
         showtimestoUpdate.StartTime = updateDto.StartTime;
         showtimestoUpdate.TheaterID = updateDto.TheaterID;
         showtimestoUpdate.AvailableSeats = updateDto.AvailableSeats;
-       
+
         _dataContext.SaveChanges();
         var showtimetoReturn = new ShowtimesGetDto
         {
@@ -213,7 +214,3 @@ public class ShowtimesController : ControllerBase
 
 
 }
-
-
-
-

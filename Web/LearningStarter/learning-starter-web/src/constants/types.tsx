@@ -18,11 +18,15 @@ export type AnyObject = {
   [index: string]: any;
 };
 
-export type UserDto = {
+export type UserGetDto = {
   id: number;
   firstName: string;
   lastName: string;
   userName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  loyalty: number;
 };
 
 export type ShowtimesCreateUpdateDto={
@@ -83,7 +87,20 @@ export type TheaterGetDto = {
 export type TheaterCreateDto = {
   theaterName: string,
   address: string,
-  phone: any,
-  email: string
+  phone: string,
+  email: string,
 };
 
+export type BookingCreateDto = {
+  showtimeId: number,
+  numberOfTickets: number,
+  tenderAmount: number,
+  userId: number,
+};
+
+export type BookingGetDto = {
+  showtimeId: number,
+  numberOfTickets: number,
+  tenderAmount: number,
+  userId: number,
+}

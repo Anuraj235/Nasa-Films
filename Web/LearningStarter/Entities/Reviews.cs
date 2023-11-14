@@ -66,5 +66,6 @@ public class ReviewsEntityTypeConfiguration : IEntityTypeConfiguration<Reviews>
     public void Configure(EntityTypeBuilder<Reviews> builder)
     {
         builder.ToTable("Reviews");
+
     }
 }

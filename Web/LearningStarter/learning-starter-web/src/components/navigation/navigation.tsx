@@ -23,11 +23,11 @@ import {
 } from "../../constants/theme-constants";
 import { NavLink, NavLinkProps, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { UserDto } from "../../constants/types";
+import { UserGetDto } from "../../constants/types";
 import { useAuth } from "../../authentication/use-auth";
 
 type PrimaryNavigationProps = {
-  user?: UserDto;
+  user?: UserGetDto;
 };
 
 type NavigationItem = {

@@ -4,6 +4,7 @@ export const routes = {
   root: `/`,
   home: `/home`,
   user: `/user`, 
+  userUpdate: '/user/:id',
   showtimecreate:`/showtime-create`,
   showtimelisting:`/showtime-listing`,
   showtimeUpdate: `/showtimes/:id`,
@@ -14,3 +15,4 @@ export const routes = {
   theaterListing:`/theater-listing`,
   theaterUpdate:`/theaters/:id`
 };
+
