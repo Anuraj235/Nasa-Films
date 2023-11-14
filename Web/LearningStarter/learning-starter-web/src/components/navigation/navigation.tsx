@@ -97,6 +97,14 @@ const navigation: NavigationItem[] = [
       to: routes.theater,
     },
   },
+  {
+  text:"MyTheaters",
+  hide:false,
+    nav:{
+    to:routes.theaterListing,
+  },
+  },
+  
 ];
 
 const DesktopNavigation = () => {

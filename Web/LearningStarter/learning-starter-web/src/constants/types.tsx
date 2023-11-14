@@ -70,6 +70,7 @@ export type MovieGetDto ={
 }
 
 export type TheaterGetDto = {
+  theaterName: string;
   id: number;
   address: string;
   hallNumbers: number;
@@ -82,7 +83,7 @@ export type TheaterGetDto = {
 export type TheaterCreateDto = {
   theaterName: string,
   address: string,
-  phone: string,
+  phone: any,
   email: string
 };
 

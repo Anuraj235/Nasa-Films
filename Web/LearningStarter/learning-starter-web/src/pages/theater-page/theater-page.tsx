@@ -26,7 +26,7 @@ export const TheaterPage = () => {
       if (response.data.data) {
         showNotification({ message: "Successfully Created Theater", color: "green" });
         form.reset();
-        navigate(routes.home);
+        navigate(routes.theaterListing);
       }
     } catch (error) {
       showNotification({ message: "Error to create Theater", color: "red" })
@@ -37,9 +37,9 @@ export const TheaterPage = () => {
   return (
 
     <>
-      <Title order={2} align="center" style={{color:"#9C7A4B"}}>Add Theater </Title>
+      <Title order={2} align="center" style={{color:"#9C7A4B",marginTop:'5rem'}}>Add Theater </Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Container style={{ maxWidth: 320, margin: 'auto' }}>
+        <Container style={{ maxWidth: 420, margin: 'auto' }}>
 
           <TextInput
             mt="md"
