@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ApiResponse, BookingGetDto, MovieGetDto } from "../../constants/types";
+import { ApiResponse, BookingGetDto, MovieGetDto, Showtime, TheaterGetDto } from "../../constants/types";
 import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
 import {
@@ -8,81 +8,122 @@ import {
   Image,
   Button,
   Container,
+  Select,
   Grid,
   Card,
-  Text,
-  createStyles,
+  Text
 } from "@mantine/core";
+import { DatePicker } from '@mantine/dates';
 import { useNavigate, useParams } from "react-router-dom";
 import { routes } from "../../routes";
 import { useForm } from "@mantine/form";
+import { useAuth } from "../../authentication/use-auth";
 
 export const MovieBookingPage = () => {
+
   const [movie, setMovies] = useState<MovieGetDto>();
+  const [theaters, setTheaters] = useState<TheaterGetDto[]>();
+  const [selectedTheaterId, setSelectedTheaterId] = useState<number | null>(null);
+  const [availableShowtimes, setAvailableShowtimes] = useState<Showtime[]>([]);
   const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null);
+  const [value, setValue] = useState(new Date());
+  const [ticketCount, setTicketCount] = useState(1);
+
+  const { user } = useAuth()
   const { id } = useParams();
   const navigate = useNavigate();
-  const { classes } = useStyles();
 
-
-  const [ticketCount, setTicketCount] = useState(1);
   const handleTicketChange = (value) => {
     if (value > 0) {
       setTicketCount(value);
     }
   };
-
-  useEffect(() => {
-    fetchMovie();
-
-    async function fetchMovie() {
-      const response = await api.get<ApiResponse<MovieGetDto>>(
-        `/api/movies/${id}`
-      );
-
-      if (response.data.hasErrors) {
-        showNotification({ message: "Error fetching products." });
-      }
-
-      if (response.data.data) {
-        console.log("data", response.data.data);
-        setMovies(response.data.data);
-      }
+  const handleDateChange = (newValue: Date | null) => {
+    if (newValue) {
+      setValue(newValue);
     }
-  }, [id]);
+  };
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   const form = useForm({
     initialValues: {
-        showtimeId: 0,
-        numberOfTickets: 0,
-        tenderAmount: 0,
+      showtimeId: 0,
+      theaterID: 0,
+      numberOfTickets: 0,
+      bookingDate: new Date().toISOString(),
+      tenderAmount: 0,
+      userId: 0,
     },
-});
+  });
 
-const handleSubmit = async () => {
-  try {
-    const selectedShowtimeId = movie?.showtimes.find((showtime) => showtime.startTime === selectedShowtime)?.id;
+  const handleBookingSubmit = async () => {
+    try {
+      const selectedShowtimeObject = movie?.showtimes.find((showtime) => showtime.startTime === selectedShowtime);
 
-    if (selectedShowtimeId) {
-      form.setFieldValue('showtimeId', selectedShowtimeId);
-      form.setFieldValue('tenderAmount', ticketCount * 5);
-      form.setFieldValue('numberOfTickets', ticketCount);
-      //form.setFieldValue('userId', 1);
+      if (selectedShowtimeObject && selectedTheaterId) {
+        const updatedFormValues = {
+          showtimeId: selectedShowtimeObject.id,
+          theaterID: selectedTheaterId,
+          bookingDate: value.toISOString(),
+          numberofTickets: ticketCount,
+          tenderAmount: ticketCount * 5,
+          userId: user?.id
+        };
+        const response = await api.post<ApiResponse<BookingGetDto>>('/api/bookings', updatedFormValues);
 
-      const response = await api.post<ApiResponse<BookingGetDto>>('/api/bookings', form.values);
-
-      if (response.data.data) {
-        showNotification({ message: "Successfully booked tickets", color: "green" });
-        form.reset();
-        navigate(routes.home);
+        if (response.data.data) {
+          showNotification({ message: "Successfully booked tickets", color: "green" });
+          form.reset();
+          navigate(routes.home);
+        }
+      } else {
+        showNotification({ message: "Please select a showtime and a theater", color: "red" });
       }
-    } else {
-      showNotification({ message: "Please select a showtime", color: "red" });
+    } catch (error) {
+      showNotification({ message: "Error creating booking", color: "red" });
     }
-  } catch (error) {
-    showNotification({ message: "Error creating booking", color: "red" });
+
   }
-};
+
+  useEffect(() => {
+    async function fetchMovieAndTheaters() {
+      try {
+        const movieResponse = await api.get<ApiResponse<MovieGetDto>>(
+          `/api/movies/${id}`
+        );
+
+        if (movieResponse.data.hasErrors) {
+          showNotification({ message: "Error fetching movie data." });
+        } else if (movieResponse.data.data) {
+          setMovies(movieResponse.data.data);
+
+          const movieData = movieResponse.data.data;
+          const theaterIds = new Set(movieData.showtimes.map(showtime => showtime.theaterID));
+
+
+          const theatersPromises = Array.from(theaterIds).map(theaterId =>
+            api.get<ApiResponse<TheaterGetDto>>(`/api/Theaters/${theaterId}`)
+          );
+
+          const theatersResponses = await Promise.all(theatersPromises);
+          const availableTheaters = theatersResponses.map(response => response.data.data);
+          setTheaters(availableTheaters);
+
+        }
+      } catch (error) {
+        showNotification({ message: "An error occurred while fetching data." });
+      }
+    }
+
+    fetchMovieAndTheaters();
+  }, [id]);
+
+  const handleTheaterSelect = (theaterId: string) => {
+    setSelectedTheaterId(Number(theaterId));
+    const filteredShowtimes: Showtime[] = movie?.showtimes.filter(showtime => showtime.theaterID === Number(theaterId)) || [];
+    setAvailableShowtimes(filteredShowtimes);
+  };
 
   return (
     <>
@@ -102,6 +143,7 @@ const handleSubmit = async () => {
             )}
           </Grid.Col>
           <Grid.Col span={6}>
+
             <Container>
               <Text size="xl" weight={500} mt="md">
                 {movie && movie.title}
@@ -110,22 +152,31 @@ const handleSubmit = async () => {
               <Text mt="xs" color="dimmed" size="sm">
                 Description: {movie && movie.description}
               </Text>
-
-              <p>Available showtimes:</p>
-              <Container>
-                {movie &&
-                  movie.showtimes.map((showtime) => (
+              <Text mt="lg" size="sm" fw={500} >
+                Select Date:
+              </Text>
+              <DatePicker value={value} onChange={handleDateChange} minDate={today} />
+              <Select
+                label="Select Theater"
+                placeholder="Choose a theater"
+                data={theaters?.map(t => ({ value: t.id.toString(), label: t.theaterName })) || []}
+                onChange={handleTheaterSelect}
+              />
+              {availableShowtimes.length > 0 && (
+                <Container>
+                  <p>Available showtimes:</p>
+                  {availableShowtimes.map((showtime) => (
                     <Button
+                      style={{ margin: '0.1rem' }}
+                      variant={selectedShowtime === showtime.startTime ? "filled" : "outline"}
                       key={showtime.id}
-                      variant="outline"
-                      color={selectedShowtime === showtime.startTime ? "blue" : "gray"}
-                      style={{ marginRight: '8px' }}
                       onClick={() => setSelectedShowtime(showtime.startTime)}
                     >
                       {showtime.startTime}
                     </Button>
                   ))}
-              </Container>
+                </Container>
+              )}
 
               <NumberInput
                 style={{ marginTop: "12px" }}
@@ -148,10 +199,11 @@ const handleSubmit = async () => {
                 <Button
                   variant="light"
                   radius="md"
-                  onClick={handleSubmit}
+                  onClick={handleBookingSubmit}
                 >
                   Book now
                 </Button>
+
               </Container>
             </Container>
           </Grid.Col>
@@ -161,16 +213,3 @@ const handleSubmit = async () => {
   );
 };
 
-const useStyles = createStyles(() => ({
-  inputField: {
-    'label': {
-      color: "#9C7A4B",
-    },
-  },
-  submitButton: {
-    padding: "12px 0",
-    fontSize: "18px",
-    fontWeight: "bold",
-    transition: "background 0.3s",
-  },
-}));

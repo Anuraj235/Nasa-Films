@@ -1,102 +1,98 @@
-import { Container, createStyles, Divider, Flex, Header, Loader, Space, Table, Text } from "@mantine/core";
-import { useUser } from "../../authentication/use-auth";
-import { useEffect, useState } from "react";
-import { ApiResponse, UserGetDto } from "../../constants/types";
-import api from "../../config/axios";
-import { showNotification } from "@mantine/notifications";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { routes } from "../../routes";
+import React from 'react';
+import {
+  Container,
+  createStyles,
+  Card,
+  Avatar,
+  Text,
+  Group,
+  Button,
+  Loader,
+  useMantineTheme
+} from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../routes';
+import { useAuth } from '../../authentication/use-auth';
 
 export const UserPage = () => {
-  const [user, setUser] = useState<UserGetDto[]>();
   const navigate = useNavigate();
-  const {classes} = useStyles();
-
-  useEffect ( () => {
-    fetchUser();
-
-    async function fetchUser() {
-      const response = await api.get<ApiResponse<UserGetDto[]>>("/api/user")
-
-      if(response.data.hasErrors){
-        showNotification({message: "Error fetching User."});
-      }
-
-      if(response.data.data){
-        setUser(response.data.data);
-      }
-    }
-  }, []);
+  const { user } = useAuth();
+  const theme = useMantineTheme();
+  const { classes } = useStyles();
 
   return (
-   <Container>
-    <Header height={32}> User </Header>
-    <Space h="md"/>
-    {user ? (
-      <Table withBorder striped>
-        <thead>
-          <tr>
-            <th></th>
-            <th> First Name </th>
-            <th> Last Name </th>
-            <th> User Name </th>
-            <th> Email </th>
-            <th> Phone Number </th>
-            <th> Date of Birth </th>
-            <th> Loyalty </th>
-            </tr>
-            </thead>
-            <tbody>
-              {user?.map((user) => {
-              return (
-                <tr>
-                  <td><FontAwesomeIcon 
-                  className={classes.iconButton}
-                  icon={faPencil} onClick={() => {
-                    navigate(
-                      routes.userUpdate.replace(":id", '${user.id}'))
-                  }} /></td>
-                  <td> {user.firstName} </td>
-                  <td> {user.lastName} </td>
-                  <td> {user.userName} </td>
-                  <td> {user.phoneNumber} </td>
-                  <td> {user.dateOfBirth} </td>
-                  <td> {user.loyalty} </td>
-                </tr>
-              )
-              })}
-            </tbody>
-        </Table>
-    ) : (
-      <>
-      <Loader />
-      </>
-    )}
-      </Container>
-      )
-    };
+    <Container className={classes.userPageContainer}>
+      {user ? (
+        <Card shadow="sm" radius="md" style={{ maxWidth: 640 }}>
+          <Card.Section
+            style={{
+              background: theme.colors.gray[0],
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              position: 'relative',
+              paddingTop: theme.spacing.xl,
+            }}
+          >
+            <Avatar
+              size={120}
+              radius={120}
+              style={{
+                border: `3px solid blue`,
+                marginTop: theme.spacing.xl * 2,
+              }}
+            >
+              {user.firstName[0]}
+            </Avatar>
 
+            <Text size="xl" weight={700} style={{ marginTop: theme.spacing.sm }}>
+              {user.firstName + ' ' + user.lastName}
+            </Text>
+            <Text color="dimmed">{user.email}</Text>
+          </Card.Section>
 
-const useStyles = createStyles(() => {
-  return {
+          <Group spacing="xs" className={classes.infoGroup}>
+            <Text size="sm" fw={700}>Username: {user.userName}</Text>
+            <Text size="sm" fw={700}>Phone: {user.phoneNumber}</Text>
+            <Text size="sm" fw={700}>Date of Birth: {new Date(user.dateOfBirth).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            })}</Text>
+          </Group>
 
-    iconButton: {
-      cursor: "pointer",
-    }, 
+          <Button
+            variant="subtle"
+            fullWidth
+            onClick={() => navigate(routes.userUpdate.replace(":id", `${user.id}`))}
+            className={classes.editButton}
+          >
+            Edit Profile 
+            
+          </Button>
+        </Card>
+      ) : (
+        <Loader />
+      )}
+    </Container>
+  );
+};
 
-    textAlignLeft: {
-      textAlign: "left",
-    },
-
-    labelText: {
-      marginRight: "10px",
-    },
-
-    userPageContainer: {
-      display: "flex",
-      justifyContent: "center",
-    },
-  };
-});
+const useStyles = createStyles((theme) => ({
+  userPageContainer: {
+    padding: theme.spacing.xl,
+    maxWidth: 540,
+    maxHeight: 900,
+    margin: 'auto'
+  },
+  infoGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    padding: theme.spacing.md,
+    paddingTop: theme.spacing.xs,
+  },
+  editButton: {
+    marginTop: theme.spacing.md,
+  },
+}));
