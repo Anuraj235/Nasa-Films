@@ -37,7 +37,7 @@ export const Movies = () => {
               <Grid.Col span={4} key={movie.id}>
                 <Card shadow="sm" p="lg" radius="md" withBorder>
                   <Card.Section>
-                    <Image src={movie.imageUrl} height={600} alt={movie.title} />
+                    <Image src={movie.imageUrl} height={450} alt={movie.title} />
                   </Card.Section>
     
                   <Text size="lg" weight={500} mt="md">
@@ -66,6 +66,15 @@ export const Movies = () => {
               </Grid.Col>
             ))}
           </Grid>
+          <Container mt="4rem" style={{ paddingTop: "2rem" }}>
+          <Grid>
+          <Grid.Col span={12}>
+            <Text align="center" size="sm" color="dimmed">
+              © 2023 NASSA. All rights reserved.
+            </Text>
+          </Grid.Col>
+        </Grid></Container>
         </Container>
+        
       );
     };
