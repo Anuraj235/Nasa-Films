@@ -67,7 +67,6 @@ export const UserPage = () => {
               <th> Email </th>
               <th> Phone Number </th>
               <th> Date of Birth </th>
-              <th> Loyalty </th>
             </tr>
           </thead>
           <tbody>

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Numerics;
-using System.Reflection.Emit;
 using LearningStarter.Common;
 using LearningStarter.Data;
 using LearningStarter.Entities;
@@ -38,10 +37,8 @@ public class UsersController : ControllerBase
                 LastName = user.LastName,
                 UserName = user.UserName,
                 Email = user.Email,
-                Password = user.Password,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
-                Loyalty = user.Loyalty,
                 Reviews = user.Reviews.Select(x => new UserReviewGetDto
                 {
                     Id = x.Id,
@@ -78,25 +75,6 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("options")]
-
-    public IActionResult GetOptions()
-    {
-        var response = new Response();
-
-        var userOptions =_context.Users.Select(user => new OptionItemDto
-            {
-
-            Label = user.UserName,
-            
-            Value = user.Id.ToString()
-
-        }).ToList();
-        
-        response.Data = userOptions;
-        return Ok(response);
-    }
-
     [HttpGet("{id}")]
     public IActionResult GetById(
         [FromRoute] int id)
@@ -124,11 +102,9 @@ public class UsersController : ControllerBase
             FirstName = user.FirstName,
             LastName = user.LastName,
             UserName = user.UserName,
-            Password = user.Password,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             DateOfBirth = user.DateOfBirth,
-            Loyalty = user.Loyalty,
             Reviews = user.Reviews.Select(x => new UserReviewGetDto
             {
                 Id = x.Id,
@@ -183,22 +159,12 @@ public class UsersController : ControllerBase
 
         if (string.IsNullOrEmpty(userCreateDto.UserName))
         {
-            response.AddError("userName", "Username must contain at least 12 characters.");
+            response.AddError("userName", "User name cannot be empty.");
         }
 
         if (string.IsNullOrEmpty(userCreateDto.Password))
         {
             response.AddError("password", "Password cannot be empty.");
-        }
-
-        if (string.IsNullOrEmpty(userCreateDto.Email))
-        {
-            response.AddError("email", "Email must be valid.");
-        }
-
-        if (string.IsNullOrEmpty(userCreateDto.PhoneNumber))
-        {
-            response.AddError("phoneNumber", "Phone number must contain 10 numbers.");
         }
 
         if (response.HasErrors)
@@ -214,7 +180,6 @@ public class UsersController : ControllerBase
             Email = userCreateDto.Email,
             PhoneNumber = userCreateDto.PhoneNumber,
             DateOfBirth = userCreateDto.DateOfBirth,
-            Loyalty = userCreateDto.Loyalty
         };
         _context.Set<User>().Add(userToCreate);
         _context.SaveChanges();
@@ -231,7 +196,6 @@ public class UsersController : ControllerBase
             Email = userToCreate.Email,
             PhoneNumber = userToCreate.PhoneNumber,
             DateOfBirth = userToCreate.DateOfBirth,
-            Loyalty = userToCreate.Loyalty
         };
 
         response.Data = userGetDto;
@@ -291,7 +255,6 @@ public class UsersController : ControllerBase
         userToEdit.Email = userUpdateDto.Email;
         userToEdit.PhoneNumber = userUpdateDto.PhoneNumber;
         userToEdit.DateOfBirth = userUpdateDto.DateOfBirth;
-        userToEdit.Loyalty = userUpdateDto.Loyalty;
 
         _context.SaveChanges();
 
@@ -304,7 +267,7 @@ public class UsersController : ControllerBase
             Email = userToEdit.Email,
             PhoneNumber = userToEdit.PhoneNumber,
             DateOfBirth = userToEdit.DateOfBirth,
-            Loyalty = userToEdit.Loyalty
+           
         };
 
         response.Data = userGetDto;

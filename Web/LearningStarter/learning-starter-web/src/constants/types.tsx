@@ -36,7 +36,7 @@ export type UserCreateUpdateDto = {
   email: string;
   phoneNumber: string;
   dateOfBirth: string;
-  loyalty: number;
+  
 };
 
 export type ShowtimesCreateUpdateDto = {
