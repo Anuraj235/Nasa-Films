@@ -13,6 +13,8 @@ import { MovieBookingPage } from "../pages/movie-bookings-page/movie-bookings";
 import { MoviesPage } from "../pages/movies-page/movies-page";
 import { Movies } from "../pages/movies-page/movies-display";
 import { TheaterPage } from "../pages/theater-page/theater-page";
+import { TheaterListing } from "../pages/theater-page/theater-listing";
+import { TheaterUpdate } from "../pages/theater-page/theater-update";
 import { UserUpdate } from "../pages/user-page/user-update";
 
 
@@ -32,6 +34,7 @@ export const Routes = () => {
           <Route path={routes.userUpdate} element={<UserUpdate />} />
 
 
+
           <Route path={routes.showtimecreate} element={<ShowtimesForm />} />
           <Route path={routes.showtimelisting} element={<ShowtimeListing />} />
           <Route path={routes.showtimeUpdate} element={<ShowtimeUpdate />} />
@@ -46,7 +49,9 @@ export const Routes = () => {
      
           {/* When path === /theater render TheaterPage */}
           <Route path={routes.theater} element={<TheaterPage />} />
-
+          <Route path ={routes.theaterListing} element={<TheaterListing/>}/>
+          <Route path={routes.theaterUpdate} element={<TheaterUpdate/>}/>
+ 
           {/* Going to route "localhost:5001/" will go to homepage */}
           <Route path={routes.root} element={<Navigate to={routes.home} />} />
 

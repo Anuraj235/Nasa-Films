@@ -1,3 +1,4 @@
+
 //This is where you will declare all of your routes (the ones that show up in the search bar)
 export const routes = {
   root: `/`,
@@ -10,5 +11,8 @@ export const routes = {
   movieBookingPage: `/movie-booking/:id`,
   addMovie:`/addMovie`,
   movies: '/movies',
-  theater:`/theater`
-}
+  theater:`/theater`,
+  theaterListing:`/theater-listing`,
+  theaterUpdate:`/theaters/:id`
+};
+

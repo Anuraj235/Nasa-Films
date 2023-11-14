@@ -74,6 +74,7 @@ export type MovieGetDto ={
 }
 
 export type TheaterGetDto = {
+  theaterName: string;
   id: number;
   address: string;
   hallNumbers: number;
