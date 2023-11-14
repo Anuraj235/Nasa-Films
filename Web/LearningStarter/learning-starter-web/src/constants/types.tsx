@@ -69,6 +69,7 @@ export type MovieGetDto ={
       id:number,
       startTime:string,
       availableSeats:number,
+      theaterID:number
     }
   ]
 }
@@ -78,10 +79,18 @@ export type TheaterGetDto = {
   id: number;
   address: string;
   hallNumbers: number;
-  phone: number;
+  phone: string;
   email: string;
-  screen: number;
-  reviews: string;
+  screen: [];
+  reviews: [];
+  showtimes:[
+    {
+      id:number,
+      startTime:string,
+      availableSeats:number,
+      movieId:number
+    }
+  ],
 };
 
 export type TheaterCreateDto = {
@@ -100,7 +109,14 @@ export type BookingCreateDto = {
 
 export type BookingGetDto = {
   showtimeId: number,
+  theaterID:number,
   numberOfTickets: number,
   tenderAmount: number,
   userId: number,
 }
+export type Showtime = {
+  id: number;
+  startTime: string;
+  availableSeats: number;
+  theaterID: number;
+};

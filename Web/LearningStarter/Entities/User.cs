@@ -64,9 +64,9 @@ public class UserGetDto
     public DateTimeOffset DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 
-    public List<PaymentGetDto>? Payments { get; set; } = new();
-    public List<UserReviewGetDto>? Reviews { get; set; }
-    public List<UserBookingsGetDto>? Bookings { get; set; }
+    public List<PaymentGetDto> Payments { get; set; } = new();
+    public List<UserReviewGetDto> Reviews { get; set; }
+    public List<UserBookingsGetDto> Bookings { get; set; }
 }
 
 public class UserEntityConfiguration : IEntityTypeConfiguration<User>

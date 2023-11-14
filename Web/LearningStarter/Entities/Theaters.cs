@@ -19,6 +19,7 @@ namespace LearningStarter.Entities
         public List<Screen> Screens { get; set; }
 
         public List<Showtimes> Showtimes { get; set; }
+        public List<Booking> Boookings { get; set; }
     }
 
     public class TheaterGetDto

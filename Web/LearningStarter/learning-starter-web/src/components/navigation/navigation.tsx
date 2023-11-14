@@ -21,7 +21,7 @@ import {
   NAVBAR_HEIGHT,
   NAVBAR_HEIGHT_NUMBER,
 } from "../../constants/theme-constants";
-import { NavLink, NavLinkProps, useLocation } from "react-router-dom";
+import { NavLink, NavLinkProps, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { UserGetDto } from "../../constants/types";
 import { useAuth } from "../../authentication/use-auth";
@@ -58,13 +58,6 @@ const navigation: NavigationItem[] = [
     hide: false,
     nav: {
       to: routes.home,
-    },
-  },
-  {
-    text: "User",
-    hide: false,
-    nav: {
-      to: routes.user,
     },
   },
   {
@@ -107,11 +100,12 @@ const navigation: NavigationItem[] = [
   
 ];
 
+
 const DesktopNavigation = () => {
   const { classes, cx } = useStyles();
   const { pathname } = useLocation();
   const [active, setActive] = useState(navigation[0].nav?.to.toString());
-
+ 
   useEffect(() => {
     setActive(pathname);
   }, [pathname, setActive]);
@@ -188,6 +182,7 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
   const { classes } = useStyles();
   const { logout } = useAuth();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const navigate = useNavigate();
   const dark = colorScheme === "dark";
   return (
     <Header height={NAVBAR_HEIGHT_NUMBER}>
@@ -219,6 +214,7 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                   </Avatar>
                 </Menu.Target>
                 <Menu.Dropdown>
+                <Menu.Item onClick={() => navigate(routes.user)}>Profile</Menu.Item>
                   <Menu.Item onClick={() => toggleColorScheme()}>
                     {dark ? "Light mode" : "Dark mode"}
                   </Menu.Item>

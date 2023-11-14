@@ -38,7 +38,6 @@ export const TheaterListing = () => {
 
   const handleUpdate = (id) => {
     navigate(routes.theaterUpdate.replace(':id', id));
-    console.log("maile update page ma laijane id", id)
   }
 
   const handleDelete = (theaterId: number) => {
