@@ -70,6 +70,15 @@ export const UserPage = () => {
             Edit Profile 
             
           </Button>
+          <Button
+            variant="gradient"
+            fullWidth
+            onClick={() => navigate(routes.userBookings)}
+            className={classes.editButton}
+          >
+            My Bookings
+            
+          </Button>
         </Card>
       ) : (
         <Loader />

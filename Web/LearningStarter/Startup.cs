@@ -107,7 +107,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext dataContext, ILogger<Startup> logger)
     {
-        dataContext.Database.EnsureDeleted();
+        //dataContext.Database.EnsureDeleted();
         dataContext.Database.EnsureCreated();
 
         app.UseHsts();
@@ -224,8 +224,8 @@ public class Startup
                 Title = "One Piece Red",
                 Rating = 5,
                 //ReleaseDate = 2023 - 01 - 01,
-                Description = "Luffy meets Shanks!!!",
-                Genre = "Fantacy",
+                Description = "Uta is a beloved singer, renowned for concealing her own identity when performing. Her voice is described as \"otherworldly.\" Now, for the first time ever, Uta will reveal herself to the world at a live concert.",
+                Genre = "Fantasy",
                 Duration = 120,
                 ImageUrl = "https://i.redd.it/z4pkzmtwb8r81.jpg"
             },
@@ -233,8 +233,8 @@ public class Startup
                 Title = "Taylor Swift The Eros Tour",
                 Rating = 3,
                 //ReleaseDate = 2023 - 01 - 01,
-                Description = "Anish loves Taylor.",
-                Genre = "Fantacy",
+                Description = " The cultural phenomenon continues as pop icon Taylor Swift performs hit songs in a once-in-a-lifetime concert experience.",
+                Genre = "Musical",
                 Duration = 164,
                 ImageUrl = "https://m.media-amazon.com/images/M/MV5BM2E0NjA5MDktYmUxOC00NWUzLWJlNzMtZmJlNjU1ODZiMjgyXkEyXkFqcGdeQXVyMTY3ODkyNDkz._V1_.jpg"
             },
@@ -243,7 +243,7 @@ public class Startup
                 Rating = 4,
                 //ReleaseDate = 2023 - 01 - 01,
                 Description = "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
-                Genre = "Fantacy",
+                Genre = "Fantasy",
                 Duration = 164,
                 ImageUrl = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSdCn7P_niNCbNFHt9vLgDc-YlRIhwvnCPtHzyiHVP_GK-XmDS1"
             },
@@ -252,7 +252,7 @@ public class Startup
                 Rating = 2,
                 //ReleaseDate = 2023 - 01 - 01,
                 Description = "Groomed for stardom by \"X-Factor's\" Simon Cowell, the members of pop supergroup One Direction -- Niall Horan, Zayn Malik, Harry Styles, Louis Tomlinson and Liam Payne -- have emerged as a worldwide phenomenon. ",
-                Genre = "Gay",
+                Genre = "Musical",
                 Duration = 184,
                 ImageUrl = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcR7Wrvd1v6Y7QfTmiz3UJ0RylsREWLkjQOpz--_86AACtKnHLoW"
             },
@@ -340,7 +340,7 @@ public class Startup
             new()
             {
                 MovieId = 1,
-                StartTime = "9:00",
+                StartTime = "9:00 AM",
                 TheaterID = 1,
                 AvailableSeats = 85,
 
@@ -348,14 +348,14 @@ public class Startup
             new()
             {
                 MovieId = 1,
-                StartTime = "11:00",
+                StartTime = "12:00 PM",
                 TheaterID = 1,
                 AvailableSeats = 85,
             },
             new()
             {
                 MovieId = 1,
-                StartTime = "13:00",
+                StartTime = "04:00 PM",
                 TheaterID = 1,
                 AvailableSeats = 75,
             }

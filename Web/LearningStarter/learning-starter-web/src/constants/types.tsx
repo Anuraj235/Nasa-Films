@@ -108,8 +108,11 @@ export type BookingCreateDto = {
 };
 
 export type BookingGetDto = {
-  showtimeId: number,
-  theaterID:number,
+  id:number,
+  movieName:string,
+  startTime:string,
+  theaterName:string, 
+  imageUrl:string,
   numberOfTickets: number,
   tenderAmount: number,
   userId: number,

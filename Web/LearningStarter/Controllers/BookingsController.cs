@@ -23,43 +23,53 @@ public class BookingsController : ControllerBase
     public IActionResult GetAll()
     {
         var response = new Response();
-        var data = _dataContext
-            .Set<Booking>()
-            .Select(booking => new BookingGetDto
-            {
-                ID = booking.ID,
-                ShowtimeId = booking.ShowtimeId,
-                TheaterID=booking.TheaterID,
-                BookingDate = booking.BookingDate,
-                NumberofTickets = booking.NumberofTickets,
-                TenderAmount = booking.TenderAmount,
-                UserId = booking.UserId,
-
-            })
-            .ToList();
+        var data = _dataContext.Set<Booking>()
+        .Include(booking => booking.Showtime)
+            .ThenInclude(showtime => showtime.Movie)
+        .Include(booking => booking.Theater)
+        .Select(booking => new
+        {
+            id=booking.ID,
+            MovieName = booking.Showtime.Movie.Title,
+            StartTime = booking.Showtime.StartTime,
+            TheaterName = booking.Theater.TheaterName,
+            ImageUrl = booking.Showtime.Movie.ImageUrl,
+            NumberOfTickets = booking.NumberofTickets,
+            TenderAmount = booking.TenderAmount,
+            UserId = booking.UserId
+        })
+        .ToList();
         response.Data = data;
         return Ok(response);
 
     }
-    [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    [HttpGet("{userId}")]
+    public IActionResult GetById(int userId)
     {
         var response = new Response();
-        var data = _dataContext
-            .Set<Booking>()
-            .Select(booking => new BookingGetDto
+
+        var data = _dataContext.Set<Booking>()
+            .Include(booking => booking.Showtime)
+                .ThenInclude(showtime => showtime.Movie)
+            .Include(booking => booking.Theater)
+            .Where(booking => booking.UserId == userId)
+            .Select(booking => new
             {
-                ID = booking.ID,
-                ShowtimeId = booking.ShowtimeId,
-                TheaterID = booking.TheaterID,
-                BookingDate = booking.BookingDate,
-                NumberofTickets = booking.NumberofTickets,
+                id = booking.ID,
+                MovieName = booking.Showtime.Movie.Title,
+                StartTime = booking.Showtime.StartTime,
+                TheaterName = booking.Theater.TheaterName,
+                ImageUrl=booking.Showtime.Movie.ImageUrl,
+                NumberOfTickets = booking.NumberofTickets,
                 TenderAmount = booking.TenderAmount,
-                UserId = booking.UserId,
-
+                UserId = booking.UserId
             })
-            .FirstOrDefault(booking => booking.ID == id);
+            .ToList();
 
+        if (data == null || data.Count == 0)
+        {
+            return NotFound();
+        }
 
         response.Data = data;
         return Ok(response);

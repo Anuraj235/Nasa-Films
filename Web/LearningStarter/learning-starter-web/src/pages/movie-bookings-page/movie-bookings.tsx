@@ -75,7 +75,7 @@ export const MovieBookingPage = () => {
         if (response.data.data) {
           showNotification({ message: "Successfully booked tickets", color: "green" });
           form.reset();
-          navigate(routes.home);
+          navigate(routes.userBookings);
         }
       } else {
         showNotification({ message: "Please select a showtime and a theater", color: "red" });
