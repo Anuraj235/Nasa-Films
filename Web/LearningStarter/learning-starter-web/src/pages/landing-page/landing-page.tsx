@@ -26,9 +26,16 @@ export const LandingPage = () => {
         onMouseEnter={autoplay.current.stop}
         onMouseLeave={autoplay.current.reset}
       >
-        <Carousel.Slide><img src={image1} alt="Slide 1" style={{ objectFit: "fill", width: "100%", height: "100%" }} /></Carousel.Slide>
-        <Carousel.Slide><img src={image2} alt="Slide 2" style={{ objectFit: "fill", width: "100%", height: "100%" }}/></Carousel.Slide>
-        <Carousel.Slide><img src={image3} alt="Slide 3" style={{ objectFit: "fill", width: "100%", height: "100%" }}/></Carousel.Slide>
+        {/* WORKAROUND: Adding stop propagation to stop the error for now */}
+        <Carousel.Slide>
+          <img onClick={(e) => e.stopPropagation()} src={image1} alt="Slide 1" style={{ objectFit: "fill", width: "100%", height: "100%" }} />
+          </Carousel.Slide>
+          <Carousel.Slide>
+          <img onClick={(e) => e.stopPropagation()} src={image2} alt="Slide 2" style={{ objectFit: "fill", width: "100%", height: "100%" }}/>
+          </Carousel.Slide>
+          <Carousel.Slide>
+          <img onClick={(e) => e.stopPropagation()} src={image3} alt="Slide 3" style={{ objectFit: "fill", width: "100%", height: "100%" }}/>
+          </Carousel.Slide>
       </Carousel>
       <Title order={1} c="dimmed" style={{
           textAlign: "center",
