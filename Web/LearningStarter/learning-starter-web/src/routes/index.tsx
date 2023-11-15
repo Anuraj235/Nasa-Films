@@ -9,6 +9,7 @@ export const routes = {
   showtimelisting:`/showtime-listing`,
   showtimeUpdate: `/showtimes/:id`,
   movieBookingPage: `/movie-booking/:id`,
+  userBookings:`/user-bookings`,
   addMovie:`/addMovie`,
   movies: '/movies',
   theater:`/theater`,

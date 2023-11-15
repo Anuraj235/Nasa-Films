@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { ApiResponse, ShowtimesGetDto, Showtime } from '../../constants/types';
-import api from "../../config/axios";
+import { ApiResponse, ShowtimesGetDto } from '../../constants/types';
 import { showNotification } from "@mantine/notifications";
-import { Header, Space, Table, Loader, Modal, Text, Button, Flex,Pagination } from '@mantine/core';import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
+import { Header, Space, Table, Loader, Modal, Text, Button, Flex,Pagination } from '@mantine/core';
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
-
+import api from "../../config/axios";
 
 const PAGE_SIZE = 5; 
 export const ShowtimeListing = () => {

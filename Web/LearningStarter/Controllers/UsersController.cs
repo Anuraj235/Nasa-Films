@@ -185,10 +185,10 @@ public class UsersController : ControllerBase
             Loyalty = userCreateDto.Loyalty
         };
         _context.Set<User>().Add(userToCreate);
-        _context.SaveChanges();
         _userManager.CreateAsync(userToCreate, userCreateDto.Password);
-        _userManager.AddToRoleAsync(userToCreate, "Admin");
         _context.SaveChanges();
+        //_userManager.AddToRoleAsync(userToCreate, "Admin");
+        //_context.SaveChanges();
 
         var userGetDto = new UserGetDto
         {
