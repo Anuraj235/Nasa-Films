@@ -60,21 +60,21 @@ const navigation: NavigationItem[] = [
       to: routes.home,
     },
   },
-  {
-    text: "Showtimes", 
-    hide: false,
-    nav: {
-      to: routes.showtimecreate,
-    },
-  },
+  // {
+  //   text: "Showtimes", 
+  //   hide: false,
+  //   nav: {
+  //     to: routes.showtimecreate,
+  //   },
+  // },
 
-  {
-    text: "AddMovies",
-    hide: false,
-    nav: {
-      to: routes.addMovie,
-    },
-  },
+  // {
+  //   text: "AddMovies",
+  //   hide: false,
+  //   nav: {
+  //     to: routes.addMovie,
+  //   },
+  // },
 
   {
     text: "Movies",
@@ -83,20 +83,20 @@ const navigation: NavigationItem[] = [
       to:routes.movies,
     }
   },
-  {
-    text: "Theater",
-    hide: false,
-    nav: {
-      to: routes.theater,
-    },
-  },
-  {
-  text:"MyTheaters",
-  hide:false,
-    nav:{
-    to:routes.theaterListing,
-  },
-  },
+  // {
+  //   text: "Theater",
+  //   hide: false,
+  //   nav: {
+  //     to: routes.theater,
+  //   },
+  // },
+  // {
+  // text:"MyTheaters",
+  // hide:false,
+  //   nav:{
+  //   to:routes.theaterListing,
+  // },
+  // },
   
 ];
 
@@ -202,6 +202,23 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                 />
               </NavLink>
               {user && <DesktopNavigation />}
+              { user && (<Menu>
+                <Menu.Target>
+                <Button
+                  size="md"
+                  className={classes.paddedMenuItem}
+                  variant="subtle"
+                >
+                  Admin Options
+                </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item onClick={() => navigate(routes.addMovie)}>Add movie</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theaterListing)}>Add theatre</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theater)}>View theatres</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.showtimecreate)}>Add showtimes</Menu.Item>
+                </Menu.Dropdown>
+              </Menu>)}
             </Flex>
           </Group>
           <Group>
