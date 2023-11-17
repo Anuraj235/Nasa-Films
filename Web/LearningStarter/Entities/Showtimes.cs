@@ -14,7 +14,7 @@ namespace LearningStarter.Entities
         public int AvailableSeats { get; set; }
 
         public List<ShowtimeBooking> Bookings { get; set; } = new();
-        public Theaters Theater { get; set; } = new();
+        public Theaters Theater { get; set; }
 
         public int MovieId { get; set; }
         public Movie Movie { get; set; }
@@ -78,6 +78,9 @@ namespace LearningStarter.Entities
         public void Configure(EntityTypeBuilder<Showtimes> builder)
         {
             builder.ToTable("Showtimes");
+            builder.HasOne(s => s.Theater)
+               .WithMany(t => t.Showtimes)
+               .HasForeignKey(s => s.TheaterID);
         }
     }
 

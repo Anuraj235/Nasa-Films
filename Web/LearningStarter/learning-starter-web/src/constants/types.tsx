@@ -74,31 +74,64 @@ export type MovieGetDto = {
   imageUrl: string;
   showtimes: [
     {
-      id: number;
-      startTime: string;
-      availableSeats: number;
+
+      id:number,
+      startTime:string,
+      availableSeats:number,
+      theaterID:number
+  
     }
   ];
 };
 
 export type TheaterGetDto = {
+  theaterName: string;
   id: number;
   address: string;
   hallNumbers: number;
-  phone: number;
+  phone: string;
   email: string;
-  screen: number;
-  reviews: string;
+  screen: [];
+  reviews: [];
+  showtimes:[
+    {
+      id:number,
+      startTime:string,
+      availableSeats:number,
+      movieId:number
+    }
+  ],
 };
 
 export type TheaterCreateDto = {
-  theaterName: string;
-  address: string;
-  phone: string;
-  email: string;
+
+  theaterName: string,
+  address: string,
+  phone: string,
+  email: string,
 };
 
-export type OptionItemDto = {
-  label: string;
-  value: string;
+export type BookingCreateDto = {
+  showtimeId: number,
+  numberOfTickets: number,
+  tenderAmount: number,
+  userId: number,
+};
+
+export type BookingGetDto = {
+  id:number,
+  movieName:string,
+  startTime:string,
+  theaterName:string, 
+  imageUrl:string,
+  numberOfTickets: number,
+  tenderAmount: number,
+  userId: number,
 }
+export type Showtime = {
+  id: number;
+  startTime: string;
+  availableSeats: number;
+  theaterID: number;
+};
+

@@ -23,41 +23,53 @@ public class BookingsController : ControllerBase
     public IActionResult GetAll()
     {
         var response = new Response();
-        var data = _dataContext
-            .Set<Booking>()
-            .Select(booking => new BookingGetDto
-            {
-                ID = booking.ID,
-                ShowtimeId = booking.ShowtimeId,
-                BookingDate = booking.BookingDate,
-                NumberofTickets = booking.NumberofTickets,
-                TenderAmount = booking.TenderAmount,
-                UserId = booking.UserId,
-
-            })
-            .ToList();
+        var data = _dataContext.Set<Booking>()
+        .Include(booking => booking.Showtime)
+            .ThenInclude(showtime => showtime.Movie)
+        .Include(booking => booking.Theater)
+        .Select(booking => new
+        {
+            id=booking.ID,
+            MovieName = booking.Showtime.Movie.Title,
+            StartTime = booking.Showtime.StartTime,
+            TheaterName = booking.Theater.TheaterName,
+            ImageUrl = booking.Showtime.Movie.ImageUrl,
+            NumberOfTickets = booking.NumberofTickets,
+            TenderAmount = booking.TenderAmount,
+            UserId = booking.UserId
+        })
+        .ToList();
         response.Data = data;
         return Ok(response);
 
     }
-    [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    [HttpGet("{userId}")]
+    public IActionResult GetById(int userId)
     {
         var response = new Response();
-        var data = _dataContext
-            .Set<Booking>()
-            .Select(booking => new BookingGetDto
+
+        var data = _dataContext.Set<Booking>()
+            .Include(booking => booking.Showtime)
+                .ThenInclude(showtime => showtime.Movie)
+            .Include(booking => booking.Theater)
+            .Where(booking => booking.UserId == userId)
+            .Select(booking => new
             {
-                ID = booking.ID,
-                ShowtimeId = booking.ShowtimeId,
-                BookingDate = booking.BookingDate,
-                NumberofTickets = booking.NumberofTickets,
+                id = booking.ID,
+                MovieName = booking.Showtime.Movie.Title,
+                StartTime = booking.Showtime.StartTime,
+                TheaterName = booking.Theater.TheaterName,
+                ImageUrl=booking.Showtime.Movie.ImageUrl,
+                NumberOfTickets = booking.NumberofTickets,
                 TenderAmount = booking.TenderAmount,
-                UserId = booking.UserId,
-
+                UserId = booking.UserId
             })
-            .FirstOrDefault(booking => booking.ID == id);
+            .ToList();
 
+        if (data == null || data.Count == 0)
+        {
+            return NotFound();
+        }
 
         response.Data = data;
         return Ok(response);
@@ -89,28 +101,14 @@ public class BookingsController : ControllerBase
             .ThenInclude(sb => sb.Booking)
             .FirstOrDefault(s => s.Id == createDto.ShowtimeId);
 
-  
-       
-        if (showtime.Bookings == null)
-        {
-            showtime.Bookings = new List<ShowtimeBooking>();
-        }
-
-       
-        var user = _dataContext.Users.Find(createDto.UserId);
-        if (user == null)
-        {
-            response.AddError("UserId", "Invalid user associated with the booking");
-            return BadRequest(response);
-        }
-      
         var bookingToCreate = new Booking
         {
             ShowtimeId = createDto.ShowtimeId,
+            TheaterID = createDto.TheaterID,
             BookingDate = createDto.BookingDate,
             NumberofTickets = createDto.NumberofTickets,
             TenderAmount = createDto.TenderAmount,
-            UserId = user.Id,
+            UserId = createDto.UserId,
         };
 
         _dataContext.Set<Booking>().Add(bookingToCreate);
@@ -123,6 +121,7 @@ public class BookingsController : ControllerBase
         {
             ID = bookingToCreate.ID,
             ShowtimeId = bookingToCreate.ShowtimeId,
+            TheaterID=bookingToCreate.TheaterID,
             BookingDate = bookingToCreate.BookingDate,
             NumberofTickets = bookingToCreate.NumberofTickets,
             TenderAmount = bookingToCreate.TenderAmount,
@@ -163,6 +162,7 @@ public class BookingsController : ControllerBase
 
 
         bookingToUpdate.ShowtimeId = updateDto.ShowtimeId;
+        bookingToUpdate.TheaterID = updateDto.TheaterID;
         bookingToUpdate.BookingDate = updateDto.BookingDate;
         bookingToUpdate.NumberofTickets = updateDto.NumberofTickets;
         bookingToUpdate.TenderAmount = updateDto.TenderAmount;
@@ -174,6 +174,7 @@ public class BookingsController : ControllerBase
         {
             ID = bookingToUpdate.ID,
             ShowtimeId = bookingToUpdate.ShowtimeId,
+            TheaterID=bookingToUpdate.TheaterID,
             BookingDate = bookingToUpdate.BookingDate,
             NumberofTickets = bookingToUpdate.NumberofTickets,
             TenderAmount = bookingToUpdate.TenderAmount,

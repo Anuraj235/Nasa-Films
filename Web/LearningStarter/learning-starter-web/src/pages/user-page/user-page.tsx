@@ -18,9 +18,10 @@ import { faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 
+
 export const UserPage = () => {
-  const [user, setUser] = useState<UserGetDto[]>();
   const navigate = useNavigate();
+
   const { classes } = useStyles();
 
   useEffect(() => {
@@ -110,17 +111,58 @@ const useStyles = createStyles(() => {
       cursor: "pointer",
     },
 
-    textAlignLeft: {
-      textAlign: "left",
-    },
 
-    labelText: {
-      marginRight: "10px",
-    },
+          <Group spacing="xs" className={classes.infoGroup}>
+            <Text size="sm" fw={700}>Username: {user.userName}</Text>
+            <Text size="sm" fw={700}>Phone: {user.phoneNumber}</Text>
+            <Text size="sm" fw={700}>Date of Birth: {new Date(user.dateOfBirth).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            })}</Text>
+          </Group>
 
-    userPageContainer: {
-      display: "flex",
-      justifyContent: "center",
-    },
-  };
-});
+          <Button
+            variant="subtle"
+            fullWidth
+            onClick={() => navigate(routes.userUpdate.replace(":id", `${user.id}`))}
+            className={classes.editButton}
+          >
+            Edit Profile 
+            
+          </Button>
+          <Button
+            variant="gradient"
+            fullWidth
+            onClick={() => navigate(routes.userBookings)}
+            className={classes.editButton}
+          >
+            My Bookings
+            
+          </Button>
+        </Card>
+      ) : (
+        <Loader />
+      )}
+    </Container>
+  );
+};
+
+const useStyles = createStyles((theme) => ({
+  userPageContainer: {
+    padding: theme.spacing.xl,
+    maxWidth: 540,
+    maxHeight: 900,
+    margin: 'auto'
+  },
+  infoGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    padding: theme.spacing.md,
+    paddingTop: theme.spacing.xs,
+  },
+  editButton: {
+    marginTop: theme.spacing.md,
+  },
+}));

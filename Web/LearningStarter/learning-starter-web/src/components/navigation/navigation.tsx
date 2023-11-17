@@ -21,7 +21,7 @@ import {
   NAVBAR_HEIGHT,
   NAVBAR_HEIGHT_NUMBER,
 } from "../../constants/theme-constants";
-import { NavLink, NavLinkProps, useLocation } from "react-router-dom";
+import { NavLink, NavLinkProps, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { UserGetDto } from "../../constants/types";
 import { useAuth } from "../../authentication/use-auth";
@@ -60,28 +60,21 @@ const navigation: NavigationItem[] = [
       to: routes.home,
     },
   },
-  {
-    text: "User",
-    hide: false,
-    nav: {
-      to: routes.user,
-    },
-  },
-  {
-    text: "Showtimes", 
-    hide: false,
-    nav: {
-      to: routes.showtimecreate,
-    },
-  },
+  // {
+  //   text: "Showtimes", 
+  //   hide: false,
+  //   nav: {
+  //     to: routes.showtimecreate,
+  //   },
+  // },
 
-  {
-    text: "AddMovies",
-    hide: false,
-    nav: {
-      to: routes.addMovie,
-    },
-  },
+  // {
+  //   text: "AddMovies",
+  //   hide: false,
+  //   nav: {
+  //     to: routes.addMovie,
+  //   },
+  // },
 
   {
     text: "Movies",
@@ -90,20 +83,29 @@ const navigation: NavigationItem[] = [
       to:routes.movies,
     }
   },
-  {
-    text: "Theater",
-    hide: false,
-    nav: {
-      to: routes.theater,
-    },
-  },
+  // {
+  //   text: "Theater",
+  //   hide: false,
+  //   nav: {
+  //     to: routes.theater,
+  //   },
+  // },
+  // {
+  // text:"MyTheaters",
+  // hide:false,
+  //   nav:{
+  //   to:routes.theaterListing,
+  // },
+  // },
+  
 ];
+
 
 const DesktopNavigation = () => {
   const { classes, cx } = useStyles();
   const { pathname } = useLocation();
   const [active, setActive] = useState(navigation[0].nav?.to.toString());
-
+ 
   useEffect(() => {
     setActive(pathname);
   }, [pathname, setActive]);
@@ -180,6 +182,7 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
   const { classes } = useStyles();
   const { logout } = useAuth();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const navigate = useNavigate();
   const dark = colorScheme === "dark";
   return (
     <Header height={NAVBAR_HEIGHT_NUMBER}>
@@ -199,6 +202,23 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                 />
               </NavLink>
               {user && <DesktopNavigation />}
+              { user && (<Menu>
+                <Menu.Target>
+                <Button
+                  size="md"
+                  className={classes.paddedMenuItem}
+                  variant="subtle"
+                >
+                  Admin Options
+                </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item onClick={() => navigate(routes.addMovie)}>Add movie</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theaterListing)}>Add theatre</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theater)}>View theatres</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.showtimecreate)}>Add showtimes</Menu.Item>
+                </Menu.Dropdown>
+              </Menu>)}
             </Flex>
           </Group>
           <Group>
@@ -211,6 +231,7 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                   </Avatar>
                 </Menu.Target>
                 <Menu.Dropdown>
+                <Menu.Item onClick={() => navigate(routes.user)}>Profile</Menu.Item>
                   <Menu.Item onClick={() => toggleColorScheme()}>
                     {dark ? "Light mode" : "Dark mode"}
                   </Menu.Item>

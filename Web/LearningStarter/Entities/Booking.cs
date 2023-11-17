@@ -10,6 +10,7 @@ namespace LearningStarter.Entities
     {
         public int ID { get; set; }
         public int ShowtimeId { get; set; }
+        public int TheaterID { get; set; }
         public Showtimes Showtime { get; set; }
         public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
@@ -17,12 +18,14 @@ namespace LearningStarter.Entities
 
         public User User { get; set; }
         public int UserId { get; set; }
+        public Theaters Theater { get; set; }
 
     }
     public class BookingGetDto
     {
         public int ID { get; set; }
         public int ShowtimeId { get; set; }
+        public int TheaterID { get; set; }
         public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
@@ -35,6 +38,7 @@ namespace LearningStarter.Entities
         public int ID { get; set; }
 
         public int ShowtimeId { get; set; }
+        public int TheaterID { get; set; }
         public BookingShowtimeGetDto Showtime { get; set; }
 
         public DateTimeOffset BookingDate { get; set; }
@@ -46,6 +50,7 @@ namespace LearningStarter.Entities
     public class BookingCreateDto
     {
         public int ShowtimeId { get; set; }
+        public int TheaterID { get; set; }
         public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
@@ -55,6 +60,7 @@ namespace LearningStarter.Entities
     public class BookingUpdateDto
     {
         public int ShowtimeId { get; set; }
+        public int TheaterID { get; set; }
         public DateTime BookingDate { get; set; }
         public int NumberofTickets { get; set; }
         public int TenderAmount { get; set; }
@@ -66,8 +72,11 @@ namespace LearningStarter.Entities
         public void Configure(EntityTypeBuilder<Booking> builder)
         {
             builder.ToTable("Bookings");
+            builder.HasOne(b => b.Theater)
+               .WithMany(t => t.Boookings)
+               .HasForeignKey(b => b.TheaterID)
+               .OnDelete(DeleteBehavior.NoAction);
 
-         
         }
 
     }

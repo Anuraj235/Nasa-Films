@@ -182,10 +182,10 @@ public class UsersController : ControllerBase
             DateOfBirth = userCreateDto.DateOfBirth,
         };
         _context.Set<User>().Add(userToCreate);
-        _context.SaveChanges();
         _userManager.CreateAsync(userToCreate, userCreateDto.Password);
-        _userManager.AddToRoleAsync(userToCreate, "Admin");
         _context.SaveChanges();
+        //_userManager.AddToRoleAsync(userToCreate, "Admin");
+        //_context.SaveChanges();
 
         var userGetDto = new UserGetDto
         {
@@ -205,7 +205,7 @@ public class UsersController : ControllerBase
 
     [HttpPut("{id}")]
     public IActionResult Edit(
-        [FromRoute] int id,
+        [FromRoute] int id, 
         [FromBody] UserUpdateDto userUpdateDto)
     {
         var response = new Response();
@@ -215,7 +215,7 @@ public class UsersController : ControllerBase
             response.AddError("id", "There was a problem editing the user.");
             return NotFound(response);
         }
-
+        
         var userToEdit = _context.Users.FirstOrDefault(x => x.Id == id);
 
         if (userToEdit == null)
