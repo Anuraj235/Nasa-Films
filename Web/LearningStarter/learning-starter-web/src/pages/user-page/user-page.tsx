@@ -1,55 +1,116 @@
-import React from 'react';
 import {
+  Button,
   Container,
   createStyles,
-  Card,
-  Avatar,
-  Text,
-  Group,
-  Button,
+  Flex,
+  Header,
   Loader,
-  useMantineTheme
-} from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
-import { routes } from '../../routes';
-import { useAuth } from '../../authentication/use-auth';
+  Space,
+  Table,
+  Title,
+} from "@mantine/core";
+import { useEffect, useState } from "react";
+import { ApiResponse, UserGetDto } from "../../constants/types";
+import api from "../../config/axios";
+import { showNotification } from "@mantine/notifications";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes";
+
 
 export const UserPage = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const theme = useMantineTheme();
+
   const { classes } = useStyles();
 
-  return (
-    <Container className={classes.userPageContainer}>
-      {user ? (
-        <Card shadow="sm" radius="md" style={{ maxWidth: 640 }}>
-          <Card.Section
-            style={{
-              background: theme.colors.gray[0],
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              position: 'relative',
-              paddingTop: theme.spacing.xl,
-            }}
-          >
-            <Avatar
-              size={120}
-              radius={120}
-              style={{
-                border: `3px solid blue`,
-                marginTop: theme.spacing.xl * 2,
-              }}
-            >
-              {user.firstName[0]}
-            </Avatar>
+  useEffect(() => {
+    fetchUser();
 
-            <Text size="xl" weight={700} style={{ marginTop: theme.spacing.sm }}>
-              {user.firstName + ' ' + user.lastName}
-            </Text>
-            <Text color="dimmed">{user.email}</Text>
-          </Card.Section>
+    async function fetchUser() {
+      const response = await api.get<ApiResponse<UserGetDto[]>>("/api/users");
+
+      console.log("API Response:", response.data);
+
+      if (response.data.hasErrors) {
+        showNotification({ message: "Error fetching User." });
+      }
+
+      if (response.data.data) {
+        setUser(response.data.data);
+        console.log("User data:", response.data.data);
+      }
+    }
+  }, []);
+
+  return (
+    <Container>
+      <Flex direction="row" justify="space-between">
+        <Title order={3}> User </Title>
+        <Button
+          onClick={() => {
+            navigate(routes.userCreate);
+          }}
+        >
+          <FontAwesomeIcon icon={faPlus} /> <Space w={8} />
+          New User
+        </Button>
+      </Flex>
+      <Space h="md" />
+      {user ? (
+        <Table withBorder striped>
+          <thead>
+            <tr>
+              <th></th>
+              <th> First Name </th>
+              <th> Last Name </th>
+              <th> User Name </th>
+              <th> Email </th>
+              <th> Phone Number </th>
+              <th> Date of Birth </th>
+            </tr>
+          </thead>
+          <tbody>
+            {user?.map((user) => {
+              return (
+                <tr key={user.id}>
+                  <td>
+                    <FontAwesomeIcon
+                      className={classes.iconButton}
+                      icon={faPencil}
+                      onClick={() => {
+                        navigate(
+                          routes.userUpdate.replace(":id", "${useUser.id}")
+                        );
+                      }}
+                    />
+                  </td>
+                  <td> {user.firstName} </td>
+                  <td> {user.lastName} </td>
+                  <td> {user.userName} </td>
+                  <td> {user.phoneNumber} </td>
+                  <td> {user.dateOfBirth} </td>
+                  <td> {user.loyalty} </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      ) : (
+        <>
+          <Loader />
+        </>
+      )}
+    </Container>
+  );
+};
+
+const useStyles = createStyles(() => {
+  return {
+    iconButton: {
+      cursor: "pointer",
+    },
+
 
           <Group spacing="xs" className={classes.infoGroup}>
             <Text size="sm" fw={700}>Username: {user.userName}</Text>

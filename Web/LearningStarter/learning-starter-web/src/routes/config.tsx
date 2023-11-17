@@ -19,6 +19,7 @@ import { UserUpdate } from "../pages/user-page/user-update";
 import { UserBooking } from "../pages/movie-bookings-page/user-bookings";
 
 
+
 //This is where you will tell React Router what to render when the path matches the route specified.
 export const Routes = () => {
   //Calling the useUser() from the use-auth.tsx in order to get user information
@@ -33,6 +34,8 @@ export const Routes = () => {
           {/* When path === /iser render UserPage */}
           <Route path={routes.user} element={<UserPage />} />
           <Route path={routes.userUpdate} element={<UserUpdate />} />
+          <Route path={routes.userCreate} element={<UserCreate />} />
+        
 
 
 
@@ -48,12 +51,12 @@ export const Routes = () => {
           <Route path={routes.addMovie} element={<MoviesPage />} />  
           <Route path={routes.movies} element={<Movies />} /> 
 
-     
           {/* When path === /theater render TheaterPage */}
           <Route path={routes.theater} element={<TheaterPage />} />
           <Route path ={routes.theaterListing} element={<TheaterListing/>}/>
           <Route path={routes.theaterUpdate} element={<TheaterUpdate/>}/>
  
+
           {/* Going to route "localhost:5001/" will go to homepage */}
           <Route path={routes.root} element={<Navigate to={routes.home} />} />
 
