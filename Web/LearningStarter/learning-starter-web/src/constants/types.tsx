@@ -25,8 +25,8 @@ export type UserGetDto = {
   userName: string;
   email: string;
   phoneNumber: string;
-  dateOfBirth: string;
-  loyalty: number;
+  dateOfBirth: Date;
+
 };
 
 export type UserCreateUpdateDto = {
@@ -35,7 +35,7 @@ export type UserCreateUpdateDto = {
   userName: string;
   email: string;
   phoneNumber: string;
-  dateOfBirth: string;
+  dateOfBirth: Date;
   
 };
 
@@ -134,4 +134,3 @@ export type Showtime = {
   availableSeats: number;
   theaterID: number;
 };
-

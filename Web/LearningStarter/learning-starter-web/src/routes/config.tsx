@@ -17,6 +17,7 @@ import { TheaterListing } from "../pages/theater-page/theater-listing";
 import { TheaterUpdate } from "../pages/theater-page/theater-update";
 import { UserUpdate } from "../pages/user-page/user-update";
 import { UserBooking } from "../pages/movie-bookings-page/user-bookings";
+import { UserCreate } from "../pages/user-page/user-create";
 
 
 

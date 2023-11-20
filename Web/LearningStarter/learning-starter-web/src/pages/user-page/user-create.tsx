@@ -1,7 +1,6 @@
 import { FormErrors, useForm } from "@mantine/form";
 import {
   ApiResponse,
-  OptionItemDto,
   UserCreateUpdateDto,
   UserGetDto,
 } from "../../constants/types";
@@ -9,26 +8,22 @@ import {
   Button,
   Container,
   Flex,
-  Select,
   Space,
-  TextInput,
 } from "@mantine/core";
 import { routes } from "../../routes";
 import api from "../../config/axios";
 import { useNavigate } from "react-router-dom";
 import { showNotification } from "@mantine/notifications";
-import { UserFormProvider, useUserForm } from "../User/user-form-fields";
+import { UserFormFields, UserFormProvider, useUserForm} from "../User/user-form-fields";
 import { useEffect, useState } from "react";
 
-const handleDateChange= 
-
 export const UserCreate = () => {
-  const [userOptions, setUserOptions] = useState<OptionItemDto[]>();
+  const [userOptions, setUserOptions] = useState<UserCreateUpdateDto[]>();
 
   useEffect(() => {
     getUserOptions();
     async function getUserOptions() {
-      const response = await api.get<ApiResponse<OptionItemDto[]>>(
+      const response = await api.get<ApiResponse<UserGetDto[]>>(
         "/api/users/options"
       );
 
@@ -43,19 +38,21 @@ export const UserCreate = () => {
 
   const navigate = useNavigate();
   const mantineForm = useUserForm({
+
     initialValues: {
+      id: 1,
       firstName: "",
       lastName: "",
       userName: "",
       email: "",
       phoneNumber: "",
-      dateOfBirth: "",
-      loyalty: 0,
+      dateOfBirth: new Date(),
+      
     },
   });
 
-  const submitUser = async (values: UserCreateUpdateDto) => {
-    const response = await api.post<ApiResponse<UserGetDto>>(
+  const submitUser = async (values: UserGetDto) => {
+    const response = await api.post<ApiResponse<UserCreateUpdateDto>>(
       "/api/users",
       values
     );
@@ -84,31 +81,8 @@ export const UserCreate = () => {
       <Container>
         <div>
           <form onSubmit={mantineForm.onSubmit(submitUser)}>
-            <TextInput
-              {...mantineForm.getInputProps("firstName")}
-              label="First Name"
-              withAsterisk
-            />
-            <TextInput
-              {...mantineForm.getInputProps("lastName")}
-              label="Last Name"
-              withAsterisk
-            />
-            <TextInput
-              {...mantineForm.getInputProps("userName")}
-              label="Username"
-              withAsterisk
-            />
-            <TextInput
-              {...mantineForm.getInputProps("email")}
-              label="Email"
-              withAsterisk
-            />
-            <TextInput
-              {...mantineForm.getInputProps("dateOfBirth")}
-              label="Date Of Birth"
-              withAsterisk
-            />
+            <UserFormFields />
+
             <Space h={18} />
             <Flex direction={"row"}>
               <Button type="submit">Submit</Button>

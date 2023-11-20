@@ -3,7 +3,6 @@ import {
   Container,
   createStyles,
   Flex,
-  Header,
   Loader,
   Space,
   Table,
@@ -21,8 +20,8 @@ import { routes } from "../../routes";
 
 export const UserPage = () => {
   const navigate = useNavigate();
-
   const { classes } = useStyles();
+  const[user, setUser] = useState<UserGetDto[]>()
 
   useEffect(() => {
     fetchUser();
@@ -49,7 +48,7 @@ export const UserPage = () => {
         <Title order={3}> User </Title>
         <Button
           onClick={() => {
-            navigate(routes.userCreate);
+            navigate(routes.user);
           }}
         >
           <FontAwesomeIcon icon={faPlus} /> <Space w={8} />
@@ -89,8 +88,11 @@ export const UserPage = () => {
                   <td> {user.lastName} </td>
                   <td> {user.userName} </td>
                   <td> {user.phoneNumber} </td>
-                  <td> {user.dateOfBirth} </td>
-                  <td> {user.loyalty} </td>
+                  <td> {new Date(user.dateOfBirth).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              })} </td>
                 </tr>
               );
             })}
@@ -105,48 +107,6 @@ export const UserPage = () => {
   );
 };
 
-const useStyles = createStyles(() => {
-  return {
-    iconButton: {
-      cursor: "pointer",
-    },
-
-
-          <Group spacing="xs" className={classes.infoGroup}>
-            <Text size="sm" fw={700}>Username: {user.userName}</Text>
-            <Text size="sm" fw={700}>Phone: {user.phoneNumber}</Text>
-            <Text size="sm" fw={700}>Date of Birth: {new Date(user.dateOfBirth).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric'
-            })}</Text>
-          </Group>
-
-          <Button
-            variant="subtle"
-            fullWidth
-            onClick={() => navigate(routes.userUpdate.replace(":id", `${user.id}`))}
-            className={classes.editButton}
-          >
-            Edit Profile 
-            
-          </Button>
-          <Button
-            variant="gradient"
-            fullWidth
-            onClick={() => navigate(routes.userBookings)}
-            className={classes.editButton}
-          >
-            My Bookings
-            
-          </Button>
-        </Card>
-      ) : (
-        <Loader />
-      )}
-    </Container>
-  );
-};
 
 const useStyles = createStyles((theme) => ({
   userPageContainer: {
@@ -164,5 +124,11 @@ const useStyles = createStyles((theme) => ({
   },
   editButton: {
     marginTop: theme.spacing.md,
+  },
+
+  iconButton: {
+    cursor: 'pointer',
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
   },
 }));

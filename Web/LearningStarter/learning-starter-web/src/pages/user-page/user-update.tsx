@@ -1,5 +1,5 @@
 import { Button, Container, Flex, Space, TextInput } from "@mantine/core"
-import { ApiResponse, UserGetDto, UserCreateUpdateDto, OptionItemDto } from "../../constants/types";
+import { ApiResponse, UserGetDto, UserCreateUpdateDto } from "../../constants/types";
 import { useEffect, useState } from "react";
 import api from "../../config/axios";
 import { useNavigate, useParams } from "react-router-dom";

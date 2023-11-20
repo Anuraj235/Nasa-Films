@@ -1,21 +1,22 @@
 import { Container, Input } from "@mantine/core"
+import { DatePicker } from "@mantine/dates";
 import { createFormContext } from "@mantine/form";
-import { Form } from "react-router-dom";
+
 type UserFormValues = {
+    id: number;
     firstName: string;
     lastName: string;
     userName: string;
     email: string;
     phoneNumber: string;
-    dateOfBirth: string;
-    loyalty: number;
+    dateOfBirth: Date;
     
 }
 
-export const [UserFormProvider, useUserFromContext, useUserForm] = createFormContext<UserFormValues>();
+export const [UserFormProvider, useUserFormContext, useUserForm] = createFormContext<UserFormValues>();
 
 export const UserFormFields = () => {
-    const form = useUserFromContext();
+    const form = useUserFormContext();
 
     return (
         <>
@@ -56,24 +57,13 @@ export const UserFormFields = () => {
         </Container>
 
         <Container px={0}>
-            <Container px={0}>
-                <label htmlFor="dateOfBirth">Date Of Birth</label>
-            </Container>
-            <Input {...form.getInputProps("dateOfBirth")} />
-        </Container>
-
         <Container px={0}>
-            <Container px={0}>
-                <label htmlFor="loyalty">Loyalty</label>
-            </Container>
-            <Input {...form.getInputProps("loyalty")} />
+          <label htmlFor="dateOfBirth">Date Of Birth</label>
         </Container>
-
-
-
-
-        </>
-        
-        
-    )
-}
+        {/* Use DatePicker component for selecting date */}
+        <DatePicker {...form.getInputProps("dateOfBirth")} />
+      </Container>
+      </>
+    );
+    
+};
