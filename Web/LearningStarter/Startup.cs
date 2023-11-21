@@ -185,6 +185,10 @@ public class Startup
                 FirstName = "Seeded",
                 LastName = "User",
                 UserName = "admin",
+                Email = "AdminShreeza@yahoo.com",
+                PhoneNumber = "1234567890",
+                DateOfBirth = DateTime.Now,
+                Loyalty = 1
             };
 
             await userManager.CreateAsync(seededUser, "Password");

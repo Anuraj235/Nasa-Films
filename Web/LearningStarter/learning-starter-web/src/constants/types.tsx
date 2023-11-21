@@ -1,8 +1,11 @@
 //This type uses a generic (<T>).  For more information on generics see: https://www.typescriptlang.org/docs/handbook/2/generics.html
 //You probably wont need this for the scope of this class :)
 
+import { StringLiteral } from "typescript";
+
 import { Key } from "react";
 import { Rating } from '@mantine/core';
+
 
 export type ApiResponse<T> = {
   data: T;
@@ -26,54 +29,64 @@ export type UserGetDto = {
   userName: string;
   email: string;
   phoneNumber: string;
-  dateOfBirth: string;
-  loyalty: number;
+  dateOfBirth: Date;
+
 };
 
-export type ShowtimesCreateUpdateDto={
+export type UserCreateUpdateDto = {
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: Date;
+  
+};
+
+export type ShowtimesCreateUpdateDto = {
   movieID: any;
   startTime: any;
   theaterID: any;
-  availableSeats: any; 
-
+  availableSeats: any;
 };
 
-export type ShowtimesGetDto={
-  id:any;
+export type ShowtimesGetDto = {
+  id: any;
   movieID: any;
   startTime: any;
   theaterID: any;
-  availableSeats: any; 
-
+  availableSeats: any;
 };
 
-export type MovieCreateDto={
+export type MovieCreateDto = {
   title: string;
   releaseDate: Date;
   description: string;
-  genre:null| string;
+  genre: null | string;
   duration: number;
-  imageUrl:string;
-}
+  imageUrl: string;
+};
 
-export type MovieGetDto ={
-  id:number,
-  title:string,
-  description:string,
-  releaseDate: Date,
-  duration: number,
-  genre:string,
-  rating:number,
-  imageUrl:string,
-  showtimes:[
+export type MovieGetDto = {
+  id: number;
+  title: string;
+  description: string;
+  releaseDate: Date;
+  duration: number;
+  genre: string;
+  rating: number;
+  imageUrl: string;
+  showtimes: [
     {
+
       id:number,
       startTime:string,
       availableSeats:number,
       theaterID:number
+  
     }
-  ]
-}
+  ];
+};
 
 export type TheaterGetDto = {
   theaterName: string;
@@ -95,6 +108,7 @@ export type TheaterGetDto = {
 };
 
 export type TheaterCreateDto = {
+
   theaterName: string,
   address: string,
   phone: string,
@@ -124,6 +138,7 @@ export type Showtime = {
   startTime: string;
   availableSeats: number;
   theaterID: number;
+};
 };
 export type ReviewGetDto = {
   id: number,
