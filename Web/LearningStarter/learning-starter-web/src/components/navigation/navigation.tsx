@@ -214,8 +214,8 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Item onClick={() => navigate(routes.addMovie)}>Add movie</Menu.Item>
-                  <Menu.Item onClick={() => navigate(routes.theaterListing)}>Add theatre</Menu.Item>
-                  <Menu.Item onClick={() => navigate(routes.theater)}>View theatres</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theaterListing)}>View theatres </Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theater)}>Add theatre</Menu.Item>
                   <Menu.Item onClick={() => navigate(routes.showtimecreate)}>Add showtimes</Menu.Item>
                 </Menu.Dropdown>
               </Menu>)}
