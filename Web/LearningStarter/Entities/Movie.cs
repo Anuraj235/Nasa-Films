@@ -10,7 +10,7 @@ public class Movie
 {
     public int Id { get; set; }
     public string Title { get; set; }
-    public int Rating { get; set; }
+    public int? Rating { get; set; }
     public DateTime ReleaseDate { get; set; }
     public string Description { get; set; }
     public string Genre { get; set; }
@@ -25,7 +25,7 @@ public class MovieGetDto
 {
     public int Id { get; set; }
     public string Title { get; set; }
-    public int Rating { get; set; }
+    public int? Rating { get; set; }
     public DateTime ReleaseDate { get; set; }
     public string Description { get; set; }
     public string Genre { get; set; }
@@ -41,7 +41,7 @@ public class ShowtimeMovieGetDto
 {
     public int Id { get; set; }
     public string Title { get; set; }
-    public int Rating { get; set; }
+    public int? Rating { get; set; }
     public DateTime ReleaseDate { get; set; }
     public string Description { get; set; }
     public string Genre { get; set; }
@@ -51,7 +51,7 @@ public class ShowtimeMovieGetDto
 public class MovieCreateDto
 {
     public string Title { get; set; }
-    public int Rating { get; set; }
+    public int? Rating { get; set; }
     public DateTime ReleaseDate { get; set; }
     public string Description { get; set; }
     public string Genre { get; set; }
@@ -64,7 +64,7 @@ public class MovieCreateDto
 public class MovieUpdateDto
 {
     public string Title { get; set; }
-    public int Rating { get; set; }
+    public int? Rating { get; set; }
     public DateTime ReleaseDate { get; set; }
     public string Description { get; set; }
     public string Genre { get; set; }

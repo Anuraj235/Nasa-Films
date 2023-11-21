@@ -101,11 +101,6 @@ public class MoviesController : ControllerBase
         }
 
 
-        if (createDto.ReleaseDate < DateTime.Now)
-        {
-            response.AddError("releasedate", "Release date must be in the future.");
-        }
-
         if (response.HasErrors)
         {
             return BadRequest(response);
@@ -116,6 +111,7 @@ public class MoviesController : ControllerBase
             Title = createDto.Title,
             ReleaseDate = createDto.ReleaseDate,
             Description = createDto.Description,
+            Rating = createDto.Rating,
             Genre = createDto.Genre,
             Duration = createDto.Duration,
             ImageUrl = createDto.ImageUrl,
@@ -156,12 +152,6 @@ public class MoviesController : ControllerBase
         if (updateDto.Rating < 1 || updateDto.Rating > 5)
         {
             response.AddError("rating", "Rating must be between 1 and 5.");
-        }
-
-
-        if (updateDto.ReleaseDate < DateTime.Now)
-        {
-            response.AddError("releasedate", "Release date must be in the future.");
         }
 
 

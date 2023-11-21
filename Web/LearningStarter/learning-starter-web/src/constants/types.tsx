@@ -65,6 +65,7 @@ export type MovieCreateDto={
   genre:null| string;
   duration: number;
   imageUrl:string;
+  rating: null | number;
 }
 
 export type MovieGetDto ={
