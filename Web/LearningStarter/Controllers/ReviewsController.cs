@@ -30,8 +30,20 @@ namespace LearningStarter.Controllers
 					TheaterReview = Reviews.TheaterReview,
 					Rating = Reviews.Rating,
 					UserId = Reviews.UserId,
-					TheaterId = Reviews.TheaterId
-				})
+					TheaterId = Reviews.TheaterId,
+					User = new ReviewerGetDto
+					{
+						FirstName = Reviews.User.FirstName,
+						LastName = Reviews.User.LastName
+					},
+					Theater = new ReviewTheaterGetDto
+					{
+                        Id = Reviews.Theater.Id,
+						TheaterId = Reviews.TheaterId,
+						TheaterName = Reviews.Theater.TheaterName
+                    },
+
+                })
 				.ToList();
 
 			response.Data = data;

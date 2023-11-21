@@ -3,6 +3,10 @@
 
 import { StringLiteral } from "typescript";
 
+import { Key } from "react";
+import { Rating } from '@mantine/core';
+
+
 export type ApiResponse<T> = {
   data: T;
   errors: ApiError[];
@@ -127,10 +131,35 @@ export type BookingGetDto = {
   numberOfTickets: number,
   tenderAmount: number,
   userId: number,
-}
+};
+
 export type Showtime = {
   id: number;
   startTime: string;
   availableSeats: number;
   theaterID: number;
+};
+};
+export type ReviewGetDto = {
+  id: number,
+  theaterReview: string,
+  rating: number,
+  theaterId: number,
+  User: {
+    firstName: string,
+    lastName: string,
+  },
+  theater: {
+    id: number,
+    theaterName: string,
+    theaterId: number
+  }
+
+};
+
+export type ReviewCreateDto = {
+  theaterReview: string,
+  rating: number,
+  theaterId: number,
+  userId: number,
 };
