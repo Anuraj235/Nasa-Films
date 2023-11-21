@@ -182,11 +182,36 @@ public class Startup
         {
             var seededUser = new User
             {
-                FirstName = "Seeded",
-                LastName = "User",
+                FirstName = "John",
+                LastName = "Seed",
                 UserName = "admin",
+                Email = "johntheadmin@yahoo.com",
+                PhoneNumber = "9898989898",
+                DateOfBirth = DateTime.Now,
             };
 
+            var seededUser1 = new User
+            {
+                FirstName = "Anuraj",
+                LastName = "Pant",
+                UserName = "pantanuraj",
+                Email = "iamanuraj@wohoo.com",
+                PhoneNumber = "6969696969",
+                DateOfBirth = DateTime.Now,
+            };
+
+            var seededUser2 = new User
+            {
+                FirstName = "Satyam",
+                LastName = "Pathak",
+                UserName = "hotcoffee",
+                Email = "pathaksatyam@yehoo.com",
+                PhoneNumber = "8989898989",
+                DateOfBirth = DateTime.Now,
+            };
+
+            await userManager.CreateAsync(seededUser2, "tea123");
+            await userManager.CreateAsync(seededUser1, "anuraj123");
             await userManager.CreateAsync(seededUser, "Password");
             await dataContext.SaveChangesAsync();
         }

@@ -14,7 +14,7 @@ public class User : IdentityUser<int>
 
     public List<UserRole> UserRoles { get; set; } = new();
 
-    public DateTimeOffset DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 
     public int ReviewId { get; set; }
@@ -35,7 +35,7 @@ public class UserCreateDto
 
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
-    public DateTimeOffset DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 }
 
@@ -48,7 +48,7 @@ public class UserUpdateDto
     public string Password { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
-    public DateTimeOffset DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 }
 
@@ -61,7 +61,7 @@ public class UserGetDto
 
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
-    public DateTimeOffset DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 
     public List<PaymentGetDto> Payments { get; set; } = new();

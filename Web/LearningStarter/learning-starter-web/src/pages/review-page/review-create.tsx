@@ -96,6 +96,13 @@ export const ReviewCreatePage = () => {
           />
           <Group position="center" className={classes.submitButton}>
             <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }} type="submit">Submit</Button>
+            <Button
+                type="button"
+                onClick={() => navigate(routes.reviewListing)}
+                variant="outline"
+              >
+                Cancel
+              </Button>
           </Group>
         </Container>
       </form>

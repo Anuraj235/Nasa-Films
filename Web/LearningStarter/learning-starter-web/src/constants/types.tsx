@@ -30,6 +30,17 @@ export type UserGetDto = {
   loyalty: number;
 };
 
+export type UserCreateUpdateDto = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: Date;
+  
+};
+
 export type ShowtimesCreateUpdateDto={
   movieID: any;
   startTime: any;
@@ -125,6 +136,7 @@ export type Showtime = {
   availableSeats: number;
   theaterID: number;
 };
+
 export type ReviewGetDto = {
   id: number,
   theaterReview: string,

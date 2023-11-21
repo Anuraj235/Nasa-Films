@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { ApiResponse, ReviewCreateDto, ReviewGetDto } from '../../constants/types';
+import { ApiResponse, ReviewCreateDto, ReviewGetDto, TheaterGetDto } from '../../constants/types';
 import { useNavigate, useParams } from "react-router-dom";
 import { FormErrors, useForm } from "@mantine/form";
 import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
 import ReviewListing from './review-listing';
 import { routes } from "../../routes";
-import { Button, Container, Flex, Rating, Space, TextInput, Title, createStyles } from "@mantine/core";
+import { Button, Container, Flex, Rating, Select, Space, TextInput, Title, createStyles } from "@mantine/core";
 
 export const ReviewUpdate = () => {
     const [review, setReview] = useState<ReviewGetDto | null>(null);
@@ -14,9 +14,13 @@ export const ReviewUpdate = () => {
     const { classes } = useStyles();
     const { id } = useParams<{ id: string}>();
     const [ratingValue, setRatingValue] = useState(0);
+    const [theaters, setTheaters] = useState<TheaterGetDto[]>();
+    const [selectedTheaterId, setSelectedTheaterId] = useState<number | null>(null);
 
 
-    const mantineForm = useForm<ReviewCreateDto>({
+
+
+    const form = useForm({
         initialValues:{
             theaterReview: '',
             rating: 0,
@@ -26,7 +30,8 @@ export const ReviewUpdate = () => {
     });
 
     useEffect(() => {
-        const fetchReview = async () => {
+      fetchReview();
+       async function fetchReview () {
             try {
                 const response = await api.get<ApiResponse<ReviewGetDto>>(`/api/reviews/${id}`);
                 if (response.data.hasErrors){
@@ -34,25 +39,25 @@ export const ReviewUpdate = () => {
                     } else {
                         setReview(response.data.data);
                         console.log(response.data.data)
-                        mantineForm.setValues({...response.data.data, rating: response.data.data.rating || 0});
+                        form.setValues({...response.data.data, rating: response.data.data.rating || 0});
+                        form.resetDirty();
+
                 }
                 } catch (error) {
                     showNotification({ message: "Error fetching review data", color: "red"});
         }
-    };
-    fetchReview();
+    }
 },[id]);
 
-const submitReview = async (values: ReviewCreateDto) => {
+const handleSubmit = async () => {
     try{
-        const updatedValues = { ...values, rating: ratingValue };
-        const response = await api.put<ApiResponse<ReviewGetDto>>(`/api/reviews/${id}`, values);
+        const response = await api.put<ApiResponse<ReviewGetDto>>(`/api/reviews/${id}`, form.values);
         if (response.data.hasErrors){
             const formErrors: FormErrors = response.data.errors.reduce((prev,curr) => ({
                 ...prev,
                 [curr.property]: curr.message
             }), {});
-            mantineForm.setErrors(formErrors);
+            form.setErrors(formErrors);
         } else {
             showNotification({message: "Successfully updated review!", color: "green"});
             navigate(routes.reviewListing);
@@ -61,54 +66,58 @@ const submitReview = async (values: ReviewCreateDto) => {
         showNotification({ message: "Error updating review", color: "red"})
     }
 };
+const handleTheaterSelect = (theaterId: string) => {
+  setSelectedTheaterId(Number(theaterId));
+  form.setFieldValue('theaterId', Number(theaterId));
+};
 return (
     <>
-     <Title order={2} align="center" style={{color:"#9C7A4B",marginTop:'5rem'}}>Update Review </Title>
-      {review && (
-        <form onSubmit={mantineForm.onSubmit(submitReview)}>
-          <Container style={{ maxWidth: 420, margin: 'auto',marginTop:'1rem'}}>
-            <TextInput
-              {...mantineForm.getInputProps('theaterReview')}
-              label="Write your review here"
-              className={classes.inputField}
-              withAsterisk
-            />
-            <TextInput
-              {...mantineForm.getInputProps('theaterId')}
-              label="Theater Id"
-              className={classes.inputField}
-              withAsterisk
-            />
-            <TextInput
-              {...mantineForm.getInputProps('userId')}
-              label="User Id"
-              className={classes.inputField}
-              withAsterisk
-            />
-            <Rating
-                value={ratingValue}
-                onChange={(newValue) => setRatingValue(newValue)}
-                style={{ marginTop: '1rem' }}
-                />
-
-            <Space h="md" />
-            <Flex
-              direction={{ base: 'column', sm: 'row' }}
-              gap={{ base: 'sm', sm: 'lg' }}
-              justify={{ sm: 'center' }}
-            >
-              <Button type="submit" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>Update Theater</Button>
+     <Title order={2} align="center" style={{ color: "#9C7A4B", marginTop: '5rem' }}>Add Review </Title>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Container style={{ maxWidth: 420, margin: 'auto' }}>
+          <TextInput
+            mt="md"
+            label="Theater Review"
+            placeholder="Theater Review"
+            {...form.getInputProps('theaterReview')}
+            className={classes.inputField}
+          />
+          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px'}}>Rating:</p>
+          <Rating
+            value={ratingValue}
+            size='lg'
+            onChange={(newValue) => {
+              setRatingValue(newValue);
+              form.setFieldValue('rating',newValue);
+            }}
+            style={{marginBottom: '8px'}}
+          />
+           <Select
+            label="Select Theater"
+            placeholder="Choose a theater"
+            data={theaters?.map(t => ({ value: t.id.toString(), label: t.theaterName })) || []}
+            onChange={handleTheaterSelect}
+          />
+        
+          <TextInput
+            mt="md"
+            label="User ID"
+            placeholder="User ID"
+            type="number"
+            {...form.getInputProps('userId')}
+            className={classes.inputField}
+          />
+              <Button type="submit" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>Update Review</Button>
               <Button
                 type="button"
-                onClick={() => navigate(routes.theaterListing)}
+                onClick={() => navigate(routes.reviewListing)}
                 variant="outline"
               >
                 Cancel
               </Button>
-            </Flex>
+            
           </Container>
         </form>
-      )}
     </>
   );
 }
