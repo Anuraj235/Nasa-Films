@@ -17,6 +17,8 @@ public class User : IdentityUser<int>
     public DateTime DateOfBirth { get; set; }
     public int Loyalty { get; set; }
 
+    public string PhoneNumber { get; set; }
+
     public int ReviewId { get; set; }
     public List<Reviews> Reviews { get; set; }
 

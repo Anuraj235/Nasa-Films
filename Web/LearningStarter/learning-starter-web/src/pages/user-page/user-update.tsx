@@ -28,6 +28,7 @@ export const UserUpdate = () => {
             firstName: '',
             lastName: '',
             userName: '',
+            password: '',
             email: '',
             phoneNumber: '',
             dateOfBirth: new Date().toISOString(),
@@ -40,16 +41,15 @@ export const UserUpdate = () => {
         fetchUser();
         async function fetchUser() {
 
-            const response = await api.get<ApiResponse<UserGetDto>>(
-                `/api/users/${id}`
-                );
+            const response = await api.get<ApiResponse<UserGetDto>>(`/api/users/${id}`);
             
             if(response.data.hasErrors) {
                 showNotification({message:"Error finding User", color: "red"});
             }
 
                 if(response.data.data){
-                   setUser(response.data.data); 
+                   setUser(response.data.data);
+                    console.log(response.data.data)
                    mantineForm.setValues(response.data.data)
                    mantineForm.resetDirty();
                 
@@ -101,6 +101,15 @@ export const UserUpdate = () => {
                         label="User Name"
                         placeholder="User Name"
                         {...mantineForm.getInputProps('userName')}
+                        className={classes.inputField}
+
+                    />
+                    <TextInput
+                        mt="md"
+                        label="Password"
+                        placeholder="Password"
+                        type="password"
+                        {...mantineForm.getInputProps('password')}
                         className={classes.inputField}
 
                     />
