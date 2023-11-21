@@ -39,6 +39,7 @@ public class UsersController : ControllerBase
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 DateOfBirth = user.DateOfBirth,
+                Loyalty = user.Loyalty,
                 Reviews = user.Reviews.Select(x => new UserReviewGetDto
                 {
                     Id = x.Id,
@@ -105,6 +106,7 @@ public class UsersController : ControllerBase
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             DateOfBirth = user.DateOfBirth,
+            Loyalty = user.Loyalty,
             Reviews = user.Reviews.Select(x => new UserReviewGetDto
             {
                 Id = x.Id,
@@ -180,6 +182,7 @@ public class UsersController : ControllerBase
             Email = userCreateDto.Email,
             PhoneNumber = userCreateDto.PhoneNumber,
             DateOfBirth = userCreateDto.DateOfBirth,
+            Loyalty = userCreateDto.Loyalty
         };
         _context.Set<User>().Add(userToCreate);
         _userManager.CreateAsync(userToCreate, userCreateDto.Password);
@@ -196,6 +199,7 @@ public class UsersController : ControllerBase
             Email = userToCreate.Email,
             PhoneNumber = userToCreate.PhoneNumber,
             DateOfBirth = userToCreate.DateOfBirth,
+            Loyalty = userToCreate.Loyalty
         };
 
         response.Data = userGetDto;
@@ -255,6 +259,7 @@ public class UsersController : ControllerBase
         userToEdit.Email = userUpdateDto.Email;
         userToEdit.PhoneNumber = userUpdateDto.PhoneNumber;
         userToEdit.DateOfBirth = userUpdateDto.DateOfBirth;
+        userToEdit.Loyalty = userUpdateDto.Loyalty;
 
         _context.SaveChanges();
 
@@ -267,7 +272,7 @@ public class UsersController : ControllerBase
             Email = userToEdit.Email,
             PhoneNumber = userToEdit.PhoneNumber,
             DateOfBirth = userToEdit.DateOfBirth,
-           
+            Loyalty = userToEdit.Loyalty
         };
 
         response.Data = userGetDto;

@@ -17,9 +17,6 @@ import { TheaterListing } from "../pages/theater-page/theater-listing";
 import { TheaterUpdate } from "../pages/theater-page/theater-update";
 import { UserUpdate } from "../pages/user-page/user-update";
 import { UserBooking } from "../pages/movie-bookings-page/user-bookings";
-import { UserCreate } from "../pages/user-page/user-create";
-
-
 import ReviewListing from "../pages/review-page/review-listing";
 import { ReviewUpdate } from "../pages/review-page/review-update";
 import { ReviewCreatePage } from "../pages/review-page/review-create";
@@ -39,8 +36,6 @@ export const Routes = () => {
           {/* When path === /iser render UserPage */}
           <Route path={routes.user} element={<UserPage />} />
           <Route path={routes.userUpdate} element={<UserUpdate />} />
-          <Route path={routes.userCreate} element={<UserCreate />} />
-        
 
 
 
@@ -56,7 +51,6 @@ export const Routes = () => {
           <Route path={routes.addMovie} element={<MoviesPage />} />  
           <Route path={routes.movies} element={<Movies />} /> 
 
-
           <Route path={routes.reviewListing} element={<ReviewListing />} />
           <Route path={routes.reviewUpdate} element={<ReviewUpdate />} />
           <Route path={routes.reviewCreate} element={<ReviewCreatePage />} />
@@ -68,7 +62,6 @@ export const Routes = () => {
           <Route path ={routes.theaterListing} element={<TheaterListing/>}/>
           <Route path={routes.theaterUpdate} element={<TheaterUpdate/>}/>
  
-
           {/* Going to route "localhost:5001/" will go to homepage */}
           <Route path={routes.root} element={<Navigate to={routes.home} />} />
 
