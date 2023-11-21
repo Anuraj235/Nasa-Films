@@ -41,9 +41,16 @@ namespace LearningStarter.Entities
         public int TheaterId { get; set; }
         public string TheaterName { get; set; }
         public string Address { get; set; }
+    }
 
+    public class ReviewTheaterGetDto
+    {
+        public int Id { get; set; }
+        public int TheaterId { get; set; }
+        public string TheaterName { get; set; }
 
     }
+
     public class TheaterCreateDto
     {
         public string TheaterName { get; set; }
