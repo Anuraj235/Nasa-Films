@@ -24,6 +24,8 @@ public class ReviewsGetDto
     public int Rating { get; set; }
     public int UserId { get; set; }
     public int TheaterId { get; set; }
+    public ReviewerGetDto User { get; set; }
+    public ReviewTheaterGetDto Theater { get; set; }
 }
 
 public class UserReviewGetDto

@@ -2,6 +2,7 @@
 //You probably wont need this for the scope of this class :)
 
 import { Key } from "react";
+import { Rating } from '@mantine/core';
 
 export type ApiResponse<T> = {
   data: T;
@@ -29,6 +30,17 @@ export type UserGetDto = {
   loyalty: number;
 };
 
+export type UserCreateUpdateDto = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: Date;
+  
+};
+
 export type ShowtimesCreateUpdateDto={
   movieID: any;
   startTime: any;
@@ -53,6 +65,7 @@ export type MovieCreateDto={
   genre:null| string;
   duration: number;
   imageUrl:string;
+  rating: null | number;
 }
 
 export type MovieGetDto ={
@@ -116,10 +129,35 @@ export type BookingGetDto = {
   numberOfTickets: number,
   tenderAmount: number,
   userId: number,
-}
+};
+
 export type Showtime = {
   id: number;
   startTime: string;
   availableSeats: number;
   theaterID: number;
+};
+
+export type ReviewGetDto = {
+  id: number,
+  theaterReview: string,
+  rating: number,
+  theaterId: number,
+  User: {
+    firstName: string,
+    lastName: string,
+  },
+  theater: {
+    id: number,
+    theaterName: string,
+    theaterId: number
+  }
+
+};
+
+export type ReviewCreateDto = {
+  theaterReview: string,
+  rating: number,
+  theaterId: number,
+  userId: number,
 };
