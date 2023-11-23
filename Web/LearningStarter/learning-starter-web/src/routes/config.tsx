@@ -20,6 +20,7 @@ import { UserBooking } from "../pages/movie-bookings-page/user-bookings";
 import ReviewListing from "../pages/review-page/review-listing";
 import { ReviewUpdate } from "../pages/review-page/review-update";
 import { ReviewCreatePage } from "../pages/review-page/review-create";
+import { AboutusPage } from "../pages/aboutus-page/aboutus-page";
 
 
 //This is where you will tell React Router what to render when the path matches the route specified.
@@ -55,7 +56,7 @@ export const Routes = () => {
           <Route path={routes.reviewUpdate} element={<ReviewUpdate />} />
           <Route path={routes.reviewCreate} element={<ReviewCreatePage />} />
 
-
+          <Route path={routes.aboutus} element={<AboutusPage />} /> 
      
           {/* When path === /theater render TheaterPage */}
           <Route path={routes.theater} element={<TheaterPage />} />
