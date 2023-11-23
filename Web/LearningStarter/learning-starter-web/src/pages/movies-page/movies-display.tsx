@@ -6,6 +6,8 @@ import { ApiResponse, MovieGetDto } from '../../constants/types';
 import api from '../../config/axios';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../routes';
+import Footer from '../../components/page-wrapper/footer';
+
 
 export const Movies = () => {
   const [movies, setMovies] = useState<MovieGetDto[]>();
@@ -31,6 +33,7 @@ export const Movies = () => {
   }, []);
 
   return (
+    <>
         <Container>
           <Grid gutter="lg" >
             {movies && movies.map((movie) => (
@@ -67,14 +70,8 @@ export const Movies = () => {
             ))}
           </Grid>
           <Container mt="4rem" style={{ paddingTop: "2rem" }}>
-          <Grid>
-          <Grid.Col span={12}>
-            <Text align="center" size="sm" color="dimmed">
-              © 2023 NASSA. All rights reserved.
-            </Text>
-          </Grid.Col>
-        </Grid></Container>
-        </Container>
-        
+          </Container>
+        </Container><Footer/>
+  </>      
       );
     };
