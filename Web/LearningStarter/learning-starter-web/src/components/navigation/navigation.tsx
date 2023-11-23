@@ -180,37 +180,23 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                 />
               </NavLink>
               {user && <DesktopNavigation />}
-              {user && (
-                <Menu>
-                  <Menu.Target>
-                    <Button
-                      size="md"
-                      className={classes.paddedMenuItem}
-                      variant="subtle"
-                      color="cyan"
-                    >
-                      Admin Options
-                    </Button>
-                  </Menu.Target>
-                  <Menu.Dropdown>
-                    <Menu.Item onClick={() => navigate(routes.addMovie)}>
-                      Add movie
-                    </Menu.Item>
-                    <Menu.Item onClick={() => navigate(routes.theaterListing)}>
-                      View theatre
-                    </Menu.Item>
-                    <Menu.Item onClick={() => navigate(routes.theater)}>
-                      Add theatres
-                    </Menu.Item>
-                    <Menu.Item onClick={() => navigate(routes.showtimecreate)}>
-                      Add showtimes
-                    </Menu.Item>
-                    <Menu.Item onClick={() => navigate(routes.reviewListing)}>
-                      Theater Reviews
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              )}
+              { user && (<Menu>
+                <Menu.Target>
+                <Button
+                  size="md"
+                  className={classes.paddedMenuItem}
+                  variant="subtle"
+                >
+                  Admin Options
+                </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item onClick={() => navigate(routes.addMovie)}>Add movie</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theaterListing)}>View theatres </Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theater)}>Add theatre</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.showtimecreate)}>Add showtimes</Menu.Item>
+                </Menu.Dropdown>
+              </Menu>)}
             </Flex>
           </Group>
           <Group>
