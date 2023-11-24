@@ -12,6 +12,8 @@ import {
 } from "@mantine/core";
 import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -31,7 +33,8 @@ export const LoginPage = ({
   fetchCurrentUser: () => void;
 }) => {
   const { classes } = useStyles();
-
+  const location = useLocation();
+  const [currentPath, ] = useState(location.pathname);
   const form = useForm<LoginRequest>({
     initialValues: {
       userName: "",
@@ -68,6 +71,11 @@ export const LoginPage = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (location.pathname !== currentPath) {
+      window.location.reload();
+    }
+  }, [location, currentPath]);
   return (
     <PageWrapper>
       <Container>
@@ -98,6 +106,7 @@ export const LoginPage = ({
                 <Button className={classes.loginButton} type="submit">
                   Login
                 </Button>
+                <Link to='/registerpage' style={{color:'#afffff',marginLeft:'2rem'}}>Click here to register!</Link>
               </Container>
             </Container>
           </form>

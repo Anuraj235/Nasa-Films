@@ -18,6 +18,7 @@ export const routes = {
   reviewListing:`/review-listing`,
   reviewUpdate: `/reviews/:id`,
   reviewCreate:`/review-create`,
-  aboutus: '/aboutus'
+  aboutus: '/aboutus',
+  registerpage:'/registerpage',
 };
 
