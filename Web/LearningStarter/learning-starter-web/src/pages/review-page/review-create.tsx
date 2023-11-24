@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, createStyles, Group, Rating, Select, TextInput, Title } from "@mantine/core";
+import { Button, Card, Container, createStyles, Group, Rating, Select, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ApiResponse, ReviewCreateDto, TheaterGetDto } from "../../constants/types";
 import api from "../../config/axios";
@@ -65,6 +65,8 @@ export const ReviewCreatePage = () => {
       <Title order={2} align="center" style={{ color: "#9C7A4B", marginTop: '5rem' }}>Add Review </Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Container style={{ maxWidth: 420, margin: 'auto' }}>
+        <Card shadow="sm" radius="md" style={{ maxWidth: 640 }}>
+
           <TextInput
             mt="md"
             label="Theater Review"
@@ -99,6 +101,7 @@ export const ReviewCreatePage = () => {
                 Cancel
               </Button>
           </Group>
+          </Card>
         </Container>
       </form>
     </>

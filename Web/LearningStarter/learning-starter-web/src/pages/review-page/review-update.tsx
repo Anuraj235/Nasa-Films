@@ -6,7 +6,7 @@ import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
 import ReviewListing from './review-listing';
 import { routes } from "../../routes";
-import { Button, Container, Flex, Group, Rating, Select, Space, TextInput, Title, createStyles } from "@mantine/core";
+import { Button, Card, Container, Flex, Group, Rating, Select, Space, TextInput, Title, createStyles } from "@mantine/core";
 import { useAuth } from "../../authentication/use-auth";
 
 export const ReviewUpdate = () => {
@@ -77,6 +77,8 @@ return (
      <Title order={2} align="center" style={{ color: "#9C7A4B", marginTop: '5rem' }}>Update Review </Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Container style={{ maxWidth: 420, margin: 'auto' }}>
+        <Card shadow="sm" radius="md" style={{ maxWidth: 640 }}>
+
           <TextInput
             mt="md"
             label="Theater Review"
@@ -84,7 +86,7 @@ return (
             {...form.getInputProps('theaterReview')}
             className={classes.inputField}
           />
-          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px'}}>Rating:</p>
+          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px', marginLeft: '15px'}}>Rating:</p>
           <Rating
             value={form.values.rating}
             size='lg'
@@ -92,7 +94,7 @@ return (
               setRatingValue(newValue);
               form.setFieldValue('rating',newValue);
             }}
-            style={{marginBottom: '8px'}}
+            style={{marginBottom: '8px',  marginLeft: '15px'}}
           />
 
           <Group position="center" className={classes.submitButton}>
@@ -105,9 +107,11 @@ return (
                 Cancel
               </Button>
           </Group>
-            
+          </Card>
+
         </Container>
         </form>
+    
     </>
   );
 }

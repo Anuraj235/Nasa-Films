@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ApiResponse, ReviewGetDto } from '../../constants/types';
 import api from '../../config/axios';
 import { showNotification } from '@mantine/notifications';
-import { Header, Space, Table, Loader, Modal, Text, Button, Flex, Pagination, Rating, Container } from '@mantine/core';
+import { Header, Space, Table, Loader, Modal, Text, Button, Flex, Pagination, Rating, Container, Card, Title, Group } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../routes';
 
@@ -67,50 +67,39 @@ const ReviewListing = () => {
   const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
 
   return (
-    <>
-      <Header height={60} p="xs">
-        Reviews
-        <Container style={{marginLeft:'80rem', marginTop: '-2rem'}}>
-          <Button onClick={handleCreate} variant="outline">Create</Button>
-        </Container>
-      </Header>
-      <Space h="md" />
+    <Container size="xs">
+      <Container style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+        <Button onClick={handleCreate} variant="outline">
+          Create Review
+        </Button>
+      </Container>
+
       {loading ? (
         <Loader />
       ) : (
-        <Table withBorder striped>
-          <thead>
-            <tr>
-              <th>Review ID</th>
-              <th>Theater</th>
-              <th>Theater Review</th>
-              <th>Rating</th>
-              <th>User</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentReviews.map((review, index) => (
-              <tr key={review.id}>
-                <td>{review.id}</td>
-                <td>{review.theater.theaterName}</td>
-                <td>{review.theaterReview}</td>
-                <td><Rating value={review.rating} /></td>
-                <td>{`${review.user?.firstName} ${review.user?.lastName}`}</td>
-                <td>
-                  <Button color="primary" onClick={() => handleUpdate(review.id)}>Update</Button>
-                </td>
-                <td>
-                  <Button color="red" onClick={() => handleDelete(review.id)}>
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <>
+          {currentReviews.map((review, index) => (
+            <Card key={review.id} shadow="sm" style={{ marginBottom: '1rem' }}>
+              <Title order={3}>{review.user.firstName} {review.user.lastName}</Title>
+              <text>
+                {review.theater.theaterName} - {review.theaterReview}
+              </text>
+              <Group position="right">
+                <Rating value={review.rating} />
+                <Button onClick={() => handleUpdate(review.id)}>
+                  Update
+                </Button>
+                <Button color="red" onClick={() => handleDelete(review.id)}>
+                  Delete
+                </Button>
+              </Group>
+            </Card>
+          ))}
+        </>
       )}
+
       <Pagination page={activePage} onChange={setActivePage} total={totalPages} />
+
       <Modal
         opened={isModalOpen}
         onClose={() => setModalOpen(false)}
@@ -130,7 +119,7 @@ const ReviewListing = () => {
           </Button>
         </Flex>
       </Modal>
-    </>
+    </Container>
   );
 };
 
