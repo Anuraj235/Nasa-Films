@@ -153,6 +153,7 @@ export type ReviewGetDto = {
   rating: number,
   theaterId: number,
   user: {
+    userId: number,
     firstName: string,
     lastName: string,
   },

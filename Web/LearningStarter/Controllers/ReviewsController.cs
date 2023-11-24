@@ -34,6 +34,7 @@ namespace LearningStarter.Controllers
 					TheaterId = Reviews.TheaterId,
 					User = new ReviewerGetDto
 					{
+						UserId = Reviews.User.Id,
 						FirstName = Reviews.User.FirstName,
 						LastName = Reviews.User.LastName
 					},
@@ -78,6 +79,7 @@ namespace LearningStarter.Controllers
                 TheaterId = Review.TheaterId,
                 User = new ReviewerGetDto
                 {
+                    UserId = Review.User.Id,
                     FirstName = Review.User.FirstName,
                     LastName = Review.User.LastName
                 },

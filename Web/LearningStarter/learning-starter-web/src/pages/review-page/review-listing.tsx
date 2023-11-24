@@ -5,16 +5,19 @@ import { showNotification } from '@mantine/notifications';
 import { Header, Space, Table, Loader, Modal, Text, Button, Flex, Pagination, Rating, Container, Card, Title, Group } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../routes';
+import { useAuth } from '../../authentication/use-auth';
 
 const PAGE_SIZE = 5;
 
 const ReviewListing = () => {
+  const { user } = useAuth();
   const [reviews, setReviews] = useState<ReviewGetDto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [showMyReviews, setShowMyReviews] = useState<boolean>(false); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,8 +25,10 @@ const ReviewListing = () => {
       try {
         const response = await api.get<ApiResponse<ReviewGetDto[]>>('/api/reviews');
         if (response.data.data) {
-          setReviews(response.data.data);
-          setTotalPages(Math.ceil(response.data.data.length / PAGE_SIZE));
+          const allReviews = response.data.data;
+          const filteredReviews = showMyReviews ? allReviews.filter(review => review.user.userId === user?.id) : allReviews;
+          setReviews(filteredReviews);
+          setTotalPages(Math.ceil(filteredReviews.length / PAGE_SIZE));
         }
       } catch (error) {
         showNotification({ message: 'Error Fetching Reviews.', color: 'red' });
@@ -33,7 +38,7 @@ const ReviewListing = () => {
     };
 
     fetchReviews();
-  }, [activePage]);
+  }, [activePage, showMyReviews, user]);
 
   const handleUpdate = (id) => {
     navigate(routes.reviewUpdate.replace(':id', id));
@@ -69,8 +74,11 @@ const ReviewListing = () => {
   return (
     <Container size="xs">
       <Container style={{ marginTop: '2rem', marginBottom: '2rem' }}>
-        <Button onClick={handleCreate} variant="outline">
+        <Button onClick={handleCreate} variant="outline" style={{marginRight:"1rem"}}>
           Create Review
+        </Button>
+        <Button onClick={() => setShowMyReviews(!showMyReviews)} variant="outline">
+          {showMyReviews ? "Show All Reviews" : "Show My Reviews"}
         </Button>
       </Container>
 
@@ -86,12 +94,14 @@ const ReviewListing = () => {
               </text>
               <Group position="right">
                 <Rating value={review.rating} />
-                <Button onClick={() => handleUpdate(review.id)}>
-                  Update
-                </Button>
-                <Button color="red" onClick={() => handleDelete(review.id)}>
-                  Delete
-                </Button>
+                {user && user.id === review.user.userId && (
+                  <>
+                    <Button onClick={() => handleUpdate(review.id)}>Update</Button>
+                    <Button color="red" onClick={() => handleDelete(review.id)}>
+                      Delete
+                    </Button>
+                  </>
+                )}
               </Group>
             </Card>
           ))}
@@ -107,7 +117,7 @@ const ReviewListing = () => {
       >
         <Text>Are you sure you want to delete this review?</Text>
         <Flex
-          direction={{ base: 'column', sm: 'row' }}
+          direction={{ base: 'row', sm: 'column' }}
           gap={{ base: 'sm', sm: 'lg' }}
           justify={{ sm: 'center' }}
         >
