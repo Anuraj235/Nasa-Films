@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { routes } from "../../routes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,7 +19,12 @@ import {
   NAVBAR_HEIGHT,
   NAVBAR_HEIGHT_NUMBER,
 } from "../../constants/theme-constants";
-import { NavLink, NavLinkProps, useLocation, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  NavLinkProps,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { UserGetDto } from "../../constants/types";
 import { useAuth } from "../../authentication/use-auth";
@@ -60,60 +63,35 @@ const navigation: NavigationItem[] = [
       to: routes.home,
     },
   },
-  // {
-  //   text: "Showtimes", 
-  //   hide: false,
-  //   nav: {
-  //     to: routes.showtimecreate,
-  //   },
-  // },
-
-  // {
-  //   text: "AddMovies",
-  //   hide: false,
-  //   nav: {
-  //     to: routes.addMovie,
-  //   },
-  // },
-
   {
     text: "Movies",
-    hide:false,
-    nav:{
-      to:routes.movies,
-    }
+    hide: false,
+    nav: {
+      to: routes.movies,
+    },
   },
-  // {
-  //   text: "Theater",
-  //   hide: false,
-  //   nav: {
-  //     to: routes.theater,
-  //   },
-  // },
-  // {
-  // text:"MyTheaters",
-  // hide:false,
-  //   nav:{
-  //   to:routes.theaterListing,
-  // },
-  // },
-  
-];
 
+  {
+    text: "About Us",
+    hide: false,
+    nav: {
+      to: routes.aboutus,
+    },
+  },
+];
 
 const DesktopNavigation = () => {
   const { classes, cx } = useStyles();
   const { pathname } = useLocation();
   const [active, setActive] = useState(navigation[0].nav?.to.toString());
- 
+
   useEffect(() => {
     setActive(pathname);
   }, [pathname, setActive]);
 
   return (
     <>
-    
-      <Container px={0} className={classes.desktopNav} >
+      <Container px={0} className={classes.desktopNav}>
         <Flex direction="row" align="center" className={classes.fullHeight}>
           {navigation
             .filter((x) => !x.hide)
@@ -159,6 +137,7 @@ const DesktopNavigation = () => {
                   size="md"
                   component={NavLink}
                   to={x.nav.to}
+                  color="cyan"
                   className={cx(classes.paddedMenuItem, {
                     [classes.linkActive]: active === x.nav.to,
                   })}
@@ -174,7 +153,6 @@ const DesktopNavigation = () => {
     </>
   );
 };
-
 
 export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
   user,
@@ -214,10 +192,10 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Item onClick={() => navigate(routes.addMovie)}>Add movie</Menu.Item>
-                  <Menu.Item onClick={() => navigate(routes.theaterListing)}>View theatre</Menu.Item>
-                  <Menu.Item onClick={() => navigate(routes.theater)}>Add theatres</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theater)}>Add theatre</Menu.Item>
                   <Menu.Item onClick={() => navigate(routes.showtimecreate)}>Add showtimes</Menu.Item>
-                  <Menu.Item onClick={() => navigate(routes.reviewListing)}>Theater Reviews</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theaterListing)}>View theatres </Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.reviewListing)}>View Reviews </Menu.Item>
                 </Menu.Dropdown>
               </Menu>)}
             </Flex>
@@ -232,7 +210,9 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                   </Avatar>
                 </Menu.Target>
                 <Menu.Dropdown>
-                <Menu.Item onClick={() => navigate(routes.user)}>Profile</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.user)}>
+                    Profile
+                  </Menu.Item>
                   <Menu.Item onClick={() => toggleColorScheme()}>
                     {dark ? "Light mode" : "Dark mode"}
                   </Menu.Item>
@@ -260,26 +240,25 @@ const useStyles = createStyles((theme) => {
     },
     paddedMenuItem: {
       margin: "0px 5px 0px 5px",
+      color: "#afffff",
+      "&:hover": {
+        backgroundColor: "black",
+      },
     },
     linkActive: {
-      "&, &:hover": {
-        backgroundColor: theme.fn.variant({
-          variant: "light",
-          color: theme.primaryColor,
-        }).background,
-        color: theme.fn.variant({
-          variant: "light",
-          color: theme.primaryColor,
-        }).color,
+      color: "#afffff",
+      backgroundColor: "black",
+      borderColor: "#8fb3b3",
+      "&:hover": {
+        backgroundColor: "black",
       },
     },
     desktopNav: {
       height: NAVBAR_HEIGHT,
+      color: "#afffff",
     },
     fullHeight: {
       height: "100%",
     },
   };
-  
-  
 });

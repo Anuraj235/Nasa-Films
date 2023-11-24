@@ -29,6 +29,14 @@ export type UserGetDto = {
   dateOfBirth: string;
   loyalty: number;
 };
+export type UserCreateDto={
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: Date;
+}
 
 export type UserCreateUpdateDto = {
   id: number;

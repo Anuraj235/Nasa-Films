@@ -6,6 +6,8 @@ import { ApiResponse, MovieGetDto } from '../../constants/types';
 import api from '../../config/axios';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../routes';
+import Footer from '../../components/page-wrapper/footer';
+
 
 export const Movies = () => {
   const [movies, setMovies] = useState<MovieGetDto[]>();
@@ -31,13 +33,14 @@ export const Movies = () => {
   }, []);
 
   return (
+    <>
         <Container>
           <Grid gutter="lg" >
             {movies && movies.map((movie) => (
               <Grid.Col span={4} key={movie.id}>
                 <Card shadow="sm" p="lg" radius="md" withBorder>
                   <Card.Section>
-                    <Image src={movie.imageUrl} height={600} alt={movie.title} />
+                    <Image src={movie.imageUrl} height={450} alt={movie.title} />
                   </Card.Section>
     
                   <Text size="lg" weight={500} mt="md">
@@ -66,6 +69,9 @@ export const Movies = () => {
               </Grid.Col>
             ))}
           </Grid>
-        </Container>
+          <Container mt="4rem" style={{ paddingTop: "2rem" }}>
+          </Container>
+        </Container><Footer/>
+  </>      
       );
     };

@@ -17,6 +17,8 @@ export const routes = {
   theaterUpdate:`/theaters/:id`,
   reviewListing:`/review-listing`,
   reviewUpdate: `/reviews/:id`,
-  reviewCreate:`/review-create`
+  reviewCreate:`/review-create`,
+  aboutus: '/aboutus',
+  registerpage:'/registerpage',
 };
 
