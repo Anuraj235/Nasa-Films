@@ -64,7 +64,12 @@ export const UserBooking = () => {
   };
   return (
     <>
-      <Header height={60} p="xs">
+      <Header height={60} p="xs" style={{
+          backgroundColor: "#090708",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
         <Text weight={700}>My Bookings:</Text>
       </Header>
       <Space h="md" />
@@ -76,11 +81,11 @@ export const UserBooking = () => {
             <Table>
               <thead>
                 <tr>
-                  <th>Movie</th>
-                  <th>Start Time</th>
-                  <th>Theater</th>
-                  <th>Number of Tickets</th>
-                  <th>Tender Amount</th>
+                  <th style={{ color: "#afffff" }}>Movie</th>
+                  <th style={{ color: "#afffff" }}>Start Time</th>
+                  <th style={{ color: "#afffff" }}>Theater</th>
+                  <th style={{ color: "#afffff" }}>Number of Tickets</th>
+                  <th style={{ color: "#afffff" }}>Tender Amount</th>
                 </tr>
               </thead>
               <tbody>
