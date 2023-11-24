@@ -204,13 +204,13 @@ public class Startup
             {
                 FirstName = "Satyam",
                 LastName = "Pathak",
-                UserName = "hotcoffee",
+                UserName = "satyam",
                 Email = "pathaksatyam@yehoo.com",
                 PhoneNumber = "8989898989",
                 DateOfBirth = DateTime.Now,
             };
 
-            await userManager.CreateAsync(seededUser2, "tea123");
+            await userManager.CreateAsync(seededUser2, "satyam123");
             await userManager.CreateAsync(seededUser1, "anuraj123");
             await userManager.CreateAsync(seededUser, "Password");
             await dataContext.SaveChangesAsync();
@@ -224,15 +224,31 @@ public class Startup
             return;
         }
 
-        var seededTheaters = new Theaters
+        var seededTheaters = new List<Theaters>()
         {
-            TheaterName = "NASSA Films",
-            Address = "This Street Ave",
-            Phone = "0123456789",
-            Email = "nassafilms@watch.com"
-        };
+            new(){
+                TheaterName = "NASSA Films",
+                Address = "This Street Ave",
+                Phone = "0123456789",
+                Email = "nassafilms@watch.com"
+            },
 
-        dataContext.Set<Theaters>().Add(seededTheaters);
+            new(){
+            TheaterName = "NASSA Southeastern",
+            Address = "Southeastern Street Ave",
+            Phone = "1234532345",
+            Email = "nassafilms@selu.edu"
+            },
+
+            new(){
+            TheaterName = "NASSA LSU",
+            Address = "LSU Street Ave",
+            Phone = "9871234564",
+            Email = "nassafilms@lsu.edu"
+            },
+
+        };
+        dataContext.Set<Theaters>().AddRange(seededTheaters);
         dataContext.SaveChanges();
     }
 
@@ -333,15 +349,127 @@ public class Startup
             return;
         }
 
-        var seededReview = new Reviews
+        var seededReview = new List<Reviews>()
         {
-            TheaterReview = "Great place!",
+            // Reviews for Theater 1
+        new Reviews
+        {
+            TheaterReview = "Fantastic experience!",
             Rating = 5,
             UserId = 1,
             TheaterId = 1
-        };
+        },
 
-        dataContext.Set<Reviews>().Add(seededReview);
+        new Reviews
+        {
+            TheaterReview = "Not a fan of the movie choices.",
+            Rating = 2,
+            UserId = 2,
+            TheaterId = 1
+        },
+
+        new Reviews
+        {
+            TheaterReview = "Average experience.",
+            Rating = 3,
+            UserId = 3,
+            TheaterId = 1
+        },
+
+        // Reviews for Theater 2
+        new Reviews
+        {
+            TheaterReview = "Good movie selection!",
+            Rating = 4,
+            UserId = 1,
+            TheaterId = 2
+        },
+
+        new Reviews
+        {
+            TheaterReview = "Service could be better.",
+            Rating = 2,
+            UserId = 2,
+            TheaterId = 2
+        },
+
+        new Reviews
+        {
+            TheaterReview = "Great customer service!",
+            Rating = 4,
+            UserId = 3,
+            TheaterId = 2
+        },
+
+        // Reviews for Theater 3
+        new Reviews
+        {
+            TheaterReview = "Enjoyed the ambiance!",
+            Rating = 4,
+            UserId = 1,
+            TheaterId = 3
+        },
+
+        new Reviews
+        {
+            TheaterReview = "Decent experience overall.",
+            Rating = 3,
+            UserId = 2,
+            TheaterId = 3
+        },
+
+        new Reviews
+        {
+            TheaterReview = "Not impressed with the facilities.",
+            Rating = 2,
+            UserId = 3,
+            TheaterId = 3
+        },
+
+        // Additional Reviews
+        new Reviews
+        {
+            TheaterReview = "Theater was clean and comfortable!",
+            Rating = 5,
+            UserId = 1,
+            TheaterId = 1
+        },
+
+        new Reviews
+        {
+            TheaterReview = "Not a fan of the movie choices.",
+            Rating = 2,
+            UserId = 2,
+            TheaterId = 1
+        },
+
+        new Reviews
+        {
+            TheaterReview = "Average experience.",
+            Rating = 3,
+            UserId = 3,
+            TheaterId = 1
+        },
+
+        new Reviews
+        {
+            TheaterReview = "Great customer service!",
+            Rating = 4,
+            UserId = 1,
+            TheaterId = 2
+        },
+
+        new Reviews
+        {
+            TheaterReview = "Fantastic experience!",
+            Rating = 5,
+            UserId = 2,
+            TheaterId = 2
+        }
+    };
+        
+
+        dataContext.Set<Reviews>().AddRange(seededReview);
         dataContext.SaveChanges();
     }
 
@@ -379,28 +507,118 @@ public class Startup
 
         var seededShowtimes = new List<Showtimes>()
         {
-            new()
-            {
-                MovieId = 1,
-                StartTime = "9:00 AM",
-                TheaterID = 1,
-                AvailableSeats = 85,
+            // Theater 1
+        new Showtimes
+        {
+            MovieId = 1,
+            StartTime = "9:00 AM",
+            TheaterID = 1,
+            AvailableSeats = 85,
+        },
+        new Showtimes
+        {
+            MovieId = 1,
+            StartTime = "12:00 PM",
+            TheaterID = 1,
+            AvailableSeats = 85,
+        },
+        new Showtimes
+        {
+            MovieId = 1,
+            StartTime = "04:00 PM",
+            TheaterID = 1,
+            AvailableSeats = 75,
+        },
 
-            },
-            new()
-            {
-                MovieId = 1,
-                StartTime = "12:00 PM",
-                TheaterID = 1,
-                AvailableSeats = 85,
-            },
-            new()
-            {
-                MovieId = 1,
-                StartTime = "04:00 PM",
-                TheaterID = 1,
-                AvailableSeats = 75,
-            }
+        // Theater 2
+        new Showtimes
+        {
+            MovieId = 2,
+            StartTime = "10:30 AM",
+            TheaterID = 2,
+            AvailableSeats = 90,
+        },
+        new Showtimes
+        {
+            MovieId = 2,
+            StartTime = "02:30 PM",
+            TheaterID = 2,
+            AvailableSeats = 80,
+        },
+        new Showtimes
+        {
+            MovieId = 2,
+            StartTime = "06:30 PM",
+            TheaterID = 2,
+            AvailableSeats = 85,
+        },
+
+        // Theater 3
+        new Showtimes
+        {
+            MovieId = 3,
+            StartTime = "11:00 AM",
+            TheaterID = 3,
+            AvailableSeats = 80,
+        },
+        new Showtimes
+        {
+            MovieId = 3,
+            StartTime = "03:00 PM",
+            TheaterID = 3,
+            AvailableSeats = 75,
+        },
+        new Showtimes
+        {
+            MovieId = 3,
+            StartTime = "07:00 PM",
+            TheaterID = 3,
+            AvailableSeats = 90,
+        },
+
+        // Additional showtimes
+        new Showtimes
+        {
+            MovieId = 4,
+            StartTime = "12:30 PM",
+            TheaterID = 1,
+            AvailableSeats = 85,
+        },
+        new Showtimes
+        {
+            MovieId = 4,
+            StartTime = "04:30 PM",
+            TheaterID = 2,
+            AvailableSeats = 80,
+        },
+        new Showtimes
+        {
+            MovieId = 5,
+            StartTime = "02:00 PM",
+            TheaterID = 3,
+            AvailableSeats = 90,
+        },
+        new Showtimes
+        {
+            MovieId = 5,
+            StartTime = "06:00 PM",
+            TheaterID = 1,
+            AvailableSeats = 75,
+        },
+        new Showtimes
+        {
+            MovieId = 6,
+            StartTime = "03:30 PM",
+            TheaterID = 2,
+            AvailableSeats = 85,
+        },
+        new Showtimes
+        {
+            MovieId = 6,
+            StartTime = "07:30 PM",
+            TheaterID = 3,
+            AvailableSeats = 80,
+        },
         };
 
         dataContext.Set<Showtimes>().AddRange(seededShowtimes);
