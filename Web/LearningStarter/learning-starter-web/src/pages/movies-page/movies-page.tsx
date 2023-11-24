@@ -42,6 +42,7 @@ export const MoviesPage = () => {
       genre: "",
       rating: 0,
       duration: 0,
+      trailerUrl:"",
     },
   });
 
@@ -109,6 +110,13 @@ export const MoviesPage = () => {
             label="Image Url"
             placeholder="Enter Image URL"
             {...movieForm.getInputProps("imageUrl")}
+            className={classes.inputField}
+          />
+          <TextInput
+            withAsterisk
+            label="Trailer Url"
+            placeholder="Enter Trailer URL"
+            {...movieForm.getInputProps("trailerUrl")}
             className={classes.inputField}
           />
           <Select

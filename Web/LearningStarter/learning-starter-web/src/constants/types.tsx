@@ -74,6 +74,7 @@ export type MovieCreateDto={
   genre:null| string;
   duration: number;
   imageUrl:string;
+  trailerUrl:string;
   rating: null | number;
 }
 
@@ -86,6 +87,7 @@ export type MovieGetDto ={
   genre:string,
   rating:number,
   imageUrl:string,
+  trailerUrl:string,
   showtimes:[
     {
       id:number,
