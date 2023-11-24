@@ -268,6 +268,7 @@ public class Startup
                 Description = "Uta is a beloved singer, renowned for concealing her own identity when performing. Her voice is described as \"otherworldly.\" Now, for the first time ever, Uta will reveal herself to the world at a live concert.",
                 Genre = "Animation",
                 Duration = 120,
+                TrailerUrl = "https://www.youtube.com/watch?v=89JWRYEIG-s&pp=ygUNb25lIHBpZWNlIHJlZA%3D%3D",
                 ImageUrl = "https://i.redd.it/z4pkzmtwb8r81.jpg"
             },
             new(){
@@ -277,6 +278,7 @@ public class Startup
                 Description = " The cultural phenomenon continues as pop icon Taylor Swift performs hit songs in a once-in-a-lifetime concert experience.",
                 Genre = "Documentary",
                 Duration = 164,
+                TrailerUrl = "https://www.youtube.com/watch?v=KudedLV0tP0&pp=ygUaVGF5bG9yIFN3aWZ0IFRoZSBFcm9zIFRvdXI%3D",
                 ImageUrl = "https://m.media-amazon.com/images/M/MV5BM2E0NjA5MDktYmUxOC00NWUzLWJlNzMtZmJlNjU1ODZiMjgyXkEyXkFqcGdeQXVyMTY3ODkyNDkz._V1_.jpg"
             },
             new(){
@@ -286,6 +288,7 @@ public class Startup
                 Description = "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
                 Genre = "Animation",
                 Duration = 164,
+                TrailerUrl = "https://www.youtube.com/watch?v=-pHfPJGatgE&pp=ygUJeW91ciBuYW1l",
                 ImageUrl = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSdCn7P_niNCbNFHt9vLgDc-YlRIhwvnCPtHzyiHVP_GK-XmDS1"
             },
             new(){
@@ -295,6 +298,7 @@ public class Startup
                 Description = "Groomed for stardom by \"X-Factor's\" Simon Cowell, the members of pop supergroup One Direction -- Niall Horan, Zayn Malik, Harry Styles, Louis Tomlinson and Liam Payne -- have emerged as a worldwide phenomenon. ",
                 Genre = "Documentary",
                 Duration = 184,
+                TrailerUrl = "https://www.youtube.com/watch?v=MmqeOZXhycg&pp=ygUZT25lIERpcmVjdGlvbjogVGhpcyBJcyBVcw%3D%3D",
                 ImageUrl = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcR7Wrvd1v6Y7QfTmiz3UJ0RylsREWLkjQOpz--_86AACtKnHLoW"
             },
              new(){
@@ -304,6 +308,7 @@ public class Startup
                 Description = "Next Goal Wins is a 2023 American biographical sports comedy-drama film directed by Taika Waititi, who co-wrote the screenplay with Iain Morris. It is based on the 2014 documentary of the same name by Mike Brett and Steve Jamison about Dutch-American coach Thomas Rongen's efforts to lead the American Samoa national football team, considered one of the weakest football teams in the world, to qualification for the 2014 FIFA World Cup. ",
                 Genre = "Comedy",
                 Duration = 95,
+                TrailerUrl = "https://www.youtube.com/watch?v=pRH5u5lpArQ&pp=ygUOTmV4dCBHb2FsIFdpbnM%3D",
                 ImageUrl = "https://imgs.search.brave.com/mtL0Rm7wTWSEtxQAS-fw8cLQ9yL2OuDGGC_b9EyB55Y/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zMy5h/bWF6b25hd3MuY29t/L3N0YXRpYy5yb2dl/cmViZXJ0LmNvbS91/cGxvYWRzL21vdmll/L21vdmllX3Bvc3Rl/ci9uZXh0LWdvYWwt/d2lucy0yMDIzL2xh/cmdlX25leHQtZ29h/bC13aW5zLW1vdmll/LXBvc3Rlci0yMDIz/LmpwZWc"
             },
               new(){
@@ -313,6 +318,7 @@ public class Startup
                 Description = "The Marvels is a 2023 American superhero film based on Marvel Comics. Produced by Marvel Studios and distributed by Walt Disney Studios Motion Pictures, it is the sequel to the film Captain Marvel (2019), a continuation of the television miniseries Ms. Marvel (2022), and the 33rd film in the Marvel Cinematic Universe (MCU). ",
                 Genre = "Action",
                 Duration = 157,
+                TrailerUrl = "https://www.youtube.com/watch?v=uwmDH12MAA4&pp=ygULVGhlIE1hcnZlbHM%3D",
                 ImageUrl = "https://imgs.search.brave.com/pvbUFBOHcHlIq8dokVC--MVj0JrXq18D3LeXzJnziWM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/bWFydmVsLmNvbS9j/b250ZW50LzF4L3Ro/ZW1hcnZlbHNfbG9i/X2NyZF8wNS5qcGc"
             },
         };
