@@ -4,6 +4,7 @@ using LearningStarter.Common;
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningStarter.Controllers
 {
@@ -51,7 +52,50 @@ namespace LearningStarter.Controllers
 			return Ok(response);
 		}
 
-		[HttpPost]
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var response = new Response();
+
+            var Review = _dataContext
+                .Set<Reviews>()
+				.Include(x => x.User)
+				.Include(x => x.Theater)
+                .FirstOrDefault(Review => Review.Id == id);
+
+            if (Review == null)
+            {
+                response.AddError("id", "Review not found");
+                return NotFound(response);
+            }
+
+            var reviewToReturn = new ReviewsGetDto
+            {
+                Id = Review.Id,
+                TheaterReview = Review.TheaterReview,
+                Rating = Review.Rating,
+                UserId = Review.UserId,
+                TheaterId = Review.TheaterId,
+                User = new ReviewerGetDto
+                {
+                    FirstName = Review.User.FirstName,
+                    LastName = Review.User.LastName
+                },
+                Theater = new ReviewTheaterGetDto
+                {
+                    Id = Review.Theater.Id,
+                    TheaterId = Review.TheaterId,
+                    TheaterName = Review.Theater.TheaterName
+                },
+
+            };
+
+            response.Data = reviewToReturn;
+
+            return Ok(response);
+        }
+
+        [HttpPost]
 		public IActionResult Create([FromBody] ReviewsCreateDto createDto)
 		{
 			var response = new Response();

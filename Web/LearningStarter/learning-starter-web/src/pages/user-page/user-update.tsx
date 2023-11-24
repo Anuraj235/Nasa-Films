@@ -19,7 +19,7 @@ export const UserUpdate = () => {
 
     const handleDateChange = (newValue: Date | null) => {
         if (newValue) {
-          setValue(newValue);
+          setValue(mantineForm.getInputProps('dateOfBirth'));
         }
       };
 
@@ -129,7 +129,7 @@ export const UserUpdate = () => {
                         label="Phone"
                         type='number'
                         placeholder="Phone Number"
-                        {...mantineForm.getInputProps('phone')}
+                        {...mantineForm.getInputProps('phoneNumber')}
                         className={classes.inputField}
 
                     />

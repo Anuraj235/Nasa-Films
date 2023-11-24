@@ -96,7 +96,7 @@ const ReviewListing = () => {
                 <td>{review.theater.theaterName}</td>
                 <td>{review.theaterReview}</td>
                 <td><Rating value={review.rating} /></td>
-                <td>{`${review.User?.firstName} ${review.User?.lastName}`}</td>
+                <td>{`${review.user?.firstName} ${review.user?.lastName}`}</td>
                 <td>
                   <Button color="primary" onClick={() => handleUpdate(review.id)}>Update</Button>
                 </td>

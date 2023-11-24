@@ -35,6 +35,7 @@ export type UserCreateUpdateDto = {
   firstName: string;
   lastName: string;
   userName: string;
+  password: string;
   email: string;
   phoneNumber: string;
   dateOfBirth: Date;
@@ -143,7 +144,7 @@ export type ReviewGetDto = {
   theaterReview: string,
   rating: number,
   theaterId: number,
-  User: {
+  user: {
     firstName: string,
     lastName: string,
   },

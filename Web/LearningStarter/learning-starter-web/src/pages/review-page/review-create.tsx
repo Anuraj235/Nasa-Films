@@ -7,19 +7,22 @@ import { showNotification } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 
+// Assuming you have a function to get the authenticated user ID
+import { useAuth } from "../../authentication/use-auth";
 export const ReviewCreatePage = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [ratingValue, setRatingValue] = useState(0);
   const [theaters, setTheaters] = useState<TheaterGetDto[]>();
   const [selectedTheaterId, setSelectedTheaterId] = useState<number | null>(null);
+  const auth = useAuth();
 
   const form = useForm({
     initialValues: {
       theaterReview: '',
       rating: 0,
       theaterId: 0,
-      userId: 0,
+      userId: auth.user ? auth.user.id : 0, // Set the user ID here
     },
   });
 
@@ -86,14 +89,6 @@ export const ReviewCreatePage = () => {
             onChange={handleTheaterSelect}
           />
         
-          <TextInput
-            mt="md"
-            label="User ID"
-            placeholder="User ID"
-            type="number"
-            {...form.getInputProps('userId')}
-            className={classes.inputField}
-          />
           <Group position="center" className={classes.submitButton}>
             <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }} type="submit">Submit</Button>
             <Button
