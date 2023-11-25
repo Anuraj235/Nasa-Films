@@ -39,6 +39,7 @@ public class MoviesController : ControllerBase
             Genre = movie.Genre,
             Duration = movie.Duration,
             ImageUrl = movie.ImageUrl,
+            TrailerUrl = movie.TrailerUrl,
             ShowTimeId = movie.ShowTimeId,
             Showtimes = movie.Showtimes.Select(x => new MovieShowtimeGetDto
             {
@@ -71,6 +72,7 @@ public class MoviesController : ControllerBase
                 Duration = movie.Duration,
                 ImageUrl = movie.ImageUrl,
                 ShowTimeId = movie.ShowTimeId,
+                TrailerUrl = movie.TrailerUrl,
                 Showtimes = movie.Showtimes.Select(x => new MovieShowtimeGetDto
                 {
                     Id = x.Id,
@@ -115,6 +117,8 @@ public class MoviesController : ControllerBase
             Genre = createDto.Genre,
             Duration = createDto.Duration,
             ImageUrl = createDto.ImageUrl,
+            TrailerUrl = createDto.TrailerUrl,
+
 
 
         };
@@ -132,6 +136,7 @@ public class MoviesController : ControllerBase
             Genre = movieToCreate.Genre,
             Duration = movieToCreate.Duration,
             ImageUrl = movieToCreate.ImageUrl,
+            TrailerUrl = movieToCreate.TrailerUrl,
             ShowTimeId = movieToCreate.ShowTimeId,
         };
         response.Data = moiveToReturn;

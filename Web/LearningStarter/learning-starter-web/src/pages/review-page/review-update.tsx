@@ -6,7 +6,8 @@ import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
 import ReviewListing from './review-listing';
 import { routes } from "../../routes";
-import { Button, Container, Flex, Rating, Select, Space, TextInput, Title, createStyles } from "@mantine/core";
+import { Button, Card, Container, Flex, Group, Rating, Select, Space, TextInput, Title, createStyles } from "@mantine/core";
+import { useAuth } from "../../authentication/use-auth";
 
 export const ReviewUpdate = () => {
     const [review, setReview] = useState<ReviewGetDto | null>(null);
@@ -16,6 +17,7 @@ export const ReviewUpdate = () => {
     const [ratingValue, setRatingValue] = useState(0);
     const [theaters, setTheaters] = useState<TheaterGetDto[]>();
     const [selectedTheaterId, setSelectedTheaterId] = useState<number | null>(null);
+    const auth = useAuth();
 
 
 
@@ -25,7 +27,7 @@ export const ReviewUpdate = () => {
             theaterReview: '',
             rating: 0,
             theaterId: 0, 
-            userId: 0
+            userId: auth.user ? auth.user.id : 0,
         },
     });
 
@@ -72,9 +74,11 @@ const handleTheaterSelect = (theaterId: string) => {
 };
 return (
     <>
-     <Title order={2} align="center" style={{ color: "#9C7A4B", marginTop: '5rem' }}>Add Review </Title>
+     <Title order={2} align="center" style={{ color: "#9C7A4B", marginTop: '5rem' }}>Update Review </Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Container style={{ maxWidth: 420, margin: 'auto' }}>
+        <Card shadow="sm" radius="md" style={{ maxWidth: 640 }}>
+
           <TextInput
             mt="md"
             label="Theater Review"
@@ -82,42 +86,32 @@ return (
             {...form.getInputProps('theaterReview')}
             className={classes.inputField}
           />
-          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px'}}>Rating:</p>
+          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px', marginLeft: '15px'}}>Rating:</p>
           <Rating
-            value={ratingValue}
+            value={form.values.rating}
             size='lg'
             onChange={(newValue) => {
               setRatingValue(newValue);
               form.setFieldValue('rating',newValue);
             }}
-            style={{marginBottom: '8px'}}
+            style={{marginBottom: '8px',  marginLeft: '15px'}}
           />
-           <Select
-            label="Select Theater"
-            placeholder="Choose a theater"
-            data={theaters?.map(t => ({ value: t.id.toString(), label: t.theaterName })) || []}
-            onChange={handleTheaterSelect}
-          />
-        
-          <TextInput
-            mt="md"
-            label="User ID"
-            placeholder="User ID"
-            type="number"
-            {...form.getInputProps('userId')}
-            className={classes.inputField}
-          />
-              <Button type="submit" gradient={{ from: 'teal', to: 'blue', deg: 60 }}>Update Review</Button>
-              <Button
+
+          <Group position="center" className={classes.submitButton}>
+            <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }} type="submit">Submit</Button>
+            <Button
                 type="button"
                 onClick={() => navigate(routes.reviewListing)}
                 variant="outline"
               >
                 Cancel
               </Button>
-            
-          </Container>
+          </Group>
+          </Card>
+
+        </Container>
         </form>
+    
     </>
   );
 }

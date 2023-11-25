@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, createStyles, Group, Rating, Select, TextInput, Title } from "@mantine/core";
+import { Button, Card, Container, createStyles, Group, Rating, Select, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ApiResponse, ReviewCreateDto, TheaterGetDto } from "../../constants/types";
 import api from "../../config/axios";
@@ -7,19 +7,22 @@ import { showNotification } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 
+// Assuming you have a function to get the authenticated user ID
+import { useAuth } from "../../authentication/use-auth";
 export const ReviewCreatePage = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [ratingValue, setRatingValue] = useState(0);
   const [theaters, setTheaters] = useState<TheaterGetDto[]>();
   const [selectedTheaterId, setSelectedTheaterId] = useState<number | null>(null);
+  const auth = useAuth();
 
   const form = useForm({
     initialValues: {
       theaterReview: '',
       rating: 0,
       theaterId: 0,
-      userId: 0,
+      userId: auth.user ? auth.user.id : 0, // Set the user ID here
     },
   });
 
@@ -62,6 +65,8 @@ export const ReviewCreatePage = () => {
       <Title order={2} align="center" style={{ color: "#9C7A4B", marginTop: '5rem' }}>Add Review </Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Container style={{ maxWidth: 420, margin: 'auto' }}>
+        <Card shadow="sm" radius="md" style={{ maxWidth: 640 }}>
+
           <TextInput
             mt="md"
             label="Theater Review"
@@ -86,14 +91,6 @@ export const ReviewCreatePage = () => {
             onChange={handleTheaterSelect}
           />
         
-          <TextInput
-            mt="md"
-            label="User ID"
-            placeholder="User ID"
-            type="number"
-            {...form.getInputProps('userId')}
-            className={classes.inputField}
-          />
           <Group position="center" className={classes.submitButton}>
             <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }} type="submit">Submit</Button>
             <Button
@@ -104,6 +101,7 @@ export const ReviewCreatePage = () => {
                 Cancel
               </Button>
           </Group>
+          </Card>
         </Container>
       </form>
     </>
