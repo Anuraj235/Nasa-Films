@@ -54,7 +54,7 @@ export const LandingPage = () => {
       </Carousel>
       <Title
         order={1}
-        c="dimmed"
+        c="#afffff"
         style={{
           textAlign: "center",
           marginTop: "2rem",
