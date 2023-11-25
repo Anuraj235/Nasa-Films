@@ -19,7 +19,7 @@ export const LandingPage = () => {
   return (
     <>
       <Carousel
-        sx={{ maxWidth: 1440, position: "relative" }}
+        sx={{ maxWidth: "100%", position: "relative" }}
         withIndicators
         height={550}
         plugins={[autoplay.current]}
