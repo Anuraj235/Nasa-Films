@@ -123,7 +123,7 @@ const ReviewListing = () => {
               <th style={{ color: "#afffff", textAlign: "center" }}>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody style={{ backgroundColor: "#ffffff" }}>
             {currentReviews.map((review, index) => (
               <tr key={review.id}>
                 <td>{review.id}</td>
@@ -132,7 +132,7 @@ const ReviewListing = () => {
                 <td>
                   <Rating value={review.rating} />
                 </td>
-                <td>{`${review.User?.firstName} ${review.User?.lastName}`}</td>
+                <td>{`${review.user.firstName} ${review.user.lastName}`}</td>
                 <td>
                   <Button
                     color="primary"

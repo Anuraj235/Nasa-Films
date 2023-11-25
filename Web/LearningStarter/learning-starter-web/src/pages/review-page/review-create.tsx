@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, createStyles, Group, Rating, Select, TextInput, Title } from "@mantine/core";
+import { Button, Container, createStyles, Group, Rating, Select, Textarea, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ApiResponse, ReviewCreateDto, TheaterGetDto } from "../../constants/types";
 import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
+import { useUser } from '../../authentication/use-auth';
 
 export const ReviewCreatePage = () => {
   const { classes } = useStyles();
@@ -13,13 +14,14 @@ export const ReviewCreatePage = () => {
   const [ratingValue, setRatingValue] = useState(0);
   const [theaters, setTheaters] = useState<TheaterGetDto[]>();
   const [selectedTheaterId, setSelectedTheaterId] = useState<number | null>(null);
+  const user=useUser();
 
   const form = useForm({
     initialValues: {
       theaterReview: '',
       rating: 0,
       theaterId: 0,
-      userId: 0,
+      userId: user.id,
     },
   });
 
@@ -61,8 +63,17 @@ export const ReviewCreatePage = () => {
     <>
       <Title order={2} align="center" style={{ color: "#9C7A4B", marginTop: '5rem' }}>Add Review </Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Container style={{ maxWidth: 420, margin: 'auto' }}>
-          <TextInput
+        <Container style={{ maxWidth: 420, margin: 'auto',color: "#9C7A4B" }}>
+        <TextInput
+            mt="md"
+            label="User ID"
+            placeholder="User ID"
+            type="number"
+            disabled
+            {...form.getInputProps('userId')}
+            className={classes.inputField}
+          />
+          <Textarea
             mt="md"
             label="Theater Review"
             placeholder="Theater Review"
@@ -79,21 +90,13 @@ export const ReviewCreatePage = () => {
             }}
             style={{marginBottom: '8px'}}
           />
+          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px'}}>Select Theater:</p>
            <Select
-            label="Select Theater"
             placeholder="Choose a theater"
             data={theaters?.map(t => ({ value: t.id.toString(), label: t.theaterName })) || []}
             onChange={handleTheaterSelect}
           />
         
-          <TextInput
-            mt="md"
-            label="User ID"
-            placeholder="User ID"
-            type="number"
-            {...form.getInputProps('userId')}
-            className={classes.inputField}
-          />
           <Group position="center" className={classes.submitButton}>
             <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }} type="submit">Submit</Button>
             <Button
