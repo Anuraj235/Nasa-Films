@@ -2,7 +2,7 @@ import { UserGetDto } from "../../constants/types";
 import { PrimaryNavigation } from "../navigation/navigation";
 import { Container } from "@mantine/core";
 import { createStyles, Divider } from "@mantine/core";
-import Image from "../../assets/body-bg.jpg";
+import Image from "../../assets/body-bg.png";
 import TransparentImage from "../../assets/shows-bg.png";
 
 type PageWrapperProps = {
