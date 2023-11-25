@@ -151,7 +151,7 @@ export type ReviewGetDto = {
   theaterReview: string,
   rating: number,
   theaterId: number,
-  User: {
+  user: {
     firstName: string,
     lastName: string,
   },

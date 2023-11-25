@@ -87,7 +87,7 @@ export const TheaterListing = () => {
               <th style={{ color: "#afffff" }}>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody style={{ backgroundColor: "#ffffff" }}>
             {currentTheaters.map((theater, index) => (
               <tr key={theater.id}>
                 <td>{theater.id}</td>
