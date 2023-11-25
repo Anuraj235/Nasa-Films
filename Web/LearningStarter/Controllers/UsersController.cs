@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using LearningStarter.Common;
 using LearningStarter.Data;
 using LearningStarter.Entities;
@@ -144,8 +145,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(
-        [FromBody] UserCreateDto userCreateDto)
+    public  async Task<IActionResult> Create([FromBody] UserCreateDto userCreateDto)
     {
         var response = new Response();
 
@@ -184,9 +184,17 @@ public class UsersController : ControllerBase
             DateOfBirth = userCreateDto.DateOfBirth,
             Loyalty = userCreateDto.Loyalty
         };
-        _context.Set<User>().Add(userToCreate);
-        _userManager.CreateAsync(userToCreate, userCreateDto.Password);
-        _context.SaveChanges();
+        var result = await _userManager.CreateAsync(userToCreate, userCreateDto.Password);
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+            {
+                response.AddError(error.Code, error.Description);
+            }
+            return BadRequest(response);
+        }
+        await _context.SaveChangesAsync();
+        
         //_userManager.AddToRoleAsync(userToCreate, "Admin");
         //_context.SaveChanges();
 
