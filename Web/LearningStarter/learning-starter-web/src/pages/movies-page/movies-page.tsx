@@ -7,6 +7,7 @@ import {
   createStyles,
   Title,
   Rating,
+  Textarea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
@@ -97,7 +98,7 @@ export const MoviesPage = () => {
             className={classes.inputField}
           />
 
-          <TextInput
+          <Textarea
             withAsterisk
             label="Description"
             placeholder="Movie Description"

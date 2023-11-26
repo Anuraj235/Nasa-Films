@@ -3,15 +3,17 @@ import { useAsyncRetry, useAsyncFn } from "react-use";
 import { ApiResponse } from "../constants/types";
 import { ApiError } from "../constants/types";
 import { LoginPage } from "../pages/login-page/login-page";
-import { UserDto } from "../constants/types";
+import { UserGetDto } from "../constants/types";
 import { StatusCodes } from "../constants/status-codes";
 import { Loader } from "@mantine/core";
 import api from "../config/axios";
+import { routes } from "../routes";
+import { RegisterPage } from "../pages/register-page/register-page";
 
 const currentUser = "currentUser";
 
 //functions for setting session storage
-const setUserItem = (user: UserDto) => {
+const setUserItem = (user: UserGetDto) => {
   sessionStorage.setItem(currentUser, JSON.stringify(mapUser(user)));
 };
 
@@ -20,7 +22,7 @@ const removeUserItem = () => {
 };
 
 type AuthState = {
-  user: UserDto | null;
+  user: UserGetDto | null;
   errors: ApiError[];
   refetchUser: () => void;
   logout: () => void;
@@ -37,7 +39,7 @@ export const AuthContext = createContext<AuthState>(INITIAL_STATE);
 
 export const AuthProvider = (props: any) => {
   const [errors, setErrors] = useState<ApiError[]>(INITIAL_STATE.errors);
-  const [user, setUser] = useState<UserDto | null>(INITIAL_STATE.user);
+  const [user, setUser] = useState<UserGetDto | null>(INITIAL_STATE.user);
 
   //This is the main function for getting the user information from the database.
   //This function gets called on every "notify("user-login") in order to refetch the user data."
@@ -87,7 +89,14 @@ export const AuthProvider = (props: any) => {
   if (fetchCurrentUser.loading) {
     return <Loader />;
   }
-
+const isRegisterPage=window.location.pathname.startsWith(routes.registerpage);
+if(isRegisterPage){
+  return(
+    <>
+    <RegisterPage/>
+    </>
+  );
+}
   //Brings unauthenticated users to the login page.
   //This can be made to bring them to a different part of the app eventually
   if (!user && !fetchCurrentUser.loading) {
@@ -108,14 +117,14 @@ export const AuthProvider = (props: any) => {
   );
 };
 
-export type GetUserResponse = ApiResponse<UserDto>;
+export type GetUserResponse = ApiResponse<UserGetDto>;
 
 export function useAuth(): AuthState {
   return useContext(AuthContext);
 }
 
 //This function is available anywhere wrapped inside of the <AuthProvider>.  See Config.tsx for example.
-export function useUser(): UserDto {
+export function useUser(): UserGetDto {
   const { user } = useContext(AuthContext);
   if (!user) {
     throw new Error(`useUser must be used within an authenticated app`);
@@ -124,9 +133,13 @@ export function useUser(): UserDto {
 }
 
 //This is used to map an object (any type) to a User entity.
-export const mapUser = (user: any): UserDto => ({
+export const mapUser = (user: any): UserGetDto => ({
   id: user.id,
   firstName: user.firstName,
   lastName: user.lastName,
   userName: user.userName,
+  email: user.email,
+  phoneNumber: user.phoneNumber,
+  dateOfBirth: user.dateOfBirth,
+  loyalty: user.loyalty,
 });

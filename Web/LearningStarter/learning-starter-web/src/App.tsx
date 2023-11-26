@@ -30,7 +30,7 @@ function App() {
         withNormalizeCSS
       >
         <NotificationsProvider position="top-right" autoClose={3000} limit={5}>
-          <Container fluid px={0} className="App">
+          <Container fluid px={0} className="App" >
             <AuthProvider>
               <Routes />
             </AuthProvider>
