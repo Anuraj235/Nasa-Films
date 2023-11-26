@@ -76,7 +76,7 @@ export const TheaterListing = () => {
       {loading ? (
         <Loader />
       ) : (
-        <Table withBorder striped>
+        <Table withBorder>
           <thead>
             <tr>
               <th style={{ color: "#afffff" }}>Theater ID</th>
@@ -87,14 +87,15 @@ export const TheaterListing = () => {
               <th style={{ color: "#afffff" }}>Actions</th>
             </tr>
           </thead>
-          <tbody style={{ backgroundColor: "#ffffff" }}>
+          <tbody>
             {currentTheaters.map((theater, index) => (
               <tr key={theater.id}>
-                <td>{theater.id}</td>
-                <td>{theater.theaterName}</td>
-                <td>{theater.address}</td>
-                <td>{theater.email}</td>
-                <td>{theater.phone}</td>
+                <td style={{ color: "#ffffff", fontWeight: "bold" }}>{theater.id}</td>
+                <td style={{ color: "#ffffff", fontWeight: "bold" }}>{theater.theaterName}</td>
+                <td style={{ color: "#ffffff", fontWeight: "bold" }}>{theater.address}</td>
+                <td style={{ color: "#ffffff", fontWeight: "bold" }}>{theater.email}</td>
+                <td style={{ color: "#ffffff", fontWeight: "bold" }}>{theater.phone}</td>
+
                 <td>
                   <Button color="primary" onClick={() => handleUpdate(theater.id)}>Update</Button>
                 </td>
@@ -103,11 +104,11 @@ export const TheaterListing = () => {
                 </td>
               </tr>
             ))}
-            <Pagination page={activePage} onChange={setActivePage} total={totalPages} />;
           </tbody>
           
         </Table>
       )}
+      <Pagination page={activePage} onChange={setActivePage} total={totalPages} style={{marginTop:'1rem'}}/>
       <Modal
         opened={isModalOpen}
         onClose={() => setModalOpen(false)}

@@ -42,6 +42,7 @@ export const MoviesPage = () => {
       genre: "",
       rating: 0,
       duration: 0,
+      trailerUrl:"",
     },
   });
 
@@ -75,7 +76,7 @@ export const MoviesPage = () => {
 
   return (
     <>
-      <Title order={2} align="center" style={{ color: "white" }}>
+      <Title order={2} align="center" style={{ color: "#fddc9a" }}>
         Add New Movie
       </Title>
       <Box sx={{ maxWidth: 300 }} mx="auto">
@@ -111,6 +112,13 @@ export const MoviesPage = () => {
             {...movieForm.getInputProps("imageUrl")}
             className={classes.inputField}
           />
+          <TextInput
+            withAsterisk
+            label="Trailer Url"
+            placeholder="Enter Trailer URL"
+            {...movieForm.getInputProps("trailerUrl")}
+            className={classes.inputField}
+          />
           <Select
             value={movieForm.values.genre}
             onChange={(value) => movieForm.setFieldValue("genre", value)}
@@ -121,7 +129,7 @@ export const MoviesPage = () => {
             className={classes.inputField}
           />
 
-          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px'}}>Rating:</p>
+          <p style={{ color: "white", marginBottom: '1px', marginTop: '8px'}}>Rating:</p>
           <Rating
             value={ratingValue}
             size='lg'
@@ -159,7 +167,7 @@ const useStyles = createStyles(() => ({
   inputField: {
     mt: "4rem",
     label: {
-      color: "#9C7A4B",
+      color: "white",
     },
   },
   submitButton: {

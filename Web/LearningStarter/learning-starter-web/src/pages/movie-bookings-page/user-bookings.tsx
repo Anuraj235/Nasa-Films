@@ -88,12 +88,11 @@ export const UserBooking = () => {
                   <th style={{ color: "#afffff" }}>Tender Amount</th>
                 </tr>
               </thead>
-              <tbody style={{ backgroundColor: "#ffffff",color:"black" }}>
+              <tbody>
                 {bookings &&
                   bookings.map((booking) => (
                     <tr key={booking.id}>
-                      <td>
-                        
+                      <td align="center">
                         <Image
                           src={booking.imageUrl}
                           alt={booking.movieName}
@@ -101,14 +100,14 @@ export const UserBooking = () => {
                           radius="md"
                           fit="contain"
                         />
-                        <Text size="md" fw={500} align="center">
+                         <Text size="sm" color="white" style={{fontWeight:"bold", marginTop:"5px"}}>
                           {booking.movieName}
                         </Text>
                       </td>
-                      <td>{booking.startTime}</td>
-                      <td>{booking.theaterName}</td>
-                      <td>{booking.numberOfTickets}</td>
-                      <td>{booking.tenderAmount}</td>
+                      <td style={{color:"white", fontSize:"16px", alignSelf:"center"}}>{booking.startTime}</td>
+                      <td style={{color:"white", fontSize:"16px", alignSelf:"center"}}>{booking.theaterName}</td>
+                      <td style={{color:"white", fontSize:"16px", alignSelf:"center"}}>{booking.numberOfTickets}</td>
+                      <td style={{color:"white", fontSize:"16px", alignSelf:"center"}}>${booking.tenderAmount}</td>
                     </tr>
                   ))}
               </tbody>
