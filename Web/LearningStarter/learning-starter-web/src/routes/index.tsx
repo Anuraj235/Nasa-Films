@@ -14,6 +14,11 @@ export const routes = {
   movies: '/movies',
   theater:`/theater`,
   theaterListing:`/theater-listing`,
-  theaterUpdate:`/theaters/:id`
+  theaterUpdate:`/theaters/:id`,
+  reviewListing:`/review-listing`,
+  reviewUpdate: `/reviews/:id`,
+  reviewCreate:`/review-create`,
+  aboutus: '/aboutus',
+  registerpage:'/registerpage',
 };
 

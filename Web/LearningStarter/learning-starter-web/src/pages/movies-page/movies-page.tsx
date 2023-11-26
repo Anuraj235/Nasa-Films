@@ -6,6 +6,7 @@ import {
   Select,
   createStyles,
   Title,
+  Rating,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
@@ -17,10 +18,12 @@ import {
   MovieCreateDto,
   MovieGetDto,
 } from "../../constants/types";
+import { useState } from "react";
 
 export const MoviesPage = () => {
   const navigate = useNavigate();
   const { classes } = useStyles();
+  const [ratingValue, setRatingValue] = useState(0);
   const genreOptions = [
     { value: "action", label: "Action" },
     { value: "comedy", label: "Comedy" },
@@ -37,6 +40,7 @@ export const MoviesPage = () => {
       description: "",
       imageUrl: "",
       genre: "",
+      rating: 0,
       duration: 0,
     },
   });
@@ -115,6 +119,17 @@ export const MoviesPage = () => {
             id="genre"
             label="Genre"
             className={classes.inputField}
+          />
+
+          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px'}}>Rating:</p>
+          <Rating
+            value={ratingValue}
+            size='lg'
+            onChange={(newValue) => {
+              setRatingValue(newValue);
+              movieForm.setFieldValue('rating',newValue);
+            }}
+            style={{marginBottom: '8px'}}
           />
 
           <TextInput

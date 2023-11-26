@@ -156,8 +156,10 @@ export const MovieBookingPage = () => {
                 Select Date:
               </Text>
               <DatePicker value={value} onChange={handleDateChange} minDate={today} />
+              <Text mt="lg" size="sm" fw={500} >
+                Select Theater:
+              </Text>
               <Select
-                label="Select Theater"
                 placeholder="Choose a theater"
                 data={theaters?.map(t => ({ value: t.id.toString(), label: t.theaterName })) || []}
                 onChange={handleTheaterSelect}
@@ -177,12 +179,13 @@ export const MovieBookingPage = () => {
                   ))}
                 </Container>
               )}
-
+              <Text mt="lg" size="sm" fw={500} >
+                Tickets:
+              </Text>
               <NumberInput
                 style={{ marginTop: "12px" }}
                 variant="filled"
                 radius="xs"
-                label="Tickets:"
                 withAsterisk
                 placeholder="Enter the number of tickets."
                 value={ticketCount}

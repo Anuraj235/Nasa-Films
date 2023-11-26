@@ -64,7 +64,12 @@ export const UserBooking = () => {
   };
   return (
     <>
-      <Header height={60} p="xs">
+      <Header height={60} p="xs" style={{
+          backgroundColor: "#090708",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
         <Text weight={700}>My Bookings:</Text>
       </Header>
       <Space h="md" />
@@ -76,21 +81,19 @@ export const UserBooking = () => {
             <Table>
               <thead>
                 <tr>
-                  <th>Movie</th>
-                  <th>Start Time</th>
-                  <th>Theater</th>
-                  <th>Number of Tickets</th>
-                  <th>Tender Amount</th>
+                  <th style={{ color: "#afffff" }}>Movie</th>
+                  <th style={{ color: "#afffff" }}>Start Time</th>
+                  <th style={{ color: "#afffff" }}>Theater</th>
+                  <th style={{ color: "#afffff" }}>Number of Tickets</th>
+                  <th style={{ color: "#afffff" }}>Tender Amount</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody style={{ backgroundColor: "#ffffff",color:"black" }}>
                 {bookings &&
                   bookings.map((booking) => (
                     <tr key={booking.id}>
                       <td>
-                        <Text size="sm" color="dimmed">
-                          {booking.movieName}
-                        </Text>
+                        
                         <Image
                           src={booking.imageUrl}
                           alt={booking.movieName}
@@ -98,6 +101,9 @@ export const UserBooking = () => {
                           radius="md"
                           fit="contain"
                         />
+                        <Text size="md" fw={500} align="center">
+                          {booking.movieName}
+                        </Text>
                       </td>
                       <td>{booking.startTime}</td>
                       <td>{booking.theaterName}</td>

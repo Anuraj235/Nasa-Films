@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ApiResponse, TheaterGetDto } from '../../constants/types';
 import api from '../../config/axios';
 import { showNotification } from '@mantine/notifications';
-import { Header, Space, Table, Loader, Modal, Text, Button, Flex,Pagination } from '@mantine/core';
+import { Header, Space, Table, Loader, Modal, Text, Button, Flex,Pagination, Container } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../routes';
 
@@ -63,8 +63,13 @@ export const TheaterListing = () => {
   const currentTheaters = theaters.slice(indexOfFirstTheater, indexOfLastTheater);
 
   return (
-    <>
-      <Header height={60} p="xs">
+    <Container>
+      <Header height={60} p="xs" style={{
+          backgroundColor: "#090708",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
         Theaters
       </Header>
       <Space h="md" />
@@ -74,15 +79,15 @@ export const TheaterListing = () => {
         <Table withBorder striped>
           <thead>
             <tr>
-              <th>Theater ID</th>
-              <th>Theater Name</th>
-              <th>Address</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Actions</th>
+              <th style={{ color: "#afffff" }}>Theater ID</th>
+              <th style={{ color: "#afffff" }}>Theater Name</th>
+              <th style={{ color: "#afffff" }}>Address</th>
+              <th style={{ color: "#afffff" }}>Email</th>
+              <th style={{ color: "#afffff" }}>Phone</th>
+              <th style={{ color: "#afffff" }}>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody style={{ backgroundColor: "#ffffff" }}>
             {currentTheaters.map((theater, index) => (
               <tr key={theater.id}>
                 <td>{theater.id}</td>
@@ -119,7 +124,7 @@ export const TheaterListing = () => {
           <Button color="gray" onClick={() => setModalOpen(false)}>Cancel</Button>
         </Flex>
       </Modal>
-    </>
+    </Container>
   );
 };
 

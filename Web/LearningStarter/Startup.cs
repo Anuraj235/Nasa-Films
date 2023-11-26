@@ -182,11 +182,36 @@ public class Startup
         {
             var seededUser = new User
             {
-                FirstName = "Seeded",
-                LastName = "User",
+                FirstName = "John",
+                LastName = "Seed",
                 UserName = "admin",
+                Email = "johntheadmin@yahoo.com",
+                PhoneNumber = "9898989898",
+                DateOfBirth = DateTime.Now,
             };
 
+            var seededUser1 = new User
+            {
+                FirstName = "Anuraj",
+                LastName = "Pant",
+                UserName = "pantanuraj",
+                Email = "iamanuraj@wohoo.com",
+                PhoneNumber = "6969696969",
+                DateOfBirth = DateTime.Now,
+            };
+
+            var seededUser2 = new User
+            {
+                FirstName = "Satyam",
+                LastName = "Pathak",
+                UserName = "hotcoffee",
+                Email = "pathaksatyam@yehoo.com",
+                PhoneNumber = "8989898989",
+                DateOfBirth = DateTime.Now,
+            };
+
+            await userManager.CreateAsync(seededUser2, "tea123");
+            await userManager.CreateAsync(seededUser1, "anuraj123");
             await userManager.CreateAsync(seededUser, "Password");
             await dataContext.SaveChangesAsync();
         }
@@ -225,7 +250,7 @@ public class Startup
                 Rating = 5,
                 //ReleaseDate = 2023 - 01 - 01,
                 Description = "Uta is a beloved singer, renowned for concealing her own identity when performing. Her voice is described as \"otherworldly.\" Now, for the first time ever, Uta will reveal herself to the world at a live concert.",
-                Genre = "Fantasy",
+                Genre = "Animation",
                 Duration = 120,
                 ImageUrl = "https://i.redd.it/z4pkzmtwb8r81.jpg"
             },
@@ -234,7 +259,7 @@ public class Startup
                 Rating = 3,
                 //ReleaseDate = 2023 - 01 - 01,
                 Description = " The cultural phenomenon continues as pop icon Taylor Swift performs hit songs in a once-in-a-lifetime concert experience.",
-                Genre = "Musical",
+                Genre = "Documentary",
                 Duration = 164,
                 ImageUrl = "https://m.media-amazon.com/images/M/MV5BM2E0NjA5MDktYmUxOC00NWUzLWJlNzMtZmJlNjU1ODZiMjgyXkEyXkFqcGdeQXVyMTY3ODkyNDkz._V1_.jpg"
             },
@@ -243,20 +268,37 @@ public class Startup
                 Rating = 4,
                 //ReleaseDate = 2023 - 01 - 01,
                 Description = "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
-                Genre = "Fantasy",
+                Genre = "Animation",
                 Duration = 164,
                 ImageUrl = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSdCn7P_niNCbNFHt9vLgDc-YlRIhwvnCPtHzyiHVP_GK-XmDS1"
             },
             new(){
                 Title = "One Direction: This Is Us",
-                Rating = 2,
+                Rating = 4,
                 //ReleaseDate = 2023 - 01 - 01,
                 Description = "Groomed for stardom by \"X-Factor's\" Simon Cowell, the members of pop supergroup One Direction -- Niall Horan, Zayn Malik, Harry Styles, Louis Tomlinson and Liam Payne -- have emerged as a worldwide phenomenon. ",
-                Genre = "Musical",
+                Genre = "Documentary",
                 Duration = 184,
                 ImageUrl = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcR7Wrvd1v6Y7QfTmiz3UJ0RylsREWLkjQOpz--_86AACtKnHLoW"
             },
-
+             new(){
+                Title = "Next Goal Wins",
+                Rating = 3,
+                //ReleaseDate = 2023 - 01 - 01,
+                Description = "Next Goal Wins is a 2023 American biographical sports comedy-drama film directed by Taika Waititi, who co-wrote the screenplay with Iain Morris. It is based on the 2014 documentary of the same name by Mike Brett and Steve Jamison about Dutch-American coach Thomas Rongen's efforts to lead the American Samoa national football team, considered one of the weakest football teams in the world, to qualification for the 2014 FIFA World Cup. ",
+                Genre = "Comedy",
+                Duration = 95,
+                ImageUrl = "https://imgs.search.brave.com/mtL0Rm7wTWSEtxQAS-fw8cLQ9yL2OuDGGC_b9EyB55Y/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zMy5h/bWF6b25hd3MuY29t/L3N0YXRpYy5yb2dl/cmViZXJ0LmNvbS91/cGxvYWRzL21vdmll/L21vdmllX3Bvc3Rl/ci9uZXh0LWdvYWwt/d2lucy0yMDIzL2xh/cmdlX25leHQtZ29h/bC13aW5zLW1vdmll/LXBvc3Rlci0yMDIz/LmpwZWc"
+            },
+              new(){
+                Title = "The Marvels",
+                Rating = 3,
+                //ReleaseDate = 2023 - 01 - 01,
+                Description = "The Marvels is a 2023 American superhero film based on Marvel Comics. Produced by Marvel Studios and distributed by Walt Disney Studios Motion Pictures, it is the sequel to the film Captain Marvel (2019), a continuation of the television miniseries Ms. Marvel (2022), and the 33rd film in the Marvel Cinematic Universe (MCU). ",
+                Genre = "Action",
+                Duration = 157,
+                ImageUrl = "https://imgs.search.brave.com/pvbUFBOHcHlIq8dokVC--MVj0JrXq18D3LeXzJnziWM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/bWFydmVsLmNvbS9j/b250ZW50LzF4L3Ro/ZW1hcnZlbHNfbG9i/X2NyZF8wNS5qcGc"
+            },
         };
 
         dataContext.Set<Movie>().AddRange(seededMovie);

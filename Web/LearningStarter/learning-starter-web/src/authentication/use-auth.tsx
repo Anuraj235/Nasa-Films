@@ -7,6 +7,8 @@ import { UserGetDto } from "../constants/types";
 import { StatusCodes } from "../constants/status-codes";
 import { Loader } from "@mantine/core";
 import api from "../config/axios";
+import { routes } from "../routes";
+import { RegisterPage } from "../pages/register-page/register-page";
 
 const currentUser = "currentUser";
 
@@ -87,7 +89,14 @@ export const AuthProvider = (props: any) => {
   if (fetchCurrentUser.loading) {
     return <Loader />;
   }
-
+const isRegisterPage=window.location.pathname.startsWith(routes.registerpage);
+if(isRegisterPage){
+  return(
+    <>
+    <RegisterPage/>
+    </>
+  );
+}
   //Brings unauthenticated users to the login page.
   //This can be made to bring them to a different part of the app eventually
   if (!user && !fetchCurrentUser.loading) {
