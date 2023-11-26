@@ -63,7 +63,7 @@ export const TheaterUpdate = () => {
 
   return (
     <>
-     <Title order={2} align="center" style={{color:"#9C7A4B",marginTop:'5rem'}}>Update Theater </Title>
+     <Title order={2} align="center" style={{color:"#fddc9a",marginTop:'5rem'}}>Update Theater </Title>
       {theater && (
         <form onSubmit={mantineForm.onSubmit(submitTheater)}>
           <Container style={{ maxWidth: 420, margin: 'auto',marginTop:'1rem'}}>
@@ -102,6 +102,7 @@ export const TheaterUpdate = () => {
                 type="button"
                 onClick={() => navigate(routes.theaterListing)}
                 variant="outline"
+                color="red"
               >
                 Cancel
               </Button>
@@ -116,7 +117,7 @@ const useStyles = createStyles(() => ({
   inputField: {
     margin:"1rem",
     'label': {
-      color: "#9C7A4B",  
+      color: "white",  
     },
   },
   submitButton: {

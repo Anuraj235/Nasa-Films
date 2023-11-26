@@ -48,11 +48,12 @@ export const ShowtimesForm = () => {
   return (
 
     <>
-      <Title order={2} align="center" style={{color:'white'}}>Add New ShowTime</Title>
+      <Title order={2} align="center" style={{color:'#fddc9a', marginTop:'2rem'}}>Add New ShowTime</Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Container style={{ maxWidth: 320, margin: 'auto' }}>
 
           <TextInput
+          withAsterisk
             mt="md"
             label="Movie Id"
             placeholder="Theater Name"
@@ -61,6 +62,8 @@ export const ShowtimesForm = () => {
 
           />
           <Select
+          withAsterisk
+          style={{marginTop:'1rem'}}
       label="Select Time"
       placeholder="Pick one"
       data={timeOptions}
@@ -68,6 +71,7 @@ export const ShowtimesForm = () => {
       className={classes.inputField}
     />
           <TextInput
+          withAsterisk
             mt="md"
             label="Theater ID"
             type="text"
@@ -77,6 +81,7 @@ export const ShowtimesForm = () => {
 
           />
           <TextInput
+          withAsterisk
             mt="md"
             label="Available Seats"
             type='number'
@@ -86,7 +91,7 @@ export const ShowtimesForm = () => {
 
           />
           <Group position="center" className={classes.submitButton}>
-            <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }} type="submit">Submit</Button>
+            <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }} type="submit" style={{marginTop:'1rem'}}>Submit</Button>
           </Group>
 
         </Container>
@@ -101,7 +106,7 @@ const useStyles = createStyles(() => ({
   inputField: {
     mt:'4rem',
     'label': {
-      color: "#9C7A4B",
+      color: "white",
     },
   },
   submitButton: {

@@ -37,11 +37,12 @@ export const TheaterPage = () => {
   return (
 
     <>
-      <Title order={2} align="center" style={{color:"#9C7A4B",marginTop:'5rem'}}>Add Theater </Title>
+      <Title order={2} align="center" style={{color:"#fddc9a",marginTop:'5rem'}}>Add Theater </Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Container style={{ maxWidth: 420, margin: 'auto' }}>
 
           <TextInput
+          withAsterisk
             mt="md"
             label="Theater Name"
             placeholder="Theater Name"
@@ -50,6 +51,7 @@ export const TheaterPage = () => {
 
           />
           <TextInput
+          withAsterisk
             mt="md"
             label="Address"
             placeholder="Address"
@@ -58,6 +60,7 @@ export const TheaterPage = () => {
 
           />
           <TextInput
+          withAsterisk
             mt="md"
             label="Email"
             type="email"
@@ -67,6 +70,7 @@ export const TheaterPage = () => {
 
           />
           <TextInput
+          withAsterisk
             mt="md"
             label="Phone"
             type='number'
@@ -88,7 +92,7 @@ export const TheaterPage = () => {
 const useStyles = createStyles(() => ({
   inputField: {
     'label': {
-      color: "#9C7A4B",
+      color: "white",
     },
   },
   submitButton: {

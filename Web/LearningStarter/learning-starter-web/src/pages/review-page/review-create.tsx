@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, createStyles, Group, Rating, Select, Textarea, TextInput, Title } from "@mantine/core";
+import { Button, Card, Container, createStyles, Group, Rating, Select, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { ApiResponse, ReviewCreateDto, TheaterGetDto } from "../../constants/types";
 import api from "../../config/axios";
 import { showNotification } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
-import { useUser } from '../../authentication/use-auth';
 
+// Assuming you have a function to get the authenticated user ID
+import { useAuth } from "../../authentication/use-auth";
 export const ReviewCreatePage = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [ratingValue, setRatingValue] = useState(0);
   const [theaters, setTheaters] = useState<TheaterGetDto[]>();
   const [selectedTheaterId, setSelectedTheaterId] = useState<number | null>(null);
-  const user=useUser();
+  const auth = useAuth();
 
   const form = useForm({
     initialValues: {
       theaterReview: '',
       rating: 0,
       theaterId: 0,
-      userId: user.id,
+      userId: auth.user ? auth.user.id : 0,
     },
   });
 
@@ -61,26 +62,19 @@ export const ReviewCreatePage = () => {
 
   return (
     <>
-      <Title order={2} align="center" style={{ color: "#9C7A4B", marginTop: '5rem' }}>Add Review </Title>
+      <Title order={2} align="center" style={{ color: "#fddc9a", marginTop: '5rem', marginBottom:'1rem' }}>Add Review </Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Container style={{ maxWidth: 420, margin: 'auto',color: "#9C7A4B" }}>
-        <TextInput
-            mt="md"
-            label="User ID"
-            placeholder="User ID"
-            type="number"
-            disabled
-            {...form.getInputProps('userId')}
-            className={classes.inputField}
-          />
-          <Textarea
+        <Container style={{ maxWidth: 420, margin: 'auto' }}>
+        <Card shadow="sm" radius="md" style={{ maxWidth: 640 }}>
+
+          <TextInput
             mt="md"
             label="Theater Review"
             placeholder="Theater Review"
             {...form.getInputProps('theaterReview')}
             className={classes.inputField}
           />
-          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px'}}>Rating:</p>
+          <p style={{ color: "default", marginBottom: '1px', marginTop: '8px'}}>Rating:</p>
           <Rating
             value={ratingValue}
             size='lg'
@@ -90,23 +84,25 @@ export const ReviewCreatePage = () => {
             }}
             style={{marginBottom: '8px'}}
           />
-          <p style={{ color: "#9C7A4B", marginBottom: '1px', marginTop: '8px'}}>Select Theater:</p>
            <Select
+            label="Select Theater"
             placeholder="Choose a theater"
             data={theaters?.map(t => ({ value: t.id.toString(), label: t.theaterName })) || []}
             onChange={handleTheaterSelect}
           />
         
-          <Group position="center" className={classes.submitButton}>
+          <Group position="center" className={classes.submitButton} style={{marginTop:"1rem"}}>
             <Button variant="gradient" gradient={{ from: 'teal', to: 'blue', deg: 60 }} type="submit">Submit</Button>
             <Button
                 type="button"
                 onClick={() => navigate(routes.reviewListing)}
                 variant="outline"
+                color="red"
               >
                 Cancel
               </Button>
           </Group>
+          </Card>
         </Container>
       </form>
     </>
@@ -116,7 +112,7 @@ export const ReviewCreatePage = () => {
 const useStyles = createStyles(() => ({
   inputField: {
     'label': {
-      color: "#9C7A4B",
+      color: "default",
     },
   },
   submitButton: {

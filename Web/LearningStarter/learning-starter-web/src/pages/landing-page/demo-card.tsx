@@ -3,7 +3,7 @@ import { Card, Image, Text } from "@mantine/core";
 
 const DemoCard = ({ title, description, imageSrc, link }) => {
   return (
-    <Card shadow="sm" p="lg" component="a" href={link} target="_blank">
+    <Card shadow="sm" p="lg" component="a" href={link} target="_blank" style={{height:"31rem"}}>
       <Card.Section>
         <Image src={imageSrc} height={300} alt="Card Image" />
       </Card.Section>

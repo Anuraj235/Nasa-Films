@@ -19,7 +19,7 @@ export const UserUpdate = () => {
 
     const handleDateChange = (newValue: Date | null) => {
         if (newValue) {
-          setValue(newValue);
+            mantineForm.setFieldValue('dateOfBirth', newValue?.toISOString() || '');
         }
       };
 
@@ -114,7 +114,7 @@ export const UserUpdate = () => {
 
                     />
                     <p className={classes.inputField} style={{fontSize:"14px", marginBottom:"2px", color:"#9C7A4B"}}>Date of birth</p>
-                    <DatePicker value={value} onChange={handleDateChange}/>
+                    <DatePicker value={new Date(mantineForm.values.dateOfBirth)} onChange={handleDateChange}/>
                     <TextInput
                         mt="md"
                         label="Email"
@@ -129,7 +129,7 @@ export const UserUpdate = () => {
                         label="Phone"
                         type='number'
                         placeholder="Phone Number"
-                        {...mantineForm.getInputProps('phone')}
+                        {...mantineForm.getInputProps('phoneNumber')}
                         className={classes.inputField}
 
                     />

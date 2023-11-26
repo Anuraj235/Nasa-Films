@@ -72,6 +72,14 @@ const navigation: NavigationItem[] = [
   },
 
   {
+    text: "Reviews",
+    hide: false,
+    nav: {
+      to: routes.reviewListing,
+    },
+  },
+
+  {
     text: "About Us",
     hide: false,
     nav: {

@@ -149,46 +149,47 @@ export const MovieBookingPage = () => {
                 {movie && movie.title}
               </Text>
               <Rating value={movie && movie.rating} />
-              <Text mt="xs" color="dimmed" size="sm">
-                Description: {movie && movie.description}
+              <Text mt="xs" color="white" size="sm">
+                {movie && movie.description}
               </Text>
               <Text mt="lg" size="sm" fw={500} >
                 Select Date:
               </Text>
               <DatePicker value={value} onChange={handleDateChange} minDate={today} />
-              <Text mt="lg" size="sm" fw={500} >
-                Select Theater:
-              </Text>
               <Select
+                label="Select Theater:"
                 placeholder="Choose a theater"
                 data={theaters?.map(t => ({ value: t.id.toString(), label: t.theaterName })) || []}
                 onChange={handleTheaterSelect}
+                styles={{label: { color: 'inherit' }}}
+                style={{marginTop:"1rem"}}
               />
               {availableShowtimes.length > 0 && (
                 <Container>
-                  <p>Available showtimes:</p>
+                  <p style={{marginLeft:"-1rem"}}>Available showtimes:</p>
                   {availableShowtimes.map((showtime) => (
                     <Button
                       style={{ margin: '0.1rem' }}
                       variant={selectedShowtime === showtime.startTime ? "filled" : "outline"}
                       key={showtime.id}
                       onClick={() => setSelectedShowtime(showtime.startTime)}
+                      color="teal"
                     >
                       {showtime.startTime}
                     </Button>
                   ))}
                 </Container>
               )}
-              <Text mt="lg" size="sm" fw={500} >
-                Tickets:
-              </Text>
+
               <NumberInput
                 style={{ marginTop: "12px" }}
                 variant="filled"
                 radius="xs"
+                label="Tickets:"
                 withAsterisk
                 placeholder="Enter the number of tickets."
                 value={ticketCount}
+                styles={{label: { color: 'inherit' }}}
                 onChange={handleTicketChange}
                 max={10}
                 min={1}

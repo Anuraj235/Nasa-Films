@@ -16,6 +16,7 @@ public class Movie
     public string Genre { get; set; }
     public int Duration { get; set; }
     public string ImageUrl { get; set; }
+    public string TrailerUrl { get; set; }
 
     public int ShowTimeId { get; set; }
     public List<Showtimes> Showtimes { get; set; }
@@ -31,6 +32,7 @@ public class MovieGetDto
     public string Genre { get; set; }
     public int Duration { get; set; }
     public string ImageUrl { get; set; }
+    public string TrailerUrl { get; set; }
 
 
     public int ShowTimeId { get; set; }
@@ -57,6 +59,8 @@ public class MovieCreateDto
     public string Genre { get; set; }
     public int Duration { get; set; }
     public string ImageUrl { get; set; }
+    public string TrailerUrl { get; set; }
+
 
 }
 

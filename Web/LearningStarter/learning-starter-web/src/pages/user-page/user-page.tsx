@@ -45,7 +45,7 @@ export const UserPage = () => {
               {user.firstName[0]}
             </Avatar>
 
-            <Text size="xl" weight={700} style={{ marginTop: theme.spacing.sm }}>
+            <Text size="xl" weight={700} style={{ marginTop: theme.spacing.sm, color:"black" }}>
               {user.firstName + ' ' + user.lastName}
             </Text>
             <Text color="dimmed">{user.email}</Text>
