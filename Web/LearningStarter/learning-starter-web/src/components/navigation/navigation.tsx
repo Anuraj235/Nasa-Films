@@ -19,13 +19,18 @@ import {
   NAVBAR_HEIGHT,
   NAVBAR_HEIGHT_NUMBER,
 } from "../../constants/theme-constants";
-import { NavLink, NavLinkProps, useLocation } from "react-router-dom";
+import {
+  NavLink,
+  NavLinkProps,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { UserDto } from "../../constants/types";
+import { UserGetDto } from "../../constants/types";
 import { useAuth } from "../../authentication/use-auth";
 
 type PrimaryNavigationProps = {
-  user?: UserDto;
+  user?: UserGetDto;
 };
 
 type NavigationItem = {
@@ -59,10 +64,26 @@ const navigation: NavigationItem[] = [
     },
   },
   {
-    text: "User",
+    text: "Movies",
     hide: false,
     nav: {
-      to: routes.user,
+      to: routes.movies,
+    },
+  },
+
+  {
+    text: "Reviews",
+    hide: false,
+    nav: {
+      to: routes.reviewListing,
+    },
+  },
+
+  {
+    text: "About Us",
+    hide: false,
+    nav: {
+      to: routes.aboutus,
     },
   },
 ];
@@ -124,6 +145,7 @@ const DesktopNavigation = () => {
                   size="md"
                   component={NavLink}
                   to={x.nav.to}
+                  color="cyan"
                   className={cx(classes.paddedMenuItem, {
                     [classes.linkActive]: active === x.nav.to,
                   })}
@@ -146,6 +168,7 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
   const { classes } = useStyles();
   const { logout } = useAuth();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const navigate = useNavigate();
   const dark = colorScheme === "dark";
   return (
     <Header height={NAVBAR_HEIGHT_NUMBER}>
@@ -165,6 +188,23 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                 />
               </NavLink>
               {user && <DesktopNavigation />}
+              { user && (<Menu>
+                <Menu.Target>
+                <Button
+                  size="md"
+                  className={classes.paddedMenuItem}
+                  variant="subtle"
+                >
+                  Admin Options
+                </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item onClick={() => navigate(routes.addMovie)}>Add movie</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theater)}>Add theatre</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.showtimecreate)}>Add showtimes</Menu.Item>
+                  <Menu.Item onClick={() => navigate(routes.theaterListing)}>View theatres </Menu.Item>                
+                </Menu.Dropdown>
+              </Menu>)}
             </Flex>
           </Group>
           <Group>
@@ -177,6 +217,9 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
                   </Avatar>
                 </Menu.Target>
                 <Menu.Dropdown>
+                  <Menu.Item onClick={() => navigate(routes.user)}>
+                    Profile
+                  </Menu.Item>
                   <Menu.Item onClick={() => toggleColorScheme()}>
                     {dark ? "Light mode" : "Dark mode"}
                   </Menu.Item>
@@ -204,21 +247,22 @@ const useStyles = createStyles((theme) => {
     },
     paddedMenuItem: {
       margin: "0px 5px 0px 5px",
+      color: "#afffff",
+      "&:hover": {
+        backgroundColor: "black",
+      },
     },
     linkActive: {
-      "&, &:hover": {
-        backgroundColor: theme.fn.variant({
-          variant: "light",
-          color: theme.primaryColor,
-        }).background,
-        color: theme.fn.variant({
-          variant: "light",
-          color: theme.primaryColor,
-        }).color,
+      color: "#afffff",
+      backgroundColor: "black",
+      borderColor: "#8fb3b3",
+      "&:hover": {
+        backgroundColor: "black",
       },
     },
     desktopNav: {
       height: NAVBAR_HEIGHT,
+      color: "#afffff",
     },
     fullHeight: {
       height: "100%",
